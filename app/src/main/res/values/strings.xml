@@ -1,8 +1,14 @@
 <resources>
-    <string name="app_name">SecretSanta</string>
+    <string name="app_name">Secret Santa</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="hint_email">Hint</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_login">Login</string>
+
+    <string name="btn_forgot_password">Forgot your password?</string>
+    <string name="btn_link_to_register">Not a member? Get registered in Secret Santa now!</string>
 </resources>
