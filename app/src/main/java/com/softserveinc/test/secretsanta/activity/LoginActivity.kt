@@ -2,6 +2,8 @@ package com.softserveinc.test.secretsanta.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
+import android.view.Menu
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.fragment.login.RegistrationFragment
 import com.softserveinc.test.secretsanta.util.StartActivityClass
@@ -19,7 +21,7 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
+        setSupportActionBar(tool_bar as Toolbar)
         //TODO change this
         btn_login.setOnClickListener { StartActivityClass.startGroupsActivity(this) }
 
@@ -39,6 +41,11 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
         } else {
             super.onBackPressed()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.login_menu, menu)
+        return true
     }
 
     //For Fragments

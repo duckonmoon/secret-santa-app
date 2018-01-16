@@ -5,7 +5,10 @@
     <color name="colorAccent">#d11b1b</color>
     <color name="mainAppColor">#d11b1b</color>
     <color name="mainAppColorDarker">#8f1212</color>
+    <color name="D40032">#d40032</color>
+    <color name="marker">#504c4d</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
-    <color name="bootstrapRed">#D8534F</color>
+    <color name="bootstrapRed">#7e0713</color>
+    <color name="ewroklwnefl">#d8d2e6f2</color>
 </resources>
