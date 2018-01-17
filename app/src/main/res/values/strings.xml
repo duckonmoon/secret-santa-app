@@ -14,4 +14,13 @@
     <string name="register">Register</string>
     <string name="already_registered">Already registered. Login Me!</string>
     <string name="hint_repeat_password">Repeat Password</string>
+
+    <string name="verification_email_sent">Verification email was sent</string>
+    <string name="error">Smth went wrong!</string>
+    <string name="different_passwords">Passwords don\'t match</string>
+    <string name="wrong_password_format">Password must have at least 8 symbols long and have at least one great letter</string>
+    <string name="email_empty">Email can\'t be empty</string>
+    <string name="verification">Pls verify your email %s!</string>
+    <string name="wrong_email_or_password">Wrong email or password</string>
+    <string name="email_cant_be_empty">Email can\'t be empty!</string>
 </resources>

@@ -1,7 +1,6 @@
 package com.softserveinc.test.secretsanta.controller
 
 import android.app.Application
-import com.beardedhen.androidbootstrap.TypefaceProvider
 import com.google.firebase.auth.FirebaseAuth
 
 class MainController : Application() {
@@ -13,7 +12,6 @@ class MainController : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        TypefaceProvider.registerDefaultIconSets()
         INSTANCE = this
         auth = FirebaseAuth.getInstance()
 

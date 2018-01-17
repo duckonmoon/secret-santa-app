@@ -16,8 +16,8 @@ import kotlinx.android.synthetic.main.fragment_registration.view.*
 
 class RegistrationFragment : Fragment() {
     companion object {
-        val FRAGMENT_NAME = "REGISTRATION_FRAGMENT"
-        private val PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+\$).{8,}\$"
+        const val FRAGMENT_NAME = "REGISTRATION_FRAGMENT"
+        private const val PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+\$).{8,}\$"
     }
 
     private var auth = MainController.INSTANCE.auth
@@ -63,24 +63,24 @@ class RegistrationFragment : Fragment() {
 
                                     if (task.isSuccessful) {
                                         auth.currentUser!!.sendEmailVerification()
-                                        makeSnackbar("Verification email was sent")
+                                        makeSnackbar(getString(R.string.verification_email_sent))
                                     } else {
-                                        makeSnackbar("Smth went wrong!")
+                                        makeSnackbar(getString(R.string.error))
                                     }
                                 }
                     } catch (e: Exception) {
                         makeSnackbar(e.message!!)
                     }
                 } else {
-                    makeSnackbar("Passwords don't match")
+                    makeSnackbar(getString(R.string.different_passwords))
                 }
             } else {
-                makeSnackbar("Password must have at least 8 symbols long and have at least one great letter")
+                makeSnackbar(getString(R.string.wrong_password_format))
                 Log.e(FRAGMENT_NAME,currentPassword)
             }
 
         } else {
-            makeSnackbar("Email can't be empty")
+            makeSnackbar(getString(R.string.email_empty))
         }
     }
 

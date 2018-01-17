@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:background="@drawable/christmas_image"
     android:layout_height="match_parent"
@@ -11,21 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/top_margin"
-
         android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin">
 
-        <ImageView
-            android:layout_width="@dimen/logo_w_h"
-            android:layout_height="@dimen/logo_w_h"
-            android:layout_gravity="center_horizontal"
-            />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#40ffffff"
+            android:background="@drawable/rectangle_with_rounded_angles_almost_green"
             android:orientation="vertical">
 
             <android.support.design.widget.TextInputLayout
@@ -77,18 +70,20 @@
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
-        <com.beardedhen.androidbootstrap.BootstrapButton
+        <Button
             android:id="@+id/btn_register"
+            android:background="@drawable/rectangle_with_rounded_angles_red"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
             android:text="@string/register"
-            app:bootstrapBrand="danger"
-            app:bootstrapSize="lg"
-            app:buttonMode="regular"
-            app:roundedCorners="true"
-            app:showOutline="false" />
+            />
+
+
+
         <ProgressBar
             android:id="@+id/spinner"
             style="?android:attr/progressBarStyleLarge"
@@ -103,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
-            android:background="#59ffffff"
+            android:background="@drawable/rectangle_with_rounded_angles_almost_green"
             android:paddingEnd="10dp"
             android:paddingStart="10dp"
             android:text="@string/btn_forgot_password"
@@ -111,32 +106,20 @@
             android:textColor="@color/mainAppColorDarker"
             android:textStyle="bold" />
 
-
-        <FrameLayout
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/btn_login_reg"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
+            android:layout_marginBottom="@dimen/top_margin"
+            android:layout_marginEnd="35dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/rectangle_with_rounded_angles_red"
+            android:text="@string/btn_link_to_register"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/circle" />
-
-            <Button
-                android:id="@+id/btn_login_reg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/top_margin"
-                android:layout_marginEnd="35dp"
-                android:layout_marginStart="35dp"
-                android:layout_marginTop="@dimen/top_margin"
-                android:background="@null"
-                android:ellipsize="end"
-                android:text="@string/already_registered"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
-        </FrameLayout>
 
     </LinearLayout>
 </FrameLayout>

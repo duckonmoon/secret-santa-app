@@ -1,10 +1,13 @@
 package com.softserveinc.test.secretsanta.activity
 
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
+import android.view.View
 import com.softserveinc.test.secretsanta.R
+import com.softserveinc.test.secretsanta.controller.MainController
 import com.softserveinc.test.secretsanta.fragment.login.RegistrationFragment
 import com.softserveinc.test.secretsanta.util.StartActivityClass
 import kotlinx.android.synthetic.main.activity_login.*
@@ -13,17 +16,21 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
 
 
     companion object {
-        val ACTIVITY_NAME = "ACTIVITY_LOGIN"
-        val REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS"
+        const val ACTIVITY_NAME = "ACTIVITY_LOGIN"
+        const val REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS"
     }
+
+    private val auth = MainController.INSTANCE.auth
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         setSupportActionBar(tool_bar as Toolbar)
-        //TODO change this
-        btn_login.setOnClickListener { StartActivityClass.startGroupsActivity(this) }
+
+        btn_login.setOnClickListener {
+            signIn()
+        }
 
         btn_signup.setOnClickListener {
             replaceWithRegistrationFragment()
@@ -60,5 +67,43 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container, RegistrationFragment())
         transaction.commit()
+    }
+
+    private fun signIn() {
+        try {
+            spinner.visibility = View.VISIBLE
+            btn_login.visibility = View.GONE
+
+            val emailString = email.text.toString().trim()
+            val passwordString = password.text.toString()
+            auth.signInWithEmailAndPassword(emailString, passwordString)
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            val user = auth.currentUser
+                            if (user!!.isEmailVerified) {
+                                StartActivityClass.startGroupsActivity(this)
+                            } else {
+                                makeSnackbar(getString(R.string.verification, user.email))
+                            }
+                        } else {
+                            makeSnackbar(getString(R.string.wrong_email_or_password))
+                        }
+
+                        spinner.visibility = View.GONE
+                        btn_login.visibility = View.VISIBLE
+                    }
+        } catch (e: Exception) {
+            makeSnackbar(getString(R.string.email_cant_be_empty))
+
+            spinner.visibility = View.GONE
+            btn_login.visibility = View.VISIBLE
+        }
+    }
+
+
+    private fun makeSnackbar(message: String){
+        Snackbar.make(container as View,
+                message,
+                Snackbar.LENGTH_SHORT).show()
     }
 }
