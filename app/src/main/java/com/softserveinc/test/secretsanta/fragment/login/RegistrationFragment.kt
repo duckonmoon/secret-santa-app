@@ -34,7 +34,7 @@ class RegistrationFragment : Fragment() {
         currentView.setOnClickListener { }
 
         currentView.btn_login_reg.setOnClickListener {
-            onChangeFragmentsStateButtonsClick.onClick(LoginActivity.ACTIVITY_NAME)
+            onChangeFragmentsStateButtonsClick.onClick(LoginActivity.ACTIVITY_NAME,"")
         }
 
         currentView.btn_register.setOnClickListener {
@@ -63,7 +63,7 @@ class RegistrationFragment : Fragment() {
 
                                     if (task.isSuccessful) {
                                         auth.currentUser!!.sendEmailVerification()
-                                        makeSnackbar(getString(R.string.verification_email_sent))
+                                        onChangeFragmentsStateButtonsClick.onClick(LoginActivity.REGISTRATION_SUCCESS,currentEmail)
                                     } else {
                                         makeSnackbar(getString(R.string.error))
                                     }
@@ -100,7 +100,7 @@ class RegistrationFragment : Fragment() {
     }
 
     interface OnChangeFragmentsStateButtonsClick {
-        fun onClick(name: String)
+        fun onClick(name: String,message: String)
     }
 }
 

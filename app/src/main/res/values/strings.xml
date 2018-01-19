@@ -23,4 +23,6 @@
     <string name="verification">Pls verify your email %s!</string>
     <string name="wrong_email_or_password">Wrong email or password</string>
     <string name="email_cant_be_empty">Email can\'t be empty!</string>
+
+    <string name="sent_to_email">Verification email was sent to %s</string>
 </resources>

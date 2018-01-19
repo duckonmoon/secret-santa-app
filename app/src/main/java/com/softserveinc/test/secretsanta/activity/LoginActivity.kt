@@ -1,5 +1,8 @@
 package com.softserveinc.test.secretsanta.activity
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
@@ -11,6 +14,7 @@ import com.softserveinc.test.secretsanta.controller.MainController
 import com.softserveinc.test.secretsanta.fragment.login.RegistrationFragment
 import com.softserveinc.test.secretsanta.util.StartActivityClass
 import kotlinx.android.synthetic.main.activity_login.*
+
 
 class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragmentsStateButtonsClick {
 
@@ -27,6 +31,8 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         setSupportActionBar(tool_bar as Toolbar)
+
+        makeFullUserOrientationForTablets()
 
         btn_login.setOnClickListener {
             signIn()
@@ -46,8 +52,23 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
             }
             transaction.commit()
         } else {
-            super.onBackPressed()
+            if (verification_email_test.visibility == View.VISIBLE){
+                animateToNormalView()
+            } else{
+                super.onBackPressed()
+            }
+
         }
+    }
+
+    private fun animateToNormalView() {
+        verification_email_test.animate()
+                .alpha(0f)
+                .setDuration(1000)
+                .setListener(null)
+
+
+        verification_email_test.visibility = View.GONE
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -56,14 +77,26 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
     }
 
     //For Fragments
-    override fun onClick(name: String) {
-        when (name){
+    override fun onClick(name: String,message: String) {
+        when (name) {
             LoginActivity.ACTIVITY_NAME -> onBackPressed()
+            LoginActivity.REGISTRATION_SUCCESS -> {
+                onBackPressed()
+
+                verify_email_text.text = getString(R.string.sent_to_email,message)
+                crossfade()
+            }
             RegistrationFragment.FRAGMENT_NAME -> replaceWithRegistrationFragment()
         }
     }
 
-    private fun replaceWithRegistrationFragment(){
+    fun makeFullUserOrientationForTablets() {
+        if (resources.getBoolean(R.bool.isTablet)) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_USER
+        }
+    }
+
+    private fun replaceWithRegistrationFragment() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container, RegistrationFragment())
         transaction.commit()
@@ -73,6 +106,8 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
         try {
             spinner.visibility = View.VISIBLE
             btn_login.visibility = View.GONE
+            btn_reset_password.isEnabled = false
+            btn_signup.isEnabled = false
 
             val emailString = email.text.toString().trim()
             val passwordString = password.text.toString()
@@ -91,19 +126,34 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
 
                         spinner.visibility = View.GONE
                         btn_login.visibility = View.VISIBLE
+                        btn_reset_password.isEnabled = true
+                        btn_signup.isEnabled = true
                     }
         } catch (e: Exception) {
             makeSnackbar(getString(R.string.email_cant_be_empty))
 
             spinner.visibility = View.GONE
             btn_login.visibility = View.VISIBLE
+            btn_reset_password.isEnabled = true
+            btn_signup.isEnabled = true
         }
     }
 
 
-    private fun makeSnackbar(message: String){
+    private fun makeSnackbar(message: String) {
         Snackbar.make(container as View,
                 message,
                 Snackbar.LENGTH_SHORT).show()
+    }
+
+
+    private fun crossfade() {
+        verification_email_test.alpha = 0f
+        verification_email_test.visibility = View.VISIBLE
+
+        verification_email_test.animate()
+                .alpha(1f)
+                .setDuration(5000)
+                .setListener(null)
     }
 }
