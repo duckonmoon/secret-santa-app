@@ -9,11 +9,15 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.View
+import com.google.firebase.auth.FirebaseAuth
 import com.softserveinc.test.secretsanta.R
-import com.softserveinc.test.secretsanta.controller.MainController
+import com.softserveinc.test.secretsanta.component.AuthComponent
+import com.softserveinc.test.secretsanta.component.DaggerAuthComponent
 import com.softserveinc.test.secretsanta.fragment.login.RegistrationFragment
+import com.softserveinc.test.secretsanta.module.AppModule
 import com.softserveinc.test.secretsanta.util.StartActivityClass
 import kotlinx.android.synthetic.main.activity_login.*
+import javax.inject.Inject
 
 
 class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragmentsStateButtonsClick {
@@ -24,13 +28,23 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
         const val REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS"
     }
 
-    private val auth = MainController.INSTANCE.auth
+
+    @Inject
+    lateinit var auth: FirebaseAuth
+
+    private val component: AuthComponent by lazy {
+        DaggerAuthComponent
+                .builder()
+                .appModule(AppModule())
+                .build()
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         setSupportActionBar(tool_bar as Toolbar)
+        component.inject(this)
 
         makeFullUserOrientationForTablets()
 

@@ -8,10 +8,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.auth.FirebaseAuth
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.activity.LoginActivity
-import com.softserveinc.test.secretsanta.controller.MainController
+import com.softserveinc.test.secretsanta.component.AuthComponent
+import com.softserveinc.test.secretsanta.component.DaggerAuthComponent
+import com.softserveinc.test.secretsanta.module.AppModule
 import kotlinx.android.synthetic.main.fragment_registration.view.*
+import javax.inject.Inject
 
 
 class RegistrationFragment : Fragment() {
@@ -20,11 +24,24 @@ class RegistrationFragment : Fragment() {
         private const val PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+\$).{8,}\$"
     }
 
-    private var auth = MainController.INSTANCE.auth
+    @Inject
+    lateinit var auth : FirebaseAuth
+
+    private val component: AuthComponent by lazy {
+        DaggerAuthComponent
+                .builder()
+                .appModule(AppModule())
+                .build()
+    }
 
     private lateinit var currentView: View
 
     private lateinit var onChangeFragmentsStateButtonsClick: OnChangeFragmentsStateButtonsClick
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        component.inject(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
