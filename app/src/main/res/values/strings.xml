@@ -26,4 +26,7 @@
 
     <string name="sent_to_email">Verification email was sent to %s</string>
     <string name="action_sign_out">Sign Out</string>
+    <string name="created_by_duckonmoon">Created by duckonmoon</string>
+
+    <string name="merry_christmas_and_happy_new_year">We wish you a Merry Christmas and a Happy New Year!</string>
 </resources>

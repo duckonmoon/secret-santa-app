@@ -1,18 +1,18 @@
 package com.softserveinc.test.secretsanta.activity
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.google.firebase.auth.FirebaseAuth
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.component.AuthComponent
 import com.softserveinc.test.secretsanta.component.DaggerAuthComponent
+import com.softserveinc.test.secretsanta.dialog.NewYearDialog
 import com.softserveinc.test.secretsanta.fragment.login.RegistrationFragment
 import com.softserveinc.test.secretsanta.module.AppModule
 import com.softserveinc.test.secretsanta.util.StartActivityClass
@@ -95,6 +95,16 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
         return true
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.house -> {
+                NewYearDialog(this).show()
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+        return true
+    }
+
     //For Fragments
     override fun onClick(name: String,message: String) {
         when (name) {
@@ -109,7 +119,7 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
         }
     }
 
-    fun makeFullUserOrientationForTablets() {
+    private fun makeFullUserOrientationForTablets() {
         if (resources.getBoolean(R.bool.isTablet)) {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_USER
         }
