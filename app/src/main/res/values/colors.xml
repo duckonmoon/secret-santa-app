@@ -10,5 +10,6 @@
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="bootstrapRed">#7e0713</color>
-    <color name="ewroklwnefl">#d8d2e6f2</color>
+    <color name="almost_white">#d8d2e6f2</color>
+    <color name="almost_white_main">#C2ffffff</color>
 </resources>

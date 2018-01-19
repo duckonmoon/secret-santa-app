@@ -46,6 +46,11 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
         setSupportActionBar(tool_bar as Toolbar)
         component.inject(this)
 
+        if (auth.currentUser != null && auth.currentUser!!.isEmailVerified)
+        {
+            StartActivityClass.startGroupsActivity(this)
+        }
+
         makeFullUserOrientationForTablets()
 
         btn_login.setOnClickListener {

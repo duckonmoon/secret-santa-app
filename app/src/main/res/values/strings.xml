@@ -25,4 +25,5 @@
     <string name="email_cant_be_empty">Email can\'t be empty!</string>
 
     <string name="sent_to_email">Verification email was sent to %s</string>
+    <string name="action_sign_out">Sign Out</string>
 </resources>
