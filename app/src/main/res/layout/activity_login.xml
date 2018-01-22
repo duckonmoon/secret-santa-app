@@ -20,15 +20,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/christmas_image"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/verify_email_text"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:gravity="center"
+
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:textColor="@color/white"
-            android:layout_margin="32dp"
             android:background="@drawable/rectangle_with_rounded_angles_red"
 
             app:layout_constraintBottom_toTopOf="@+id/santa_on_sledge"
@@ -43,6 +45,7 @@
             android:id="@+id/santa_on_sledge"
             android:layout_width="300dp"
             android:layout_height="200dp"
+            android:background="@drawable/rectangle_with_rounded_angles_almost_green"
             android:src="@drawable/santa_on_sledge"
 
             app:layout_constraintBottom_toBottomOf="parent"

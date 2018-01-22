@@ -9,6 +9,12 @@ apply plugin: 'kotlin-android-extensions'
 
 
 android {
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.softserveinc.test.secretsanta"
