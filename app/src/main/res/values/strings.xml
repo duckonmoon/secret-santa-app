@@ -29,4 +29,10 @@
     <string name="created_by_duckonmoon">Created by duckonmoon</string>
 
     <string name="merry_christmas_and_happy_new_year">We wish you a Merry Christmas and a Happy New Year!</string>
+    <string name="members">Members</string>
+    <string name="group_name">Group Title</string>
+    <string name="member_image">member image</string>
+    <string name="add_new_member">+ Add new member</string>
+    <string name="Done">done</string>
+    <string name="nickname">Nickname</string>
 </resources>

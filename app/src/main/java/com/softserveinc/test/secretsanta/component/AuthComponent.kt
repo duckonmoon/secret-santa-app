@@ -7,9 +7,6 @@ import com.softserveinc.test.secretsanta.module.AppModule
 import dagger.Component
 import javax.inject.Singleton
 
-/**
- * Created by rkrit on 18.01.18.
- */
 @Singleton
 @Component(modules = [(AppModule::class)])
 interface AuthComponent {

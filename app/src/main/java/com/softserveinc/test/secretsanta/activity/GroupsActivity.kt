@@ -49,6 +49,7 @@ class GroupsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_sign_out -> StartActivityClass.signOut(this)
+            R.id.action_add -> StartActivityClass.startCreateGroupsActivity(this)
             else -> return super.onOptionsItemSelected(item)
         }
         return true

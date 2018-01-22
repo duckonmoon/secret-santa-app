@@ -2,6 +2,7 @@ package com.softserveinc.test.secretsanta.util
 
 import android.app.Activity
 import android.content.Intent
+import com.softserveinc.test.secretsanta.activity.CreateGroupActivity
 import com.softserveinc.test.secretsanta.activity.GroupsActivity
 import com.softserveinc.test.secretsanta.activity.LoginActivity
 import com.softserveinc.test.secretsanta.controller.MainController
@@ -20,6 +21,10 @@ class StartActivityClass {
             MainController.INSTANCE.signOut()
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             activity.startActivity(intent)
+        }
+
+        fun startCreateGroupsActivity(activity: Activity) {
+            activity.startActivity(Intent(activity,CreateGroupActivity::class.java))
         }
     }
 }

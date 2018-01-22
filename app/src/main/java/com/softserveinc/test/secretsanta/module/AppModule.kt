@@ -20,9 +20,6 @@ class AppModule {
     val auth = FirebaseAuth.getInstance()!!
         @Provides @Singleton get
 
-    val databaseUsers = database.getReference("users")!!
-        @Provides @Singleton get
-
-    val databaseGroups = database.getReference("groups")!!
+    val databaseUsers = database
         @Provides @Singleton get
 }
