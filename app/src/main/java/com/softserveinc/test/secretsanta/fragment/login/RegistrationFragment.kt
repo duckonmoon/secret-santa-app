@@ -8,7 +8,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.*
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.activity.LoginActivity
@@ -16,6 +18,8 @@ import com.softserveinc.test.secretsanta.component.AuthComponent
 import com.softserveinc.test.secretsanta.component.DaggerAuthComponent
 import com.softserveinc.test.secretsanta.constans.Constans
 import com.softserveinc.test.secretsanta.module.AppModule
+import com.softserveinc.test.secretsanta.module.FirebaseModule
+import com.softserveinc.test.secretsanta.service.FirebaseService
 import kotlinx.android.synthetic.main.fragment_registration.*
 import kotlinx.android.synthetic.main.fragment_registration.view.*
 import javax.inject.Inject
@@ -29,15 +33,11 @@ class RegistrationFragment : Fragment() {
     }
 
     @Inject
-    lateinit var auth : FirebaseAuth
-
-    @Inject
-    lateinit var database : FirebaseDatabase
+    lateinit var firebaseService : FirebaseService
 
     private val component: AuthComponent by lazy {
         DaggerAuthComponent
                 .builder()
-                .appModule(AppModule())
                 .build()
     }
 
@@ -83,8 +83,7 @@ class RegistrationFragment : Fragment() {
                         currentView.btn_register.visibility = View.GONE
                         currentView.spinner.visibility = View.VISIBLE
 
-                        database.getReference(Constans.NICKNAMES)
-                                .addListenerForSingleValueEvent(object : ValueEventListener{
+                        firebaseService.checkIfNickExists(nickname = currentNickname, listener = object : ValueEventListener{
                                     override fun onCancelled(p0: DatabaseError?) {
                                         currentView.btn_register.visibility = View.VISIBLE
                                         currentView.spinner.visibility = View.GONE
@@ -97,31 +96,20 @@ class RegistrationFragment : Fragment() {
                                             currentView.spinner.visibility = View.GONE
                                         } else {
                                             try {
-                                                auth.createUserWithEmailAndPassword(currentEmail, currentPassword)
-                                                        .addOnCompleteListener { task ->
+                                                firebaseService.createUserWithEmailAndPassword(currentEmail,currentPassword, listener = OnCompleteListener { task ->
 
                                                             currentView.btn_register.visibility = View.VISIBLE
                                                             currentView.spinner.visibility = View.GONE
 
                                                             if (task.isSuccessful) {
-
-                                                                auth.currentUser!!.sendEmailVerification()
-
-                                                                database.getReference(Constans.USERS)
-                                                                        .child(auth.currentUser!!.uid)
-                                                                        .child(Constans.NICKNAME)
-                                                                        .setValue(nickname.text.toString())
-
-                                                                database.getReference(Constans.NICKNAMES)
-                                                                        .child(nickname.text.toString())
-                                                                        .setValue(auth.currentUser!!.uid)
-
+                                                                firebaseService.sendEmailVerification()
+                                                                firebaseService.setUserNickname(nickname = currentNickname)
 
                                                                 onChangeFragmentsStateButtonsClick.onClick(LoginActivity.REGISTRATION_SUCCESS, currentEmail)
                                                             } else {
                                                                 makeSnackbar(getString(R.string.error))
                                                             }
-                                                        }
+                                                        })
                                             } catch (e: Exception) {
                                                 makeSnackbar(e.message!!)
                                                 currentView.btn_register.visibility = View.VISIBLE

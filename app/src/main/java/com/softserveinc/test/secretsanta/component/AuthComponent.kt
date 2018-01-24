@@ -4,11 +4,12 @@ import com.softserveinc.test.secretsanta.activity.LoginActivity
 import com.softserveinc.test.secretsanta.controller.MainController
 import com.softserveinc.test.secretsanta.fragment.login.RegistrationFragment
 import com.softserveinc.test.secretsanta.module.AppModule
+import com.softserveinc.test.secretsanta.module.FirebaseModule
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [(AppModule::class)])
+@Component(modules = [(FirebaseModule::class),(AppModule::class)])
 interface AuthComponent {
     fun inject(activity : LoginActivity)
     fun inject(fragment : RegistrationFragment)

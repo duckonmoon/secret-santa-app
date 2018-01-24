@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.component.AuthComponent
@@ -15,6 +16,7 @@ import com.softserveinc.test.secretsanta.component.DaggerAuthComponent
 import com.softserveinc.test.secretsanta.dialog.NewYearDialog
 import com.softserveinc.test.secretsanta.fragment.login.RegistrationFragment
 import com.softserveinc.test.secretsanta.module.AppModule
+import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.util.StartActivityClass
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
@@ -28,9 +30,8 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
         const val REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS"
     }
 
-
     @Inject
-    lateinit var auth: FirebaseAuth
+    lateinit var firebaseService : FirebaseService
 
     private val component: AuthComponent by lazy {
         DaggerAuthComponent
@@ -46,7 +47,7 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
         setSupportActionBar(tool_bar as Toolbar)
         component.inject(this)
 
-        if (auth.currentUser != null && auth.currentUser!!.isEmailVerified)
+        if (firebaseService.checkIfCurrentUserExists() && firebaseService.checkIfEmailIsVerified())
         {
             StartActivityClass.startGroupsActivity(this)
         }
@@ -140,14 +141,13 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
 
             val emailString = email.text.toString().trim()
             val passwordString = password.text.toString()
-            auth.signInWithEmailAndPassword(emailString, passwordString)
-                    .addOnCompleteListener(this) { task ->
+            firebaseService.signInWithEmailAndPassword(emailString, passwordString, OnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            val user = auth.currentUser
-                            if (user!!.isEmailVerified) {
+                            if (firebaseService.checkIfEmailIsVerified()) {
                                 StartActivityClass.startGroupsActivity(this)
                             } else {
-                                makeSnackbar(getString(R.string.verification, user.email))
+                                makeSnackbar(getString(R.string.verification,
+                                        firebaseService.getUserEmail()))
                             }
                         } else {
                             makeSnackbar(getString(R.string.wrong_email_or_password))
@@ -157,7 +157,7 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
                         btn_login.visibility = View.VISIBLE
                         btn_reset_password.isEnabled = true
                         btn_signup.isEnabled = true
-                    }
+                    })
         } catch (e: Exception) {
             makeSnackbar(getString(R.string.email_cant_be_empty))
 

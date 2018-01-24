@@ -7,6 +7,7 @@ import android.view.Menu
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.adapter.MemberListAdapter
 import com.softserveinc.test.secretsanta.adapter.MemberListWrapper
+import com.softserveinc.test.secretsanta.adapter.OnAddMemberClickListener
 import com.softserveinc.test.secretsanta.entity.Member
 import kotlinx.android.synthetic.main.create_group_activity.*
 
@@ -30,7 +31,12 @@ class CreateGroupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.create_group_activity)
 
-        val adapter = MemberListWrapper(MemberListAdapter(members))
+        val adapter = MemberListWrapper(MemberListAdapter(members),object : OnAddMemberClickListener {
+            override fun onClick(nickname: String) {
+
+            }
+
+        })
         val layoutManager = LinearLayoutManager(this)
         recyclerview.adapter = adapter
         recyclerview.layoutManager = layoutManager
