@@ -2,49 +2,65 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:layout_gravity="center_horizontal"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
 
     <TextView
+        android:id="@+id/label_with_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:paddingTop="8dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:id="@+id/label_with_add"
+        android:paddingTop="8dp"
         android:text="@string/add_new_member"
         android:textColor="@color/bootstrapRed"
         android:textSize="16sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
-    <android.support.design.widget.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/top_margin"
-        android:layout_marginEnd="@dimen/top_margin"
-        android:layout_marginStart="@dimen/top_margin"
-        android:labelFor="@id/autocomplete_nicknames"
-        android:theme="@style/TextLabel">
-        <AutoCompleteTextView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/autocomplete_nicknames"
-            android:hint="@string/friend_s_nickname"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:id="@+id/additional_items"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    </android.support.design.widget.TextInputLayout>
 
-    <Button
-        android:id="@+id/add_member_button"
-        android:layout_marginTop="@dimen/top_margin"
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/top_margin"
+            android:layout_marginStart="@dimen/top_margin"
+            android:labelFor="@id/autocomplete_nicknames"
+            android:theme="@style/TextLabel">
+
+            <AutoCompleteTextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/autocomplete_nicknames"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/friend_s_nickname" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/add_member_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margin"
+            android:background="@drawable/rectangle_with_rounded_angles_red"
+            android:text="@string/add"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/loading_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rectangle_with_rounded_angles_red"
-        android:text="@string/add"
-        android:textColor="@color/white"
+        android:visibility="gone"
         />
-
 </LinearLayout>

@@ -1,48 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/christmas_image">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:background="@drawable/rectangle_with_rounded_angles_white">
+        android:layout_height="match_parent">
 
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_margin="24dp"
-            android:layout_height="wrap_content">
-            <EditText
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle_with_rounded_angles_white"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/group_name"
-                android:inputType="text" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_margin="24dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/members"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+                <EditText
+                    android:id="@+id/group_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/group_name"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="16dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/members"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem = "@layout/member_item"/>
-        </ScrollView>
+                android:layout_margin="16dp"
+                tools:listitem="@layout/member_item" />
 
-    </LinearLayout>
-
+        </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>
