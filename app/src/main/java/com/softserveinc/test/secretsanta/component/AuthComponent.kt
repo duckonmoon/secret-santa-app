@@ -1,5 +1,6 @@
 package com.softserveinc.test.secretsanta.component
 
+import com.softserveinc.test.secretsanta.PassiveGroupsFragment
 import com.softserveinc.test.secretsanta.activity.CreateGroupActivity
 import com.softserveinc.test.secretsanta.activity.GroupsActivity
 import com.softserveinc.test.secretsanta.activity.LoginActivity
@@ -18,4 +19,5 @@ interface AuthComponent {
     fun inject(controller: MainController)
     fun inject(activity: CreateGroupActivity)
     fun inject(activity: GroupsActivity)
+    fun inject(fragment: PassiveGroupsFragment)
 }

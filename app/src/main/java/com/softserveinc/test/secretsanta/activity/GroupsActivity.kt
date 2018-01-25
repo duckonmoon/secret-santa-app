@@ -14,6 +14,7 @@ import android.view.View
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.softserveinc.test.secretsanta.PassiveGroupsFragment
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.adapter.SimpleGroupAdapter
 import com.softserveinc.test.secretsanta.component.AuthComponent
@@ -89,10 +90,16 @@ class GroupsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     }
 
     override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
+        when {
+            drawer_layout.isDrawerOpen(GravityCompat.START) -> drawer_layout.closeDrawer(GravityCompat.START)
+            supportFragmentManager.fragments.size > 0 -> {
+                val transaction = supportFragmentManager.beginTransaction()
+                for (fragment in supportFragmentManager.fragments) {
+                    transaction.remove(fragment)
+                }
+                transaction.commit()
+            }
+            else -> super.onBackPressed()
         }
     }
 
@@ -115,10 +122,18 @@ class GroupsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        val transaction = supportFragmentManager.beginTransaction()
 
+        when (item.itemId) {
+            R.id.unchecked_groups -> transaction.replace(R.id.container, PassiveGroupsFragment())
+            R.id.my_groups -> {
+                for (fragment in supportFragmentManager.fragments) {
+                    transaction.remove(fragment)
+                }
+            }
         }
         drawer_layout.closeDrawer(GravityCompat.START)
+        transaction.commit()
         return true
     }
 

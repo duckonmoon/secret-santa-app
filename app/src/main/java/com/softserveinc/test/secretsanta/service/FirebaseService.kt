@@ -10,6 +10,8 @@ import com.softserveinc.test.secretsanta.constans.Constants
 import com.softserveinc.test.secretsanta.entity.GroupDeprecated
 import com.softserveinc.test.secretsanta.entity.Human
 import com.softserveinc.test.secretsanta.entity.Member
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class FirebaseService(private val database: FirebaseDatabase, private val auth: FirebaseAuth) {
@@ -17,6 +19,8 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
     companion object {
         const val ACTIVATED = "activated"
         const val TITLE = "title"
+        const val MEMBERS = "members"
+        const val DATE_CREATED = "date_created"
     }
 
 
@@ -74,7 +78,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
     fun createNewGroup(members: ArrayList<Member>, groupTitle: String) {
         val groupId = createGroup(members, groupTitle)
 
-        informNewMembersForGroupInvitation(members, groupId, groupTitle)
+        informNewMembersForGroupInvitation(members, groupId, groupTitle,members.size)
     }
 
     private fun createGroup(members: ArrayList<Member>, groupTitle: String): String {
@@ -99,13 +103,15 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
     }
 
     private fun informNewMembersForGroupInvitation(members: ArrayList<Member>, groupId: String,
-                                                   groupTitle: String) {
+                                                   groupTitle: String, membersCount : Int) {
         val dbReference = database.getReference(Constants.NICKNAME)
 
         for (member in members) {
             val group = HashMap<String, Any>()
             group[ACTIVATED] = false
             group[TITLE] = groupTitle
+            group[DATE_CREATED] = SimpleDateFormat("dd-MM-yyyy",Locale.getDefault()).format(Date())
+            group[MEMBERS] = membersCount
 
             dbReference
                     .child(member.name)
@@ -116,6 +122,8 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
         val group = HashMap<String, Any>()
         group[ACTIVATED] = true
         group[TITLE] = groupTitle
+        group[DATE_CREATED] = SimpleDateFormat("dd-MM-yyyy",Locale.getDefault()).format(Date())
+        group[MEMBERS] = membersCount
 
         dbReference
                 .child(auth.currentUser!!.displayName)
@@ -136,6 +144,15 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
                 .child(Constants.GROUPS)
                 .orderByChild(ACTIVATED)
                 .equalTo(true)
+                .addListenerForSingleValueEvent(listener)
+    }
+
+    fun getAllNotActivatedGroups(listener: ValueEventListener){
+        database.getReference(Constants.NICKNAME)
+                .child(auth.currentUser!!.displayName)
+                .child(Constants.GROUPS)
+                .orderByChild(ACTIVATED)
+                .equalTo(false)
                 .addListenerForSingleValueEvent(listener)
     }
 }
