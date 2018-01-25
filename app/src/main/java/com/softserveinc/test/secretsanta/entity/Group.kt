@@ -1,8 +1,7 @@
 package com.softserveinc.test.secretsanta.entity
 
+
 class Group {
-    var id = ""
+    var activated = false
     var title = ""
-    var randomize = false
-    var humans = ArrayList<Human>()
 }

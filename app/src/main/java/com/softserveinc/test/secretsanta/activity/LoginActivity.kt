@@ -9,7 +9,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.FirebaseAuth
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.component.AuthComponent
 import com.softserveinc.test.secretsanta.component.DaggerAuthComponent
@@ -31,7 +30,7 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
     }
 
     @Inject
-    lateinit var firebaseService : FirebaseService
+    lateinit var firebaseService: FirebaseService
 
     private val component: AuthComponent by lazy {
         DaggerAuthComponent
@@ -47,8 +46,7 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
         setSupportActionBar(tool_bar as Toolbar)
         component.inject(this)
 
-        if (firebaseService.checkIfCurrentUserExists() && firebaseService.checkIfEmailIsVerified())
-        {
+        if (firebaseService.checkIfCurrentUserExists() && firebaseService.checkIfEmailIsVerified()) {
             StartActivityClass.startGroupsActivity(this)
         }
 
@@ -72,9 +70,9 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
             }
             transaction.commit()
         } else {
-            if (verification_email_test.visibility == View.VISIBLE){
+            if (verification_email_test.visibility == View.VISIBLE) {
                 animateToNormalView()
-            } else{
+            } else {
                 super.onBackPressed()
             }
 
@@ -107,13 +105,13 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
     }
 
     //For Fragments
-    override fun onClick(name: String,message: String) {
+    override fun onClick(name: String, message: String) {
         when (name) {
             LoginActivity.ACTIVITY_NAME -> onBackPressed()
             LoginActivity.REGISTRATION_SUCCESS -> {
                 onBackPressed()
 
-                verify_email_text.text = getString(R.string.sent_to_email,message)
+                verify_email_text.text = getString(R.string.sent_to_email, message)
                 crossfade()
             }
             RegistrationFragment.FRAGMENT_NAME -> replaceWithRegistrationFragment()
@@ -142,22 +140,22 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
             val emailString = email.text.toString().trim()
             val passwordString = password.text.toString()
             firebaseService.signInWithEmailAndPassword(emailString, passwordString, OnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            if (firebaseService.checkIfEmailIsVerified()) {
-                                StartActivityClass.startGroupsActivity(this)
-                            } else {
-                                makeSnackbar(getString(R.string.verification,
-                                        firebaseService.getUserEmail()))
-                            }
-                        } else {
-                            makeSnackbar(getString(R.string.wrong_email_or_password))
-                        }
+                if (task.isSuccessful) {
+                    if (firebaseService.checkIfEmailIsVerified()) {
+                        StartActivityClass.startGroupsActivity(this)
+                    } else {
+                        makeSnackbar(getString(R.string.verification,
+                                firebaseService.getUserEmail()))
+                    }
+                } else {
+                    makeSnackbar(getString(R.string.wrong_email_or_password))
+                }
 
-                        spinner.visibility = View.GONE
-                        btn_login.visibility = View.VISIBLE
-                        btn_reset_password.isEnabled = true
-                        btn_signup.isEnabled = true
-                    })
+                spinner.visibility = View.GONE
+                btn_login.visibility = View.VISIBLE
+                btn_reset_password.isEnabled = true
+                btn_signup.isEnabled = true
+            })
         } catch (e: Exception) {
             makeSnackbar(getString(R.string.email_cant_be_empty))
 

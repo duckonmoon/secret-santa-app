@@ -71,7 +71,7 @@ class WrapperViewHolder(private val view: View?, private val listener: OnFooterA
 
         addButton.setOnClickListener {
             setState(State.LOADING)
-            listener.onAddButtonClick(autoCompleteNicks.text.toString().trim(),this)
+            listener.onAddButtonClick(autoCompleteNicks.text.toString().trim(), this)
 
         }
 
@@ -145,6 +145,6 @@ enum class State {
 
 
 interface OnFooterActionDone {
-    fun onAddButtonClick(nickname: String,wrapperViewHolder: WrapperViewHolder)
+    fun onAddButtonClick(nickname: String, wrapperViewHolder: WrapperViewHolder)
     fun onDataRequested(nickname: String, wrapperViewHolder: WrapperViewHolder)
 }

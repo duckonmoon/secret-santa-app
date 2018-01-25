@@ -20,7 +20,7 @@ class MainController : Application() {
     lateinit var auth: FirebaseAuth
 
     @Inject
-    lateinit var firebaseService : FirebaseService
+    lateinit var firebaseService: FirebaseService
 
     private val component: AuthComponent by lazy {
         DaggerAuthComponent

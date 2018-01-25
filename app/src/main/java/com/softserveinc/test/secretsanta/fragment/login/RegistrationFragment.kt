@@ -9,18 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.activity.LoginActivity
 import com.softserveinc.test.secretsanta.component.AuthComponent
 import com.softserveinc.test.secretsanta.component.DaggerAuthComponent
-import com.softserveinc.test.secretsanta.constans.Constans
-import com.softserveinc.test.secretsanta.module.AppModule
-import com.softserveinc.test.secretsanta.module.FirebaseModule
 import com.softserveinc.test.secretsanta.service.FirebaseService
-import kotlinx.android.synthetic.main.fragment_registration.*
 import kotlinx.android.synthetic.main.fragment_registration.view.*
 import javax.inject.Inject
 
@@ -33,7 +29,7 @@ class RegistrationFragment : Fragment() {
     }
 
     @Inject
-    lateinit var firebaseService : FirebaseService
+    lateinit var firebaseService: FirebaseService
 
     private val component: AuthComponent by lazy {
         DaggerAuthComponent
@@ -58,7 +54,7 @@ class RegistrationFragment : Fragment() {
         currentView.setOnClickListener { }
 
         currentView.btn_login_reg.setOnClickListener {
-            onChangeFragmentsStateButtonsClick.onClick(LoginActivity.ACTIVITY_NAME,"")
+            onChangeFragmentsStateButtonsClick.onClick(LoginActivity.ACTIVITY_NAME, "")
         }
 
         currentView.btn_register.setOnClickListener {
@@ -83,43 +79,42 @@ class RegistrationFragment : Fragment() {
                         currentView.btn_register.visibility = View.GONE
                         currentView.spinner.visibility = View.VISIBLE
 
-                        firebaseService.checkIfNickExists(nickname = currentNickname, listener = object : ValueEventListener{
-                                    override fun onCancelled(p0: DatabaseError?) {
+                        firebaseService.checkIfNickExists(nickname = currentNickname, listener = object : ValueEventListener {
+                            override fun onCancelled(p0: DatabaseError?) {
+                                currentView.btn_register.visibility = View.VISIBLE
+                                currentView.spinner.visibility = View.GONE
+                            }
+
+                            override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                                if (dataSnapshot!!.value != null) {
+                                    makeSnackbar("Nickname already exists")
+                                    currentView.btn_register.visibility = View.VISIBLE
+                                    currentView.spinner.visibility = View.GONE
+                                } else {
+                                    try {
+                                        firebaseService.createUserWithEmailAndPassword(currentEmail, currentPassword, listener = OnCompleteListener { task ->
+
+                                            currentView.btn_register.visibility = View.VISIBLE
+                                            currentView.spinner.visibility = View.GONE
+
+                                            if (task.isSuccessful) {
+                                                firebaseService.sendEmailVerification()
+                                                firebaseService.setUserNickname(nickname = currentNickname)
+
+                                                onChangeFragmentsStateButtonsClick.onClick(LoginActivity.REGISTRATION_SUCCESS, currentEmail)
+                                            } else {
+                                                makeSnackbar(getString(R.string.error))
+                                            }
+                                        })
+                                    } catch (e: Exception) {
+                                        makeSnackbar(e.message!!)
                                         currentView.btn_register.visibility = View.VISIBLE
                                         currentView.spinner.visibility = View.GONE
                                     }
-
-                                    override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                                        if (dataSnapshot!!.value != null){
-                                            makeSnackbar("Nickname already exists")
-                                            currentView.btn_register.visibility = View.VISIBLE
-                                            currentView.spinner.visibility = View.GONE
-                                        } else {
-                                            try {
-                                                firebaseService.createUserWithEmailAndPassword(currentEmail,currentPassword, listener = OnCompleteListener { task ->
-
-                                                            currentView.btn_register.visibility = View.VISIBLE
-                                                            currentView.spinner.visibility = View.GONE
-
-                                                            if (task.isSuccessful) {
-                                                                firebaseService.sendEmailVerification()
-                                                                firebaseService.setUserNickname(nickname = currentNickname)
-
-                                                                onChangeFragmentsStateButtonsClick.onClick(LoginActivity.REGISTRATION_SUCCESS, currentEmail)
-                                                            } else {
-                                                                makeSnackbar(getString(R.string.error))
-                                                            }
-                                                        })
-                                            } catch (e: Exception) {
-                                                makeSnackbar(e.message!!)
-                                                currentView.btn_register.visibility = View.VISIBLE
-                                                currentView.spinner.visibility = View.GONE
-                                            }
-                                        }
-                                    }
-                                })
-                    }
-                    else {
+                                }
+                            }
+                        })
+                    } else {
                         makeSnackbar("nickname have to consists only with small letters")
                     }
                 } else {
@@ -127,7 +122,7 @@ class RegistrationFragment : Fragment() {
                 }
             } else {
                 makeSnackbar(getString(R.string.wrong_password_format))
-                Log.e(FRAGMENT_NAME,currentPassword)
+                Log.e(FRAGMENT_NAME, currentPassword)
             }
 
         } else {
@@ -151,7 +146,7 @@ class RegistrationFragment : Fragment() {
     }
 
     interface OnChangeFragmentsStateButtonsClick {
-        fun onClick(name: String,message: String)
+        fun onClick(name: String, message: String)
     }
 }
 

@@ -1,64 +1,70 @@
 package com.softserveinc.test.secretsanta.service
 
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.softserveinc.test.secretsanta.constans.Constans
-import com.softserveinc.test.secretsanta.entity.Group
+import com.softserveinc.test.secretsanta.constans.Constants
+import com.softserveinc.test.secretsanta.entity.GroupDeprecated
 import com.softserveinc.test.secretsanta.entity.Human
 import com.softserveinc.test.secretsanta.entity.Member
 
 
-class FirebaseService(private val database: FirebaseDatabase,private val auth: FirebaseAuth) {
-    fun checkIfNickExists(listener: ValueEventListener,nickname: String){
-        database.getReference(Constans.NICKNAMES)
+class FirebaseService(private val database: FirebaseDatabase, private val auth: FirebaseAuth) {
+
+    companion object {
+        const val ACTIVATED = "activated"
+        const val TITLE = "title"
+    }
+
+
+    fun checkIfNickExists(listener: ValueEventListener, nickname: String) {
+        database.getReference(Constants.NICKNAMES)
                 .child(nickname)
                 .addListenerForSingleValueEvent(listener)
     }
 
-    fun createUserWithEmailAndPassword(email : String, password : String, listener : OnCompleteListener<AuthResult?>){
-        auth.createUserWithEmailAndPassword(email,password)
+    fun createUserWithEmailAndPassword(email: String, password: String, listener: OnCompleteListener<AuthResult?>) {
+        auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(listener)
     }
 
-    fun sendEmailVerification(){
+    fun sendEmailVerification() {
         auth.currentUser!!.sendEmailVerification()
     }
 
-    fun setUserNickname(nickname : String){
+    fun setUserNickname(nickname: String) {
         auth.currentUser!!.updateProfile(
                 UserProfileChangeRequest.Builder()
                         .setDisplayName(nickname)
                         .build())
 
-        database.getReference(Constans.NICKNAMES)
+        database.getReference(Constants.NICKNAMES)
                 .child(nickname)
                 .setValue(auth.currentUser!!.uid)
     }
 
-    fun checkIfCurrentUserExists() : Boolean {
+    fun checkIfCurrentUserExists(): Boolean {
         return auth.currentUser != null
     }
 
-    fun checkIfEmailIsVerified() : Boolean{
+    fun checkIfEmailIsVerified(): Boolean {
         return auth.currentUser!!.isEmailVerified
     }
 
-    fun getUserEmail() : String? {
+    fun getUserEmail(): String? {
         return auth.currentUser!!.email
     }
 
-    fun signInWithEmailAndPassword(email: String,password: String,onCompleteListener: OnCompleteListener<AuthResult?>){
+    fun signInWithEmailAndPassword(email: String, password: String, onCompleteListener: OnCompleteListener<AuthResult?>) {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(onCompleteListener)
     }
 
-    fun getAllNicknames(listener: ValueEventListener,startAt : String){
-        database.getReference(Constans.NICKNAMES)
+    fun getAllNicknames(listener: ValueEventListener, startAt: String) {
+        database.getReference(Constants.NICKNAMES)
                 .orderByKey()
                 .startAt(startAt)
                 .limitToFirst(10)
@@ -66,24 +72,24 @@ class FirebaseService(private val database: FirebaseDatabase,private val auth: F
     }
 
     fun createNewGroup(members: ArrayList<Member>, groupTitle: String) {
-        val groupId = createGroup(members,groupTitle)
+        val groupId = createGroup(members, groupTitle)
 
-        informNewMembersForGroupInvitation(members,groupId)
+        informNewMembersForGroupInvitation(members, groupId, groupTitle)
     }
 
-    private fun createGroup(members: ArrayList<Member>, groupTitle: String) : String {
-        val dbReference = database.getReference(Constans.GROUPS)
+    private fun createGroup(members: ArrayList<Member>, groupTitle: String): String {
+        val dbReference = database.getReference(Constants.GROUPS)
 
-        val group = Group()
+        val group = GroupDeprecated()
         group.id = dbReference.push().key
 
         group.title = groupTitle
-        for (member in members){
+        for (member in members) {
             val human = Human()
             human.nickname = member.name
             group.humans.add(human)
         }
-        val human = group.humans.find{(it.nickname == auth.currentUser!!.displayName)}!!
+        val human = group.humans.find { (it.nickname == auth.currentUser!!.displayName) }!!
         human.admin = true
         human.activated = true
 
@@ -92,34 +98,44 @@ class FirebaseService(private val database: FirebaseDatabase,private val auth: F
         return group.id
     }
 
-    private fun informNewMembersForGroupInvitation(members: ArrayList<Member>, groupId: String) {
-        val dbReference = database.getReference(Constans.NICKNAME)
+    private fun informNewMembersForGroupInvitation(members: ArrayList<Member>, groupId: String,
+                                                   groupTitle: String) {
+        val dbReference = database.getReference(Constants.NICKNAME)
 
-        for (member in members){
+        for (member in members) {
+            val group = HashMap<String, Any>()
+            group[ACTIVATED] = false
+            group[TITLE] = groupTitle
+
             dbReference
                     .child(member.name)
-                    .child(Constans.GROUPS)
+                    .child(Constants.GROUPS)
                     .child(groupId)
-                    .setValue(false)
+                    .setValue(group)
         }
+        val group = HashMap<String, Any>()
+        group[ACTIVATED] = true
+        group[TITLE] = groupTitle
 
         dbReference
                 .child(auth.currentUser!!.displayName)
-                .child(Constans.GROUPS)
+                .child(Constants.GROUPS)
                 .child(groupId)
-                .setValue(true)
-                .addOnCompleteListener { task ->
-                    if(task.isSuccessful){
-
-                    } else {
-
-                    }
-                }
+                .setValue(group)
     }
 
     fun getCurrentUserAsMember(): Member {
         val member = Member()
         member.name = auth.currentUser!!.displayName!!
         return member
+    }
+
+    fun getAllActivatedGroups(listener: ValueEventListener) {
+        database.getReference(Constants.NICKNAME)
+                .child(auth.currentUser!!.displayName)
+                .child(Constants.GROUPS)
+                .orderByChild(ACTIVATED)
+                .equalTo(true)
+                .addListenerForSingleValueEvent(listener)
     }
 }

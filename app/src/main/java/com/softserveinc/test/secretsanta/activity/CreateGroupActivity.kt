@@ -17,6 +17,7 @@ import com.softserveinc.test.secretsanta.component.DaggerAuthComponent
 import com.softserveinc.test.secretsanta.entity.Member
 import com.softserveinc.test.secretsanta.module.AppModule
 import com.softserveinc.test.secretsanta.service.FirebaseService
+import com.softserveinc.test.secretsanta.util.StartActivityClass
 import com.softserveinc.test.secretsanta.viewmodel.MembersViewModel
 import kotlinx.android.synthetic.main.create_group_activity.*
 import javax.inject.Inject
@@ -42,7 +43,6 @@ class CreateGroupActivity : AppCompatActivity() {
     @Inject
     lateinit var firebaseService: FirebaseService
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.create_group_activity)
@@ -56,12 +56,12 @@ class CreateGroupActivity : AppCompatActivity() {
                 recyclerview.adapter.notifyItemRemoved(position)
             }
         }), object : OnFooterActionDone {
-            override fun onAddButtonClick(nickname: String,wrapperViewHolder: WrapperViewHolder) {
-                if (!checkIfNickIsInMembers(nickname)){
-                    addIfExistsInCloud(nickname,wrapperViewHolder)
+            override fun onAddButtonClick(nickname: String, wrapperViewHolder: WrapperViewHolder) {
+                if (!checkIfNickIsInMembers(nickname)) {
+                    addIfExistsInCloud(nickname, wrapperViewHolder)
                 } else {
                     wrapperViewHolder.setState(State.ADD_MEMBERS)
-                    Toast.makeText(applicationContext,"Member already added",Toast.LENGTH_SHORT)
+                    Toast.makeText(applicationContext, "Member already added", Toast.LENGTH_SHORT)
                             .show()
                 }
             }
@@ -75,18 +75,18 @@ class CreateGroupActivity : AppCompatActivity() {
         recyclerview.layoutManager = layoutManager
     }
 
-    private fun addIfExistsInCloud(nickname: String,wrapperViewHolder: WrapperViewHolder) {
-        firebaseService.checkIfNickExists(nickname = nickname,listener = object : ValueEventListener {
+    private fun addIfExistsInCloud(nickname: String, wrapperViewHolder: WrapperViewHolder) {
+        firebaseService.checkIfNickExists(nickname = nickname, listener = object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError?) {}
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.value!=null){
+                if (dataSnapshot.value != null) {
                     members.add(Member(nickname, "1"))
                     recyclerview.adapter.notifyDataSetChanged()
-                    Toast.makeText(applicationContext,"Added",Toast.LENGTH_SHORT)
+                    Toast.makeText(applicationContext, "Added", Toast.LENGTH_SHORT)
                             .show()
                 } else {
-                    Toast.makeText(applicationContext,"Pls check if nick is correct",Toast.LENGTH_SHORT)
+                    Toast.makeText(applicationContext, "Pls check if nick is correct", Toast.LENGTH_SHORT)
                             .show()
                 }
                 wrapperViewHolder.setState(State.ADD_MEMBERS)
@@ -109,17 +109,17 @@ class CreateGroupActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.done -> {
                 val groupTitle = group_title.text.toString()
-                firebaseService.createNewGroup(members,groupTitle)
+                firebaseService.createNewGroup(members, groupTitle)
+
+                StartActivityClass.finishActivityWithResultOk(this)
             }
             else -> return super.onOptionsItemSelected(item)
         }
         return true
     }
 
-
-    interface OnGroupCreationListener{
-        fun onCreated()
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
-
-
 }

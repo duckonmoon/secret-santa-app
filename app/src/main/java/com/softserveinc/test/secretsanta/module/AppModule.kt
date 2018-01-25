@@ -11,11 +11,11 @@ import javax.inject.Singleton
 @Module
 class AppModule {
 
-    private val database : FirebaseDatabase = FirebaseDatabase.getInstance()!!
+    private val database: FirebaseDatabase = FirebaseDatabase.getInstance()!!
 
     @Provides
     @Singleton
-    fun provideApp() : MainController = MainController.INSTANCE
+    fun provideApp(): MainController = MainController.INSTANCE
 
     val auth = FirebaseAuth.getInstance()!!
         @Provides @Singleton get

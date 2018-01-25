@@ -10,7 +10,7 @@ import dagger.Provides
 class FirebaseModule {
 
     @Provides
-    fun provideFirebaseService(auth: FirebaseAuth,database: FirebaseDatabase) : FirebaseService{
-        return FirebaseService(auth = auth,database = database)
+    fun provideFirebaseService(auth: FirebaseAuth, database: FirebaseDatabase): FirebaseService {
+        return FirebaseService(auth = auth, database = database)
     }
 }

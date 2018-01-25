@@ -9,6 +9,9 @@ import com.softserveinc.test.secretsanta.controller.MainController
 
 class StartActivityClass {
     companion object {
+        const val REQUESTED_CODE_CREATE_GROUP_ACTIVITY = 1
+
+
         fun startGroupsActivity(activity: Activity) {
             val intent = Intent(activity, GroupsActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -23,8 +26,15 @@ class StartActivityClass {
             activity.startActivity(intent)
         }
 
-        fun startCreateGroupsActivity(activity: Activity) {
-            activity.startActivity(Intent(activity,CreateGroupActivity::class.java))
+        fun startCreateGroupsActivityForResult(activity: Activity) {
+            activity.startActivityForResult(Intent(activity, CreateGroupActivity::class.java),
+                    REQUESTED_CODE_CREATE_GROUP_ACTIVITY)
+        }
+
+        fun finishActivityWithResultOk(activity: Activity) {
+            val intent = Intent()
+            activity.setResult(Activity.RESULT_OK, intent)
+            activity.finish()
         }
     }
 }

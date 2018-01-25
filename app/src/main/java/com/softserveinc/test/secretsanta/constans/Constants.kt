@@ -1,7 +1,7 @@
 package com.softserveinc.test.secretsanta.constans
 
 
-interface Constans {
+interface Constants {
     companion object {
         const val NICKNAMES = "nicknames"
         const val NICKNAME = "nickname"
