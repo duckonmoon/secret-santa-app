@@ -12,10 +12,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.adapter.*
-import com.softserveinc.test.secretsanta.component.AuthComponent
-import com.softserveinc.test.secretsanta.component.DaggerAuthComponent
+import com.softserveinc.test.secretsanta.controller.MainController
 import com.softserveinc.test.secretsanta.entity.Member
-import com.softserveinc.test.secretsanta.module.AppModule
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.util.StartActivityClass
 import com.softserveinc.test.secretsanta.viewmodel.MembersViewModel
@@ -33,20 +31,13 @@ class CreateGroupActivity : AppCompatActivity() {
         viewModel.members
     }
 
-    private val component: AuthComponent by lazy {
-        DaggerAuthComponent
-                .builder()
-                .appModule(AppModule())
-                .build()
-    }
-
     @Inject
     lateinit var firebaseService: FirebaseService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.create_group_activity)
-        component.inject(this)
+        MainController.INSTANCE.component.inject(this)
 
         members.add(firebaseService.getCurrentUserAsMember())
 

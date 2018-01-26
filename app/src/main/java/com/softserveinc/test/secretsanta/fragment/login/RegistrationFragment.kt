@@ -14,8 +14,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.activity.LoginActivity
-import com.softserveinc.test.secretsanta.component.AuthComponent
-import com.softserveinc.test.secretsanta.component.DaggerAuthComponent
+import com.softserveinc.test.secretsanta.controller.MainController
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import kotlinx.android.synthetic.main.fragment_registration.view.*
 import javax.inject.Inject
@@ -31,19 +30,13 @@ class RegistrationFragment : Fragment() {
     @Inject
     lateinit var firebaseService: FirebaseService
 
-    private val component: AuthComponent by lazy {
-        DaggerAuthComponent
-                .builder()
-                .build()
-    }
-
     private lateinit var currentView: View
 
     private lateinit var onChangeFragmentsStateButtonsClick: OnChangeFragmentsStateButtonsClick
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        component.inject(this)
+        MainController.INSTANCE.component.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.softserveinc.test.secretsanta.component.AuthComponent
 import com.softserveinc.test.secretsanta.component.DaggerAuthComponent
 import com.softserveinc.test.secretsanta.module.AppModule
+import com.softserveinc.test.secretsanta.module.FirebaseModule
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import javax.inject.Inject
 
@@ -22,10 +23,11 @@ class MainController : Application() {
     @Inject
     lateinit var firebaseService: FirebaseService
 
-    private val component: AuthComponent by lazy {
+    val component: AuthComponent by lazy {
         DaggerAuthComponent
                 .builder()
                 .appModule(AppModule())
+                .firebaseModule(FirebaseModule())
                 .build()
     }
 

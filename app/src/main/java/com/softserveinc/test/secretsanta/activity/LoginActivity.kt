@@ -10,11 +10,9 @@ import android.view.MenuItem
 import android.view.View
 import com.google.android.gms.tasks.OnCompleteListener
 import com.softserveinc.test.secretsanta.R
-import com.softserveinc.test.secretsanta.component.AuthComponent
-import com.softserveinc.test.secretsanta.component.DaggerAuthComponent
+import com.softserveinc.test.secretsanta.controller.MainController
 import com.softserveinc.test.secretsanta.dialog.NewYearDialog
 import com.softserveinc.test.secretsanta.fragment.login.RegistrationFragment
-import com.softserveinc.test.secretsanta.module.AppModule
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.util.StartActivityClass
 import kotlinx.android.synthetic.main.activity_login.*
@@ -32,19 +30,12 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
     @Inject
     lateinit var firebaseService: FirebaseService
 
-    private val component: AuthComponent by lazy {
-        DaggerAuthComponent
-                .builder()
-                .appModule(AppModule())
-                .build()
-    }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         setSupportActionBar(tool_bar as Toolbar)
-        component.inject(this)
+        MainController.INSTANCE.component.inject(this)
 
         if (firebaseService.checkIfCurrentUserExists() && firebaseService.checkIfEmailIsVerified()) {
             StartActivityClass.startGroupsActivity(this)

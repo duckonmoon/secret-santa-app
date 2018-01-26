@@ -17,8 +17,7 @@ import com.google.firebase.database.ValueEventListener
 import com.softserveinc.test.secretsanta.PassiveGroupsFragment
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.adapter.SimpleGroupAdapter
-import com.softserveinc.test.secretsanta.component.AuthComponent
-import com.softserveinc.test.secretsanta.component.DaggerAuthComponent
+import com.softserveinc.test.secretsanta.controller.MainController
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.util.Mapper
 import com.softserveinc.test.secretsanta.util.StartActivityClass
@@ -34,10 +33,6 @@ class GroupsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         ViewModelProviders.of(this).get(StringsViewModel::class.java)
     }
 
-    private val component: AuthComponent by lazy {
-        DaggerAuthComponent.builder().build()
-    }
-
     @Inject
     lateinit var firebaseService: FirebaseService
 
@@ -46,7 +41,7 @@ class GroupsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_groups)
         setSupportActionBar(toolbar)
-        component.inject(this)
+        MainController.INSTANCE.component.inject(this)
 
         fab.setOnClickListener {
             addClick()
