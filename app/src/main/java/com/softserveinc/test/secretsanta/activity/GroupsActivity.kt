@@ -58,7 +58,7 @@ class GroupsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     }
 
     private fun initRecyclerView() {
-        recycler_view.adapter = SimpleGroupAdapter(viewModel.groups)
+        recycler_view.adapter = SimpleGroupAdapter(viewModel.groups,null)
         recycler_view.layoutManager = LinearLayoutManager(this)
 
         if (viewModel.groups.isEmpty()) {
@@ -75,7 +75,7 @@ class GroupsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 spinner.visibility = View.GONE
                 viewModel.groups = Mapper.mapFromDataSnapshotGroupsToStringGroups(dataSnapshot)
-                recycler_view.adapter = SimpleGroupAdapter(viewModel.groups)
+                recycler_view.adapter = SimpleGroupAdapter(viewModel.groups,null)
             }
 
             override fun onCancelled(p0: DatabaseError?) {
@@ -122,6 +122,7 @@ class GroupsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         when (item.itemId) {
             R.id.unchecked_groups -> transaction.replace(R.id.container, PassiveGroupsFragment())
             R.id.my_groups -> {
+                getUpdate()
                 for (fragment in supportFragmentManager.fragments) {
                     transaction.remove(fragment)
                 }

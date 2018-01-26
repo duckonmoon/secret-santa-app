@@ -7,5 +7,6 @@ interface Constants {
         const val NICKNAME = "nickname"
         const val USERS = "users"
         const val GROUPS = "groups"
+        const val HUMANS = "humans"
     }
 }

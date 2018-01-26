@@ -5,5 +5,5 @@ class GroupDeprecated {
     var id = ""
     var title = ""
     var randomize = false
-    var humans = ArrayList<Human>()
+    var humans = HashMap<String,Human>()
 }

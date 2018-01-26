@@ -7,6 +7,7 @@ import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.softserveinc.test.secretsanta.constans.Constants
+import com.softserveinc.test.secretsanta.entity.Group
 import com.softserveinc.test.secretsanta.entity.GroupDeprecated
 import com.softserveinc.test.secretsanta.entity.Human
 import com.softserveinc.test.secretsanta.entity.Member
@@ -17,6 +18,7 @@ import java.util.*
 class FirebaseService(private val database: FirebaseDatabase, private val auth: FirebaseAuth) {
 
     companion object {
+        const val ID = "id"
         const val ACTIVATED = "activated"
         const val TITLE = "title"
         const val MEMBERS = "members"
@@ -91,9 +93,9 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
         for (member in members) {
             val human = Human()
             human.nickname = member.name
-            group.humans.add(human)
+            group.humans[human.nickname] = human
         }
-        val human = group.humans.find { (it.nickname == auth.currentUser!!.displayName) }!!
+        val human = group.humans[auth.currentUser!!.displayName]!!
         human.admin = true
         human.activated = true
 
@@ -108,9 +110,10 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
 
         for (member in members) {
             val group = HashMap<String, Any>()
+            group[ID] = groupId
             group[ACTIVATED] = false
             group[TITLE] = groupTitle
-            group[DATE_CREATED] = SimpleDateFormat("dd-MM-yyyy",Locale.getDefault()).format(Date())
+            group[DATE_CREATED] = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
             group[MEMBERS] = membersCount
 
             dbReference
@@ -120,6 +123,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
                     .setValue(group)
         }
         val group = HashMap<String, Any>()
+        group[ID] = groupId
         group[ACTIVATED] = true
         group[TITLE] = groupTitle
         group[DATE_CREATED] = SimpleDateFormat("dd-MM-yyyy",Locale.getDefault()).format(Date())
@@ -154,5 +158,22 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
                 .orderByChild(ACTIVATED)
                 .equalTo(false)
                 .addListenerForSingleValueEvent(listener)
+    }
+
+    fun updateGroupActivationStatus(group : Group) {
+        database.getReference(Constants.GROUPS)
+                .child(group.id)
+                .child(Constants.HUMANS)
+                .child(auth.currentUser!!.displayName)
+                .child(ACTIVATED)
+                .setValue(group.activated)
+
+        database.getReference(Constants.NICKNAME)
+                .child(auth.currentUser!!.displayName)
+                .child(Constants.GROUPS)
+                .child(group.id)
+                .child(ACTIVATED)
+                .setValue(group.activated)
+
     }
 }
