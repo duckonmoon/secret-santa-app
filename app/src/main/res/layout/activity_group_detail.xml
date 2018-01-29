@@ -16,17 +16,19 @@
 
 
         <ImageView
+            android:layout_marginTop="@dimen/fab_margin"
             android:id="@+id/imageView3"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
             android:contentDescription="@string/group_image"
             android:src="@drawable/christmas_house"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -57,14 +59,15 @@
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/imageView3"
+            android:layout_marginEnd="@dimen/top_margin"
+            android:layout_marginStart="@dimen/top_margin"
+            android:layout_marginTop="@dimen/top_margin"
             app:layout_constraintLeft_toRightOf="parent"
             app:layout_constraintRight_toLeftOf="parent"
-            android:layout_marginStart="@dimen/top_margin"
-            android:layout_marginEnd="@dimen/top_margin"
-            android:layout_marginTop="@dimen/top_margin" />
+            app:layout_constraintTop_toBottomOf="@id/imageView3" />
 
 
         <Button

@@ -132,7 +132,7 @@
             android:layout_marginStart="35dp"
             android:layout_marginTop="28dp"
             android:background="@drawable/rectangle_with_rounded_angles_red"
-            android:text="@string/btn_link_to_register"
+            android:text="@string/already_registered"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="15sp" />

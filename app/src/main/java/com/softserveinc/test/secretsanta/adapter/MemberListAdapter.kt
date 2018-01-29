@@ -10,7 +10,7 @@ import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.entity.Member
 
 
-class MemberListAdapter(private var members: ArrayList<Member>, private val listener: OnItemClickListener) : RecyclerView.Adapter<ViewHolder>() {
+class MemberListAdapter(private var members: List<Member>, private val listener: OnItemClickListener) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         return ViewHolder(view = LayoutInflater.from(parent!!.context)
@@ -28,8 +28,6 @@ class MemberListAdapter(private var members: ArrayList<Member>, private val list
             holder.memberCloseView.visibility = View.GONE
         }
     }
-
-
 }
 
 class ViewHolder(view: View, listener: OnItemClickListener) : RecyclerView.ViewHolder(view) {

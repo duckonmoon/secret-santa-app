@@ -23,7 +23,7 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
 
 
     companion object {
-        const val ACTIVITY_NAME = "ACTIVITY_LOGIN"
+        const val UI_STATE_LOGIN = "ACTIVITY_LOGIN"
         const val REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS"
     }
 
@@ -98,7 +98,7 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
     //For Fragments
     override fun onClick(name: String, message: String) {
         when (name) {
-            LoginActivity.ACTIVITY_NAME -> onBackPressed()
+            LoginActivity.UI_STATE_LOGIN -> onBackPressed()
             LoginActivity.REGISTRATION_SUCCESS -> {
                 onBackPressed()
 

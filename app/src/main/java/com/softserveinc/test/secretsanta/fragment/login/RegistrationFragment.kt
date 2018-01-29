@@ -46,7 +46,7 @@ class RegistrationFragment : Fragment() {
         currentView.setOnClickListener { }
 
         currentView.btn_login_reg.setOnClickListener {
-            onChangeFragmentsStateButtonsClick.onClick(LoginActivity.ACTIVITY_NAME, "")
+            onChangeFragmentsStateButtonsClick.onClick(LoginActivity.UI_STATE_LOGIN, "")
         }
 
         currentView.btn_register.setOnClickListener {
@@ -68,26 +68,28 @@ class RegistrationFragment : Fragment() {
             checkPassword(currentPassword = currentPassword)
             checkPasswordMatch(currentPassword = currentPassword, currentRepeatPassword = currentRepeatPassword)
             checkNickName(currentNickname = currentNickname)
-
-            showSpinner()
-
-            firebaseService.checkIfNickExists(nickname = currentNickname, listener = object : ValueEventListener {
-                override fun onCancelled(error : DatabaseError?) {
-                    hideSpinner()
-                }
-
-                override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                    if (dataSnapshot!!.value != null) {
-                        makeSnackbar("Nickname already exists")
-                        hideSpinner()
-                    } else {
-                        createUserWithEmailAndPassword(currentEmail, currentPassword, currentNickname)
-                    }
-                }
-            })
         } catch (e: RegistrationException) {
             makeSnackbar(e.message.toString())
+            return
         }
+
+        showSpinner()
+
+        firebaseService.checkIfNickExists(nickname = currentNickname, listener = object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError?) {
+                hideSpinner()
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                if (dataSnapshot!!.value != null) {
+                    makeSnackbar("Nickname already exists")
+                    hideSpinner()
+                } else {
+                    createUserWithEmailAndPassword(currentEmail, currentPassword, currentNickname)
+                }
+            }
+        })
+
     }
 
     private fun createUserWithEmailAndPassword(currentEmail: String, currentPassword: String, currentNickname: String) {
