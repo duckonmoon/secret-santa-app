@@ -1,6 +1,5 @@
 package com.softserveinc.test.secretsanta.fragment.group
 
-
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -18,7 +17,7 @@ import com.softserveinc.test.secretsanta.entity.Group
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.util.Mapper
 import com.softserveinc.test.secretsanta.util.StartActivityClass
-import com.softserveinc.test.secretsanta.viewmodel.StringsViewModel
+import com.softserveinc.test.secretsanta.viewmodel.GroupViewModel
 import kotlinx.android.synthetic.main.fragment_passive_groups.view.*
 import javax.inject.Inject
 
@@ -29,17 +28,17 @@ class PassiveGroupsFragment : Fragment() {
 
     lateinit var mView: View
 
-    private val viewModel : StringsViewModel by lazy {
-        ViewModelProviders.of(this).get(StringsViewModel::class.java)
+    private val viewModel: GroupViewModel by lazy {
+        ViewModelProviders.of(this).get(GroupViewModel::class.java)
     }
 
-    private val onItemIterationListener = object : SimpleGroupAdapter.OnItemIterationListener{
+    private val onItemIterationListener = object : SimpleGroupAdapter.OnItemIterationListener {
         override fun onConfirmButtonClick(group: Group) {
             firebaseService.updateGroupActivationStatus(group = group)
         }
 
         override fun onItemClick(group: Group) {
-            StartActivityClass.startGroupDetailActivity(activity!!,group)
+            StartActivityClass.startGroupDetailActivity(activity!!, group)
         }
     }
 
@@ -51,9 +50,9 @@ class PassiveGroupsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         mView = inflater.inflate(R.layout.fragment_passive_groups, container, false)
-        mView.setOnClickListener {  }
+        mView.setOnClickListener { }
 
-        mView.recycler_view.adapter = SimpleGroupAdapter(viewModel.groups,onItemIterationListener)
+        mView.recycler_view.adapter = SimpleGroupAdapter(viewModel.groups, onItemIterationListener)
         mView.recycler_view.layoutManager = LinearLayoutManager(context)
 
         if (viewModel.groups.isEmpty()) {
@@ -73,7 +72,7 @@ class PassiveGroupsFragment : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 mView.spinner.visibility = View.GONE
                 viewModel.groups = Mapper.mapFromDataSnapshotGroupsToStringGroups(dataSnapshot)
-                mView.recycler_view.adapter = SimpleGroupAdapter(viewModel.groups,onItemIterationListener)
+                mView.recycler_view.adapter = SimpleGroupAdapter(viewModel.groups, onItemIterationListener)
             }
 
             override fun onCancelled(p0: DatabaseError?) {

@@ -4,5 +4,5 @@ class GroupFull {
     var id = ""
     var title = ""
     var randomize = false
-    var humans = HashMap<String,Human>()
+    var humans = HashMap<String, Human>()
 }

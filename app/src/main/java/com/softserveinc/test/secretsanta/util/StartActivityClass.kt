@@ -39,9 +39,9 @@ class StartActivityClass {
             activity.finish()
         }
 
-        fun startGroupDetailActivity(activity: Activity,group : Group){
-            val intent = Intent(activity,GroupDetailActivity::class.java)
-            intent.putExtra(GroupDetailActivity.GROUP,group)
+        fun startGroupDetailActivity(activity: Activity, group: Group) {
+            val intent = Intent(activity, GroupDetailActivity::class.java)
+            intent.putExtra(GroupDetailActivity.GROUP, group)
             activity.startActivity(intent)
         }
     }

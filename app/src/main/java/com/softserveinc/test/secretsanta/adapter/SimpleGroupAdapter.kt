@@ -10,7 +10,7 @@ import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.application.App
 import com.softserveinc.test.secretsanta.entity.Group
 
-class SimpleGroupAdapter(private var groups: ArrayList<Group>,private val onItemIterationListener: OnItemIterationListener)
+class SimpleGroupAdapter(private var groups: ArrayList<Group>, private val onItemIterationListener: OnItemIterationListener)
     : RecyclerView.Adapter<SimpleViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SimpleViewHolder {
@@ -45,7 +45,7 @@ class SimpleGroupAdapter(private var groups: ArrayList<Group>,private val onItem
         }
     }
 
-    interface OnItemIterationListener{
+    interface OnItemIterationListener {
         fun onConfirmButtonClick(group: Group)
         fun onItemClick(group: Group)
     }

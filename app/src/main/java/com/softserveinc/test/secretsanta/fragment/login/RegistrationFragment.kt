@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +14,7 @@ import com.google.firebase.database.ValueEventListener
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.activity.LoginActivity
 import com.softserveinc.test.secretsanta.application.App
+import com.softserveinc.test.secretsanta.exception.RegistrationException
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import kotlinx.android.synthetic.main.fragment_registration.view.*
 import javax.inject.Inject
@@ -43,7 +43,6 @@ class RegistrationFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         currentView = inflater.inflate(R.layout.fragment_registration, container, false)
 
-        //To disable all missClicks
         currentView.setOnClickListener { }
 
         currentView.btn_login_reg.setOnClickListener {
@@ -58,68 +57,91 @@ class RegistrationFragment : Fragment() {
     }
 
 
-    //TODO make smaller and change strings
+    //TODO change strings
     private fun register() {
         val currentEmail = currentView.email_reg.text.toString()
         val currentPassword = currentView.password_reg.text.toString()
         val currentRepeatPassword = currentView.repeat_password_reg.text.toString()
         val currentNickname = currentView.nickname.text.toString()
-        if (currentEmail != "") {
-            if (currentPassword.matches(Regex(PASSWORD_PATTERN))) {
-                if (currentPassword == currentRepeatPassword) {
-                    if (currentNickname.matches(Regex(NICKNAME_PATTERN))) {
+        try {
+            checkMail(currentEmail = currentEmail)
+            checkPassword(currentPassword = currentPassword)
+            checkPasswordMatch(currentPassword = currentPassword, currentRepeatPassword = currentRepeatPassword)
+            checkNickName(currentNickname = currentNickname)
 
-                        currentView.btn_register.visibility = View.GONE
-                        currentView.spinner.visibility = View.VISIBLE
+            showSpinner()
 
-                        firebaseService.checkIfNickExists(nickname = currentNickname, listener = object : ValueEventListener {
-                            override fun onCancelled(p0: DatabaseError?) {
-                                currentView.btn_register.visibility = View.VISIBLE
-                                currentView.spinner.visibility = View.GONE
-                            }
-
-                            override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                                if (dataSnapshot!!.value != null) {
-                                    makeSnackbar("Nickname already exists")
-                                    currentView.btn_register.visibility = View.VISIBLE
-                                    currentView.spinner.visibility = View.GONE
-                                } else {
-                                    try {
-                                        firebaseService.createUserWithEmailAndPassword(currentEmail, currentPassword, listener = OnCompleteListener { task ->
-
-                                            currentView.btn_register.visibility = View.VISIBLE
-                                            currentView.spinner.visibility = View.GONE
-
-                                            if (task.isSuccessful) {
-                                                firebaseService.sendEmailVerification()
-                                                firebaseService.setUserNickname(nickname = currentNickname)
-
-                                                onChangeFragmentsStateButtonsClick.onClick(LoginActivity.REGISTRATION_SUCCESS, currentEmail)
-                                            } else {
-                                                makeSnackbar(getString(R.string.error))
-                                            }
-                                        })
-                                    } catch (e: Exception) {
-                                        makeSnackbar(e.message!!)
-                                        currentView.btn_register.visibility = View.VISIBLE
-                                        currentView.spinner.visibility = View.GONE
-                                    }
-                                }
-                            }
-                        })
-                    } else {
-                        makeSnackbar("nickname have to consists only with small letters")
-                    }
-                } else {
-                    makeSnackbar(getString(R.string.different_passwords))
+            firebaseService.checkIfNickExists(nickname = currentNickname, listener = object : ValueEventListener {
+                override fun onCancelled(error : DatabaseError?) {
+                    hideSpinner()
                 }
-            } else {
-                makeSnackbar(getString(R.string.wrong_password_format))
-                Log.e(FRAGMENT_NAME, currentPassword)
-            }
 
-        } else {
-            makeSnackbar(getString(R.string.email_empty))
+                override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                    if (dataSnapshot!!.value != null) {
+                        makeSnackbar("Nickname already exists")
+                        hideSpinner()
+                    } else {
+                        createUserWithEmailAndPassword(currentEmail, currentPassword, currentNickname)
+                    }
+                }
+            })
+        } catch (e: RegistrationException) {
+            makeSnackbar(e.message.toString())
+        }
+    }
+
+    private fun createUserWithEmailAndPassword(currentEmail: String, currentPassword: String, currentNickname: String) {
+        try {
+            firebaseService.createUserWithEmailAndPassword(currentEmail, currentPassword, listener = OnCompleteListener { task ->
+
+                hideSpinner()
+
+                if (task.isSuccessful) {
+                    firebaseService.sendEmailVerification()
+                    firebaseService.setUserNickname(nickname = currentNickname)
+
+                    onChangeFragmentsStateButtonsClick.onClick(LoginActivity.REGISTRATION_SUCCESS, currentEmail)
+                } else {
+                    makeSnackbar(getString(R.string.error))
+                }
+            })
+        } catch (e: Exception) {
+            makeSnackbar(e.message!!)
+            hideSpinner()
+        }
+    }
+
+    private fun hideSpinner() {
+        currentView.btn_register.visibility = View.VISIBLE
+        currentView.spinner.visibility = View.GONE
+    }
+
+    private fun showSpinner() {
+        currentView.btn_register.visibility = View.GONE
+        currentView.spinner.visibility = View.VISIBLE
+    }
+
+    private fun checkNickName(currentNickname: String) {
+        if (!currentNickname.matches(Regex(NICKNAME_PATTERN))) {
+            throw RegistrationException("nickname have to consists only with small letters")
+        }
+    }
+
+    private fun checkPasswordMatch(currentPassword: String, currentRepeatPassword: String) {
+        if (currentPassword != currentRepeatPassword) {
+            throw RegistrationException(getString(R.string.different_passwords))
+        }
+    }
+
+    private fun checkPassword(currentPassword: String) {
+        if (!currentPassword.matches(Regex(PASSWORD_PATTERN))) {
+            throw RegistrationException(getString(R.string.wrong_password_format))
+        }
+    }
+
+    private fun checkMail(currentEmail: String) {
+        if (currentEmail == "") {
+            throw RegistrationException(getString(R.string.email_empty))
         }
     }
 

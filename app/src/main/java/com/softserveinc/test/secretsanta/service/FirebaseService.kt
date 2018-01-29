@@ -4,8 +4,6 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.softserveinc.test.secretsanta.constans.Constants
@@ -82,7 +80,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
     fun createNewGroup(members: ArrayList<Member>, groupTitle: String) {
         val groupId = createGroup(members, groupTitle)
 
-        informNewMembersForGroupInvitation(members, groupId, groupTitle,members.size)
+        informNewMembersForGroupInvitation(members, groupId, groupTitle, members.size)
     }
 
     private fun createGroup(members: ArrayList<Member>, groupTitle: String): String {
@@ -107,7 +105,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
     }
 
     private fun informNewMembersForGroupInvitation(members: ArrayList<Member>, groupId: String,
-                                                   groupTitle: String, membersCount : Int) {
+                                                   groupTitle: String, membersCount: Int) {
         val dbReference = database.getReference(Constants.NICKNAME)
 
         for (member in members) {
@@ -128,7 +126,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
         group[ID] = groupId
         group[ACTIVATED] = true
         group[TITLE] = groupTitle
-        group[DATE_CREATED] = SimpleDateFormat("dd-MM-yyyy",Locale.getDefault()).format(Date())
+        group[DATE_CREATED] = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
         group[MEMBERS] = membersCount
 
         dbReference
@@ -153,7 +151,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
                 .addListenerForSingleValueEvent(listener)
     }
 
-    fun getAllNotActivatedGroups(listener: ValueEventListener){
+    fun getAllNotActivatedGroups(listener: ValueEventListener) {
         database.getReference(Constants.NICKNAME)
                 .child(auth.currentUser!!.displayName)
                 .child(Constants.GROUPS)
@@ -162,7 +160,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
                 .addListenerForSingleValueEvent(listener)
     }
 
-    fun updateGroupActivationStatus(group : Group) {
+    fun updateGroupActivationStatus(group: Group) {
         database.getReference(Constants.GROUPS)
                 .child(group.id)
                 .child(Constants.HUMANS)
@@ -178,7 +176,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
                 .setValue(group.activated)
     }
 
-    fun getGroupInfo(groupId: String,listener: ValueEventListener){
+    fun getGroupInfo(groupId: String, listener: ValueEventListener) {
         database.getReference(Constants.GROUPS)
                 .child(groupId)
                 .addListenerForSingleValueEvent(listener)
