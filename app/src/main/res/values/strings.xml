@@ -43,4 +43,6 @@
 
     <string name="confirm">Confirm</string>
     <string name="cancel_confirmation">Cancel\nConfirmation</string>
+    <string name="group_image">Group Image</string>
+    <string name="randomize">Randomize</string>
 </resources>

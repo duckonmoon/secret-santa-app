@@ -4,11 +4,13 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.softserveinc.test.secretsanta.constans.Constants
 import com.softserveinc.test.secretsanta.entity.Group
-import com.softserveinc.test.secretsanta.entity.GroupDeprecated
+import com.softserveinc.test.secretsanta.entity.GroupFull
 import com.softserveinc.test.secretsanta.entity.Human
 import com.softserveinc.test.secretsanta.entity.Member
 import java.text.SimpleDateFormat
@@ -86,7 +88,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
     private fun createGroup(members: ArrayList<Member>, groupTitle: String): String {
         val dbReference = database.getReference(Constants.GROUPS)
 
-        val group = GroupDeprecated()
+        val group = GroupFull()
         group.id = dbReference.push().key
 
         group.title = groupTitle
@@ -174,6 +176,12 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
                 .child(group.id)
                 .child(ACTIVATED)
                 .setValue(group.activated)
-
     }
+
+    fun getGroupInfo(groupId: String,listener: ValueEventListener){
+        database.getReference(Constants.GROUPS)
+                .child(groupId)
+                .addListenerForSingleValueEvent(listener)
+    }
+
 }

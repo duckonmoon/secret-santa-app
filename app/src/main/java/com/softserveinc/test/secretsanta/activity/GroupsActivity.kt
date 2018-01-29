@@ -14,10 +14,11 @@ import android.view.View
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.softserveinc.test.secretsanta.PassiveGroupsFragment
+import com.softserveinc.test.secretsanta.fragment.group.PassiveGroupsFragment
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.adapter.SimpleGroupAdapter
-import com.softserveinc.test.secretsanta.controller.MainController
+import com.softserveinc.test.secretsanta.application.App
+import com.softserveinc.test.secretsanta.entity.Group
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.util.Mapper
 import com.softserveinc.test.secretsanta.util.StartActivityClass
@@ -33,6 +34,15 @@ class GroupsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         ViewModelProviders.of(this).get(StringsViewModel::class.java)
     }
 
+    private val listener = object : SimpleGroupAdapter.OnItemIterationListener{
+        override fun onConfirmButtonClick(group: Group) {
+        }
+
+        override fun onItemClick(group: Group) {
+            StartActivityClass.startGroupDetailActivity(activity = this@GroupsActivity,group = group)
+        }
+    }
+
     @Inject
     lateinit var firebaseService: FirebaseService
 
@@ -41,7 +51,7 @@ class GroupsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_groups)
         setSupportActionBar(toolbar)
-        MainController.INSTANCE.component.inject(this)
+        App.INSTANCE.component.inject(this)
 
         fab.setOnClickListener {
             addClick()
@@ -58,7 +68,7 @@ class GroupsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     }
 
     private fun initRecyclerView() {
-        recycler_view.adapter = SimpleGroupAdapter(viewModel.groups,null)
+        recycler_view.adapter = SimpleGroupAdapter(viewModel.groups,listener)
         recycler_view.layoutManager = LinearLayoutManager(this)
 
         if (viewModel.groups.isEmpty()) {
@@ -75,7 +85,7 @@ class GroupsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 spinner.visibility = View.GONE
                 viewModel.groups = Mapper.mapFromDataSnapshotGroupsToStringGroups(dataSnapshot)
-                recycler_view.adapter = SimpleGroupAdapter(viewModel.groups,null)
+                recycler_view.adapter = SimpleGroupAdapter(viewModel.groups,listener)
             }
 
             override fun onCancelled(p0: DatabaseError?) {

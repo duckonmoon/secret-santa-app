@@ -1,4 +1,4 @@
-package com.softserveinc.test.secretsanta.controller
+package com.softserveinc.test.secretsanta.application
 
 import android.app.Application
 import com.google.firebase.auth.FirebaseAuth
@@ -10,9 +10,9 @@ import com.softserveinc.test.secretsanta.service.FirebaseService
 import javax.inject.Inject
 
 
-class MainController : Application() {
+class App : Application() {
     companion object {
-        lateinit var INSTANCE: MainController
+        lateinit var INSTANCE: App
     }
 
     val nicknames = ArrayList<String>()

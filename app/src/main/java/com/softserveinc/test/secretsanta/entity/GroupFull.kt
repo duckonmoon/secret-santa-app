@@ -1,7 +1,6 @@
 package com.softserveinc.test.secretsanta.entity
 
-@Deprecated("can be replaced by hash maps")
-class GroupDeprecated {
+class GroupFull {
     var id = ""
     var title = ""
     var randomize = false

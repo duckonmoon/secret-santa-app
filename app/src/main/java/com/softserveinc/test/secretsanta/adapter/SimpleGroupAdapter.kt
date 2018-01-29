@@ -7,20 +7,24 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import com.softserveinc.test.secretsanta.R
-import com.softserveinc.test.secretsanta.controller.MainController
+import com.softserveinc.test.secretsanta.application.App
 import com.softserveinc.test.secretsanta.entity.Group
 
-class SimpleGroupAdapter(private var groups: ArrayList<Group>,private val onItemIterationListener: OnItemIterationListener?)
+class SimpleGroupAdapter(private var groups: ArrayList<Group>,private val onItemIterationListener: OnItemIterationListener)
     : RecyclerView.Adapter<SimpleViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SimpleViewHolder {
         return SimpleViewHolder(view = LayoutInflater.from(parent!!.context)
                 .inflate(R.layout.group_item, parent, false),
                 onButtonClickListener = object : SimpleViewHolder.OnButtonClickListener {
+                    override fun onViewClick(position: Int) {
+                        onItemIterationListener.onItemClick(groups[position])
+                    }
+
                     override fun onClick(position: Int): Boolean {
                         val group = groups[position]
                         group.activated = !group.activated
-                        onItemIterationListener!!.onConfirmButtonClick(group)
+                        onItemIterationListener.onConfirmButtonClick(group)
                         return group.activated
                     }
                 })
@@ -33,7 +37,7 @@ class SimpleGroupAdapter(private var groups: ArrayList<Group>,private val onItem
     override fun onBindViewHolder(holder: SimpleViewHolder, position: Int) {
         val group = groups[position]
         holder.groupNameView.text = group.title
-        holder.groupDescriptionView.text = MainController
+        holder.groupDescriptionView.text = App
                 .INSTANCE
                 .getString(R.string.members_count_and_date_created, group.members, group.date_created)
         if (!group.activated) {
@@ -43,6 +47,7 @@ class SimpleGroupAdapter(private var groups: ArrayList<Group>,private val onItem
 
     interface OnItemIterationListener{
         fun onConfirmButtonClick(group: Group)
+        fun onItemClick(group: Group)
     }
 }
 
@@ -59,9 +64,12 @@ class SimpleViewHolder(view: View, onButtonClickListener: OnButtonClickListener)
                 groupConfirmationButton.setText(R.string.cancel_confirmation)
             }
         }
+
+        view.setOnClickListener { onButtonClickListener.onViewClick(adapterPosition) }
     }
 
     interface OnButtonClickListener {
         fun onClick(position: Int): Boolean
+        fun onViewClick(position: Int)
     }
 }

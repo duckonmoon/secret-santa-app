@@ -2,10 +2,12 @@ package com.softserveinc.test.secretsanta.util
 
 import android.app.Activity
 import android.content.Intent
+import com.softserveinc.test.secretsanta.GroupDetailActivity
 import com.softserveinc.test.secretsanta.activity.CreateGroupActivity
 import com.softserveinc.test.secretsanta.activity.GroupsActivity
 import com.softserveinc.test.secretsanta.activity.LoginActivity
-import com.softserveinc.test.secretsanta.controller.MainController
+import com.softserveinc.test.secretsanta.application.App
+import com.softserveinc.test.secretsanta.entity.Group
 
 class StartActivityClass {
     companion object {
@@ -21,7 +23,7 @@ class StartActivityClass {
 
         fun signOut(activity: Activity) {
             val intent = Intent(activity.applicationContext, LoginActivity::class.java)
-            MainController.INSTANCE.signOut()
+            App.INSTANCE.signOut()
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             activity.startActivity(intent)
         }
@@ -35,6 +37,12 @@ class StartActivityClass {
             val intent = Intent()
             activity.setResult(Activity.RESULT_OK, intent)
             activity.finish()
+        }
+
+        fun startGroupDetailActivity(activity: Activity,group : Group){
+            val intent = Intent(activity,GroupDetailActivity::class.java)
+            intent.putExtra(GroupDetailActivity.GROUP,group)
+            activity.startActivity(intent)
         }
     }
 }

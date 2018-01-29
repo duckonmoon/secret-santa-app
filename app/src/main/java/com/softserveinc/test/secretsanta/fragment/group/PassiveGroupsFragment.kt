@@ -1,4 +1,4 @@
-package com.softserveinc.test.secretsanta
+package com.softserveinc.test.secretsanta.fragment.group
 
 
 import android.arch.lifecycle.ViewModelProviders
@@ -11,11 +11,13 @@ import android.view.ViewGroup
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.adapter.SimpleGroupAdapter
-import com.softserveinc.test.secretsanta.controller.MainController
+import com.softserveinc.test.secretsanta.application.App
 import com.softserveinc.test.secretsanta.entity.Group
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.util.Mapper
+import com.softserveinc.test.secretsanta.util.StartActivityClass
 import com.softserveinc.test.secretsanta.viewmodel.StringsViewModel
 import kotlinx.android.synthetic.main.fragment_passive_groups.view.*
 import javax.inject.Inject
@@ -35,11 +37,15 @@ class PassiveGroupsFragment : Fragment() {
         override fun onConfirmButtonClick(group: Group) {
             firebaseService.updateGroupActivationStatus(group = group)
         }
+
+        override fun onItemClick(group: Group) {
+            StartActivityClass.startGroupDetailActivity(activity!!,group)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MainController.INSTANCE.component.inject(this)
+        App.INSTANCE.component.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

@@ -14,7 +14,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.activity.LoginActivity
-import com.softserveinc.test.secretsanta.controller.MainController
+import com.softserveinc.test.secretsanta.application.App
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import kotlinx.android.synthetic.main.fragment_registration.view.*
 import javax.inject.Inject
@@ -36,7 +36,7 @@ class RegistrationFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MainController.INSTANCE.component.inject(this)
+        App.INSTANCE.component.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

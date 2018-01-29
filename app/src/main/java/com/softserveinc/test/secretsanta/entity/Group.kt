@@ -1,7 +1,9 @@
 package com.softserveinc.test.secretsanta.entity
 
+import java.io.Serializable
 
-class Group {
+
+class Group : Serializable{
     var id = ""
     var activated = false
     var title = ""

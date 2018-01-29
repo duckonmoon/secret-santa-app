@@ -15,6 +15,10 @@ android {
         }
     }
 
+    dataBinding {
+        enabled = true
+    }
+
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.softserveinc.test.secretsanta"
@@ -53,7 +57,9 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$daggerVer"
     kapt "com.google.dagger:dagger-android-processor:$daggerVer"
     kapt "com.google.dagger:dagger-compiler:$daggerVer"
+    kapt 'com.android.databinding:compiler:3.0.1'
 }
+
 
 
 

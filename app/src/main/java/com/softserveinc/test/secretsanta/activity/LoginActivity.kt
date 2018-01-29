@@ -10,7 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import com.google.android.gms.tasks.OnCompleteListener
 import com.softserveinc.test.secretsanta.R
-import com.softserveinc.test.secretsanta.controller.MainController
+import com.softserveinc.test.secretsanta.application.App
 import com.softserveinc.test.secretsanta.dialog.NewYearDialog
 import com.softserveinc.test.secretsanta.fragment.login.RegistrationFragment
 import com.softserveinc.test.secretsanta.service.FirebaseService
@@ -35,7 +35,7 @@ class LoginActivity : AppCompatActivity(), RegistrationFragment.OnChangeFragment
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         setSupportActionBar(tool_bar as Toolbar)
-        MainController.INSTANCE.component.inject(this)
+        App.INSTANCE.component.inject(this)
 
         if (firebaseService.checkIfCurrentUserExists() && firebaseService.checkIfEmailIsVerified()) {
             StartActivityClass.startGroupsActivity(this)
