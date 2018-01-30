@@ -30,7 +30,7 @@
             android:name=".activity.CreateGroupActivity"
             android:parentActivityName=".activity.GroupsActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".GroupDetailActivity"></activity>
+        <activity android:name=".activity.GroupDetailActivity"></activity>
     </application>
 
 </manifest>

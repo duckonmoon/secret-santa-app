@@ -1,4 +1,4 @@
-package com.softserveinc.test.secretsanta
+package com.softserveinc.test.secretsanta.activity
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.application.App
 import com.softserveinc.test.secretsanta.databinding.ActivityGroupDetailBinding
 import com.softserveinc.test.secretsanta.entity.Group

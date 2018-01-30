@@ -1,0 +1,48 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.softserveinc.test.secretsanta.fragment.login.RegistrationSuccessFragment">
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/verification_email_test"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/verify_email_text"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textColor="@color/white"
+            android:background="@drawable/rectangle_with_rounded_angles_red"
+
+            app:layout_constraintBottom_toTopOf="@+id/santa_on_sledge"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+
+        <ImageView
+            android:id="@+id/santa_on_sledge"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:background="@drawable/rectangle_with_rounded_angles_almost_green"
+            android:src="@drawable/santa_on_sledge"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/verify_email_text"/>
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>

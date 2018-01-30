@@ -1,5 +1,6 @@
 package com.softserveinc.test.secretsanta.fragment.login
 
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -15,14 +16,15 @@ import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.activity.LoginActivity
 import com.softserveinc.test.secretsanta.application.App
 import com.softserveinc.test.secretsanta.exception.RegistrationException
+import com.softserveinc.test.secretsanta.presenter.LoginPresenter
 import com.softserveinc.test.secretsanta.service.FirebaseService
+import com.softserveinc.test.secretsanta.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_registration.view.*
 import javax.inject.Inject
 
 
 class RegistrationFragment : Fragment() {
     companion object {
-        const val FRAGMENT_NAME = "REGISTRATION_FRAGMENT"
         private const val PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+\$).{8,}\$"
         private const val NICKNAME_PATTERN = "^[a-z]+\$"
     }
@@ -32,7 +34,10 @@ class RegistrationFragment : Fragment() {
 
     private lateinit var currentView: View
 
-    private lateinit var onChangeFragmentsStateButtonsClick: OnChangeFragmentsStateButtonsClick
+    private val presenter : LoginPresenter by lazy {
+        ViewModelProviders.of(activity!!).get(LoginViewModel::class.java).LoginPresenter
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +51,7 @@ class RegistrationFragment : Fragment() {
         currentView.setOnClickListener { }
 
         currentView.btn_login_reg.setOnClickListener {
-            onChangeFragmentsStateButtonsClick.onClick(LoginActivity.UI_STATE_LOGIN, "")
+            presenter.goToLogin()
         }
 
         currentView.btn_register.setOnClickListener {
@@ -102,7 +107,7 @@ class RegistrationFragment : Fragment() {
                     firebaseService.sendEmailVerification()
                     firebaseService.setUserNickname(nickname = currentNickname)
 
-                    onChangeFragmentsStateButtonsClick.onClick(LoginActivity.REGISTRATION_SUCCESS, currentEmail)
+                    presenter.goToRegistrationSuccess(currentEmail)
                 } else {
                     makeSnackbar(getString(R.string.error))
                 }
@@ -153,18 +158,6 @@ class RegistrationFragment : Fragment() {
                 Snackbar.LENGTH_SHORT).show()
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if (context is OnChangeFragmentsStateButtonsClick) {
-            onChangeFragmentsStateButtonsClick = context
-        } else {
-            throw Exception()
-        }
-    }
-
-    interface OnChangeFragmentsStateButtonsClick {
-        fun onClick(name: String, message: String)
-    }
 }
 
 
