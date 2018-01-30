@@ -15,7 +15,7 @@ class RegistrationSuccessFragment : Fragment() {
     companion object {
         const val MESSAGE = "message"
 
-        fun newInstance(message: String) : RegistrationSuccessFragment{
+        fun newInstance(message: String): RegistrationSuccessFragment {
             val fragment = RegistrationSuccessFragment()
             val args = Bundle()
             args.putString(RegistrationSuccessFragment.MESSAGE, message)
@@ -40,7 +40,7 @@ class RegistrationSuccessFragment : Fragment() {
         mView = inflater.inflate(R.layout.fragment_registration_success, container, false)
 
         if (message != null) {
-            mView.verify_email_text.text = getString(R.string.sent_to_email,message)
+            mView.verify_email_text.text = getString(R.string.sent_to_email, message)
         }
         return mView
     }

@@ -1,6 +1,9 @@
-package com.softserveinc.test.secretsanta.presenter.login.state
+package com.softserveinc.test.secretsanta.controller.login.state
 
 class RegistrationState : State() {
+    override val initialState: Boolean
+        get() = false
+
     override fun forgetPassword(): State {
         return ForgetPasswordState()
     }

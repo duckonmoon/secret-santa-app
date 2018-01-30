@@ -1,17 +1,19 @@
-package com.softserveinc.test.secretsanta.presenter.login.state
+package com.softserveinc.test.secretsanta.controller.login.state
 
 import com.softserveinc.test.secretsanta.exception.StateException
 
 abstract class State {
-    open fun pass() : State{
+    abstract val initialState : Boolean
+
+    open fun pass(): State {
         throw StateException()
     }
 
-    open fun registration()  : State{
+    open fun registration(): State {
         throw StateException()
     }
 
-    open fun forgetPassword()  : State{
+    open fun forgetPassword(): State {
         throw StateException()
     }
 
@@ -19,7 +21,7 @@ abstract class State {
         throw StateException()
     }
 
-    open fun registrationSuccess(): State{
+    open fun registrationSuccess(): State {
         throw StateException()
     }
 }

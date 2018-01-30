@@ -10,10 +10,9 @@ import android.view.MenuItem
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.application.App
 import com.softserveinc.test.secretsanta.dialog.NewYearDialog
-import com.softserveinc.test.secretsanta.presenter.LoginPresenter
-import com.softserveinc.test.secretsanta.presenter.LoginPresenterImp
+import com.softserveinc.test.secretsanta.controller.LoginController
+import com.softserveinc.test.secretsanta.controller.LoginControllerImp
 import com.softserveinc.test.secretsanta.service.FirebaseService
-import com.softserveinc.test.secretsanta.util.StartActivityClass
 import com.softserveinc.test.secretsanta.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
@@ -24,7 +23,7 @@ class LoginActivity : AppCompatActivity() {
     @Inject
     lateinit var firebaseService: FirebaseService
 
-    lateinit var presenter: LoginPresenter
+    lateinit var controller: LoginController
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,9 +32,8 @@ class LoginActivity : AppCompatActivity() {
         setSupportActionBar(tool_bar as Toolbar)
         App.INSTANCE.component.inject(this)
         setViewModel()
-
         if (firebaseService.checkIfCurrentUserExists() && firebaseService.checkIfEmailIsVerified()) {
-            StartActivityClass.startGroupsActivity(this)
+            controller.goToPass()
         }
 
         makeFullUserOrientationForTablets()
@@ -43,12 +41,12 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setViewModel() {
         val viewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
-        presenter = LoginPresenterImp(activity = this)
-        viewModel.LoginPresenter = presenter
+        controller = LoginControllerImp(activity = this)
+        viewModel.LoginController = controller
     }
 
     override fun onBackPressed() {
-        if (presenter.onBackPressed()) {
+        if (controller.onBackPressed()) {
             super.onBackPressed()
         }
     }

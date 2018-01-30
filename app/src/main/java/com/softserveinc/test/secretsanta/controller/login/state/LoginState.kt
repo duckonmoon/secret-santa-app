@@ -1,7 +1,10 @@
-package com.softserveinc.test.secretsanta.presenter.login.state
+package com.softserveinc.test.secretsanta.controller.login.state
 
 class LoginState : State() {
-    override fun pass() : State{
+    override val initialState: Boolean
+        get() = true
+
+    override fun pass(): State {
         return LoginState()
     }
 

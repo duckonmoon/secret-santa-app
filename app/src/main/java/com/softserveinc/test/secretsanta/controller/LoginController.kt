@@ -1,8 +1,8 @@
-package com.softserveinc.test.secretsanta.presenter
+package com.softserveinc.test.secretsanta.controller
 
 
-interface LoginPresenter {
-    fun onBackPressed() : Boolean
+interface LoginController {
+    fun onBackPressed(): Boolean
     fun goToRegistration()
     fun goToLogin()
     fun goToForgetPassword()

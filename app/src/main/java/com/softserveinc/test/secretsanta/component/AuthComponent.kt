@@ -1,7 +1,7 @@
 package com.softserveinc.test.secretsanta.component
 
-import com.softserveinc.test.secretsanta.activity.GroupDetailActivity
 import com.softserveinc.test.secretsanta.activity.CreateGroupActivity
+import com.softserveinc.test.secretsanta.activity.GroupDetailActivity
 import com.softserveinc.test.secretsanta.activity.GroupsActivity
 import com.softserveinc.test.secretsanta.activity.LoginActivity
 import com.softserveinc.test.secretsanta.application.App

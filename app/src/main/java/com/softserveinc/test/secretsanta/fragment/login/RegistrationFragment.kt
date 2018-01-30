@@ -1,7 +1,6 @@
 package com.softserveinc.test.secretsanta.fragment.login
 
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -13,10 +12,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.softserveinc.test.secretsanta.R
-import com.softserveinc.test.secretsanta.activity.LoginActivity
 import com.softserveinc.test.secretsanta.application.App
 import com.softserveinc.test.secretsanta.exception.RegistrationException
-import com.softserveinc.test.secretsanta.presenter.LoginPresenter
+import com.softserveinc.test.secretsanta.controller.LoginController
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_registration.view.*
@@ -34,8 +32,8 @@ class RegistrationFragment : Fragment() {
 
     private lateinit var currentView: View
 
-    private val presenter : LoginPresenter by lazy {
-        ViewModelProviders.of(activity!!).get(LoginViewModel::class.java).LoginPresenter
+    private val controller: LoginController by lazy {
+        ViewModelProviders.of(activity!!).get(LoginViewModel::class.java).LoginController
     }
 
 
@@ -51,7 +49,7 @@ class RegistrationFragment : Fragment() {
         currentView.setOnClickListener { }
 
         currentView.btn_login_reg.setOnClickListener {
-            presenter.goToLogin()
+            controller.goToLogin()
         }
 
         currentView.btn_register.setOnClickListener {
@@ -107,7 +105,7 @@ class RegistrationFragment : Fragment() {
                     firebaseService.sendEmailVerification()
                     firebaseService.setUserNickname(nickname = currentNickname)
 
-                    presenter.goToRegistrationSuccess(currentEmail)
+                    controller.goToRegistrationSuccess(currentEmail)
                 } else {
                     makeSnackbar(getString(R.string.error))
                 }

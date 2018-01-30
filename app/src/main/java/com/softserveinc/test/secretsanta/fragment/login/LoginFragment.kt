@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import com.google.android.gms.tasks.OnCompleteListener
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.application.App
-import com.softserveinc.test.secretsanta.presenter.LoginPresenter
+import com.softserveinc.test.secretsanta.controller.LoginController
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_login.view.*
@@ -20,12 +20,12 @@ class LoginFragment : Fragment() {
 
     private lateinit var mView: View
 
-    private val presenter : LoginPresenter by lazy {
-        ViewModelProviders.of(activity!!).get(LoginViewModel::class.java).LoginPresenter
+    private val controller: LoginController by lazy {
+        ViewModelProviders.of(activity!!).get(LoginViewModel::class.java).LoginController
     }
 
     @Inject
-    lateinit var firebaseService : FirebaseService
+    lateinit var firebaseService: FirebaseService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +40,7 @@ class LoginFragment : Fragment() {
         }
 
         mView.btn_signup.setOnClickListener {
-            presenter.goToRegistration()
+            controller.goToRegistration()
         }
         return mView
     }
@@ -57,7 +57,7 @@ class LoginFragment : Fragment() {
             firebaseService.signInWithEmailAndPassword(emailString, passwordString, OnCompleteListener { task ->
                 if (task.isSuccessful) {
                     if (firebaseService.checkIfEmailIsVerified()) {
-                        presenter.goToPass()
+                        controller.goToPass()
                     } else {
                         makeSnackbar(getString(R.string.verification,
                                 firebaseService.getUserEmail()))
