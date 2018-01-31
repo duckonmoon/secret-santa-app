@@ -7,14 +7,15 @@ import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.controller.login.state.LoginState
 import com.softserveinc.test.secretsanta.controller.login.state.State
 import com.softserveinc.test.secretsanta.exception.StateException
+import com.softserveinc.test.secretsanta.fragment.login.ForgetPasswordFragment
 import com.softserveinc.test.secretsanta.fragment.login.LoginFragment
 import com.softserveinc.test.secretsanta.fragment.login.RegistrationFragment
-import com.softserveinc.test.secretsanta.fragment.login.RegistrationSuccessFragment
+import com.softserveinc.test.secretsanta.fragment.login.SuccessFragment
 import com.softserveinc.test.secretsanta.util.StartActivityClass
 
-class LoginControllerImp(private val activity: AppCompatActivity) : LoginController {
+class LoginControllerImp(override var activity: AppCompatActivity) : LoginController {
     private var state: State
-    private val supportFragmentManager: FragmentManager = activity.supportFragmentManager
+    private fun supportFragmentManager(): FragmentManager = activity.supportFragmentManager
 
     init {
         state = LoginState()
@@ -41,17 +42,17 @@ class LoginControllerImp(private val activity: AppCompatActivity) : LoginControl
 
     override fun goToForgetPassword() {
         try {
-            throw StateException()
             state = state.forgetPassword()
+            replaceFragments(ForgetPasswordFragment())
         } catch (e: StateException) {
             e.printStackTrace()
         }
     }
 
-    override fun goToRegistrationSuccess(message: String) {
+    override fun goToSuccess(message: String) {
         try {
-            state = state.registrationSuccess()
-            replaceFragments(RegistrationSuccessFragment.newInstance(message = message))
+            state = state.success()
+            replaceFragments(SuccessFragment.newInstance(message = message))
         } catch (e: StateException) {
             e.printStackTrace()
         }
@@ -75,7 +76,7 @@ class LoginControllerImp(private val activity: AppCompatActivity) : LoginControl
     }
 
     private fun replaceFragments(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
+        val transaction = supportFragmentManager().beginTransaction()
         transaction.replace(R.id.container, fragment)
         transaction.commit()
     }

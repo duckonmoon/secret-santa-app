@@ -11,4 +11,8 @@ class ForgetPasswordState : State() {
     override fun login(): State {
         return LoginState()
     }
+
+    override fun success(): State {
+        return SuccessState()
+    }
 }

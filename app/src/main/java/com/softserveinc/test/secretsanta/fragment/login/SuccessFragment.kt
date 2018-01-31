@@ -10,15 +10,15 @@ import com.softserveinc.test.secretsanta.R
 import kotlinx.android.synthetic.main.fragment_registration_success.view.*
 
 
-class RegistrationSuccessFragment : Fragment() {
+class SuccessFragment : Fragment() {
 
     companion object {
         const val MESSAGE = "message"
 
-        fun newInstance(message: String): RegistrationSuccessFragment {
-            val fragment = RegistrationSuccessFragment()
+        fun newInstance(message: String): SuccessFragment {
+            val fragment = SuccessFragment()
             val args = Bundle()
-            args.putString(RegistrationSuccessFragment.MESSAGE, message)
+            args.putString(SuccessFragment.MESSAGE, message)
             fragment.arguments = args
             return fragment
         }
@@ -40,7 +40,7 @@ class RegistrationSuccessFragment : Fragment() {
         mView = inflater.inflate(R.layout.fragment_registration_success, container, false)
 
         if (message != null) {
-            mView.verify_email_text.text = getString(R.string.sent_to_email, message)
+            mView.verify_email_text.text = message
         }
         return mView
     }

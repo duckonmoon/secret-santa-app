@@ -8,12 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/top_margin"
-        android:layout_marginEnd="@dimen/top_margin"
-        android:layout_marginStart="@dimen/top_margin"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
         android:id="@+id/linear_layout"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="@dimen/activity_horizontal_margin">
+        >
 
 
         <ImageView

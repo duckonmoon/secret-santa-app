@@ -21,7 +21,7 @@ class LoginFragment : Fragment() {
     private lateinit var mView: View
 
     private val controller: LoginController by lazy {
-        ViewModelProviders.of(activity!!).get(LoginViewModel::class.java).LoginController
+        ViewModelProviders.of(activity!!).get(LoginViewModel::class.java).loginController
     }
 
     @Inject
@@ -41,6 +41,10 @@ class LoginFragment : Fragment() {
 
         mView.btn_signup.setOnClickListener {
             controller.goToRegistration()
+        }
+
+        mView.btn_reset_password.setOnClickListener {
+            controller.goToForgetPassword()
         }
         return mView
     }

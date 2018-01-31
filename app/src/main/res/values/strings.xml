@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Secret Santa</string>
-    <string name="app_id">989230937902245</string>
+    <string name="app_name" translatable="false">Secret Santa</string>
+    <string name="app_id" translatable="false">989230937902245</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -46,4 +46,10 @@
     <string name="cancel_confirmation">Cancel\nConfirmation</string>
     <string name="group_image">Group Image</string>
     <string name="randomize">Randomize</string>
+
+    <string name="lbl_forgot_password">Forgot password?</string>
+    <string name="forgot_password_msg">We just need your registered Email to sent you password reset instructions.</string>
+    <string name="btn_reset_password">Reset Password</string>
+    <string name="btn_back"><![CDATA[<< Back]]></string>
+    <string name="sent_instructions">Restore instructions was sent to your email!</string>
 </resources>

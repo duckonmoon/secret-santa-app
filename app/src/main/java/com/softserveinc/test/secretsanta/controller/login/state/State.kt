@@ -21,7 +21,7 @@ abstract class State {
         throw StateException()
     }
 
-    open fun registrationSuccess(): State {
+    open fun success(): State {
         throw StateException()
     }
 }

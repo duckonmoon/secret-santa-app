@@ -1,7 +1,7 @@
 package com.softserveinc.test.secretsanta.controller.login.state
 
 
-class RegistrationSuccessState : State() {
+class SuccessState : State() {
     override val initialState: Boolean
         get() = false
 

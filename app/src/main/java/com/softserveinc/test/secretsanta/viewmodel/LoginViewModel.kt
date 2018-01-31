@@ -4,5 +4,5 @@ import android.arch.lifecycle.ViewModel
 import com.softserveinc.test.secretsanta.controller.LoginController
 
 class LoginViewModel : ViewModel() {
-    lateinit var LoginController: LoginController
+    lateinit var loginController: LoginController
 }

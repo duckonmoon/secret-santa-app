@@ -31,7 +31,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         setSupportActionBar(tool_bar as Toolbar)
         App.INSTANCE.component.inject(this)
-        setViewModel()
+        setViewModel(savedInstanceState)
         if (firebaseService.checkIfCurrentUserExists() && firebaseService.checkIfEmailIsVerified()) {
             controller.goToPass()
         }
@@ -39,10 +39,15 @@ class LoginActivity : AppCompatActivity() {
         makeFullUserOrientationForTablets()
     }
 
-    private fun setViewModel() {
+    private fun setViewModel(savedInstanceState: Bundle?) {
         val viewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
-        controller = LoginControllerImp(activity = this)
-        viewModel.LoginController = controller
+        if (savedInstanceState == null) {
+            controller = LoginControllerImp(activity = this)
+            viewModel.loginController = controller
+        } else{
+            controller = viewModel.loginController
+            controller.activity = this
+        }
     }
 
     override fun onBackPressed() {

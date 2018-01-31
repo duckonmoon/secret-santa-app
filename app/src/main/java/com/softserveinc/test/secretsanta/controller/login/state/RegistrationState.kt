@@ -12,7 +12,7 @@ class RegistrationState : State() {
         return LoginState()
     }
 
-    override fun registrationSuccess(): State {
-        return RegistrationSuccessState()
+    override fun success(): State {
+        return SuccessState()
     }
 }

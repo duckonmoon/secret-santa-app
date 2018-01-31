@@ -33,7 +33,7 @@ class RegistrationFragment : Fragment() {
     private lateinit var currentView: View
 
     private val controller: LoginController by lazy {
-        ViewModelProviders.of(activity!!).get(LoginViewModel::class.java).LoginController
+        ViewModelProviders.of(activity!!).get(LoginViewModel::class.java).loginController
     }
 
 
@@ -54,6 +54,10 @@ class RegistrationFragment : Fragment() {
 
         currentView.btn_register.setOnClickListener {
             register()
+        }
+
+        currentView.btn_reset_password.setOnClickListener {
+            controller.goToForgetPassword()
         }
 
         return currentView
@@ -114,7 +118,7 @@ class RegistrationFragment : Fragment() {
                     firebaseService.sendEmailVerification()
                     firebaseService.setUserNickname(nickname = currentNickname)
                     try {
-                        controller.goToRegistrationSuccess(currentEmail)
+                        controller.goToSuccess(getString(R.string.sent_to_email, currentEmail))
                     } finally {
                     }
 
