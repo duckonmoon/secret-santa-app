@@ -12,6 +12,7 @@ import android.widget.*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+
 import com.softserveinc.test.secretsanta.R
 
 class MemberListWrapper(private val adapter: MemberListAdapter, private val listener: OnFooterActionDone)
@@ -128,9 +129,12 @@ class WrapperViewHolder(private val view: View?, private val listener: OnFooterA
     override fun onDataChange(dataSnapshot: DataSnapshot) {
         val arrayList = ArrayList<String>()
         dataSnapshot.children.mapTo(arrayList) { it.key }
-        Handler(Looper.getMainLooper()).post({
-            setNewArrayList(arrayList)
-        })
+        try {
+            Handler(Looper.getMainLooper()).post({
+                setNewArrayList(arrayList)
+            })
+        } finally {
+        }
     }
 
     override fun onCancelled(p0: DatabaseError?) {}

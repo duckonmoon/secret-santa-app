@@ -9,9 +9,9 @@ import android.view.Menu
 import android.view.MenuItem
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.application.App
-import com.softserveinc.test.secretsanta.dialog.NewYearDialog
 import com.softserveinc.test.secretsanta.controller.LoginController
 import com.softserveinc.test.secretsanta.controller.LoginControllerImp
+import com.softserveinc.test.secretsanta.dialog.NewYearDialog
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.activity_login.*

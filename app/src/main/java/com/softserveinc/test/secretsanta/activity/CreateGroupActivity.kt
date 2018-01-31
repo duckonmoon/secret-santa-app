@@ -71,16 +71,21 @@ class CreateGroupActivity : AppCompatActivity() {
             override fun onCancelled(p0: DatabaseError?) {}
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.value != null) {
-                    members.add(Member(nickname, "1"))
-                    recyclerview.adapter.notifyDataSetChanged()
-                    Toast.makeText(applicationContext, "Added", Toast.LENGTH_SHORT)
-                            .show()
-                } else {
-                    Toast.makeText(applicationContext, "Pls check if nick is correct", Toast.LENGTH_SHORT)
-                            .show()
+                try {
+                    if (dataSnapshot.value != null) {
+                        members.add(Member(nickname, "1"))
+                        recyclerview.adapter.notifyDataSetChanged()
+                        Toast.makeText(applicationContext, "Added", Toast.LENGTH_SHORT)
+                                .show()
+                    } else {
+                        Toast.makeText(applicationContext, "Pls check if nick is correct", Toast.LENGTH_SHORT)
+                                .show()
+                    }
+                    wrapperViewHolder.setState(State.ADD_MEMBERS)
+                } finally {
+
                 }
-                wrapperViewHolder.setState(State.ADD_MEMBERS)
+
             }
 
         })

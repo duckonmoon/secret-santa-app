@@ -3,7 +3,7 @@ package com.softserveinc.test.secretsanta.controller.login.state
 import com.softserveinc.test.secretsanta.exception.StateException
 
 abstract class State {
-    abstract val initialState : Boolean
+    abstract val initialState: Boolean
 
     open fun pass(): State {
         throw StateException()

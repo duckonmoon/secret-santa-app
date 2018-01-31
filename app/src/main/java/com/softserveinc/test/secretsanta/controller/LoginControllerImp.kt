@@ -4,12 +4,12 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import com.softserveinc.test.secretsanta.R
+import com.softserveinc.test.secretsanta.controller.login.state.LoginState
+import com.softserveinc.test.secretsanta.controller.login.state.State
 import com.softserveinc.test.secretsanta.exception.StateException
 import com.softserveinc.test.secretsanta.fragment.login.LoginFragment
 import com.softserveinc.test.secretsanta.fragment.login.RegistrationFragment
 import com.softserveinc.test.secretsanta.fragment.login.RegistrationSuccessFragment
-import com.softserveinc.test.secretsanta.controller.login.state.LoginState
-import com.softserveinc.test.secretsanta.controller.login.state.State
 import com.softserveinc.test.secretsanta.util.StartActivityClass
 
 class LoginControllerImp(private val activity: AppCompatActivity) : LoginController {

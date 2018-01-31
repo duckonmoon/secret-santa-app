@@ -13,8 +13,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.application.App
-import com.softserveinc.test.secretsanta.exception.RegistrationException
 import com.softserveinc.test.secretsanta.controller.LoginController
+import com.softserveinc.test.secretsanta.exception.RegistrationException
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_registration.view.*
@@ -80,13 +80,20 @@ class RegistrationFragment : Fragment() {
 
         firebaseService.checkIfNickExists(nickname = currentNickname, listener = object : ValueEventListener {
             override fun onCancelled(error: DatabaseError?) {
-                hideSpinner()
+                try {
+                    hideSpinner()
+                } finally {
+                }
+
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
                 if (dataSnapshot!!.value != null) {
-                    makeSnackbar("Nickname already exists")
-                    hideSpinner()
+                    try {
+                        makeSnackbar("Nickname already exists")
+                        hideSpinner()
+                    } finally {
+                    }
                 } else {
                     createUserWithEmailAndPassword(currentEmail, currentPassword, currentNickname)
                 }
@@ -99,15 +106,25 @@ class RegistrationFragment : Fragment() {
         try {
             firebaseService.createUserWithEmailAndPassword(currentEmail, currentPassword, listener = OnCompleteListener { task ->
 
-                hideSpinner()
-
+                try {
+                    hideSpinner()
+                } finally {
+                }
                 if (task.isSuccessful) {
                     firebaseService.sendEmailVerification()
                     firebaseService.setUserNickname(nickname = currentNickname)
+                    try {
+                        controller.goToRegistrationSuccess(currentEmail)
+                    } finally {
+                    }
 
-                    controller.goToRegistrationSuccess(currentEmail)
                 } else {
-                    makeSnackbar(getString(R.string.error))
+                    try {
+                        makeSnackbar(getString(R.string.error))
+                    } finally {
+
+                    }
+
                 }
             })
         } catch (e: Exception) {

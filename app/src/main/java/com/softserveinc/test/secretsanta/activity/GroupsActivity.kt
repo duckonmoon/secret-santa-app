@@ -83,9 +83,12 @@ class GroupsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
         firebaseService.getAllActivatedGroups(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                spinner.visibility = View.GONE
                 viewModel.groups = Mapper.mapFromDataSnapshotGroupsToStringGroups(dataSnapshot)
-                recycler_view.adapter = SimpleGroupAdapter(viewModel.groups, listener)
+                try {
+                    spinner.visibility = View.GONE
+                    recycler_view.adapter = SimpleGroupAdapter(viewModel.groups, listener)
+                } finally {
+                }
             }
 
             override fun onCancelled(p0: DatabaseError?) {

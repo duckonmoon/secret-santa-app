@@ -70,9 +70,14 @@ class PassiveGroupsFragment : Fragment() {
 
         firebaseService.getAllNotActivatedGroups(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                mView.spinner.visibility = View.GONE
                 viewModel.groups = Mapper.mapFromDataSnapshotGroupsToStringGroups(dataSnapshot)
-                mView.recycler_view.adapter = SimpleGroupAdapter(viewModel.groups, onItemIterationListener)
+                try {
+                    mView.spinner.visibility = View.GONE
+
+                    mView.recycler_view.adapter = SimpleGroupAdapter(viewModel.groups, onItemIterationListener)
+                } finally {
+                }
+
             }
 
             override fun onCancelled(p0: DatabaseError?) {
