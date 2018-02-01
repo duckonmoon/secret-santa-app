@@ -18,8 +18,10 @@ import com.softserveinc.test.secretsanta.R
 class MemberListWrapper(private val adapter: MemberListAdapter, private val listener: OnFooterActionDone)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val VIEW_TYPE_CELL = 1
-    private val VIEW_TYPE_FOOTER = 0
+    companion object {
+        private const val VIEW_TYPE_CELL = 1
+        private const val VIEW_TYPE_FOOTER = 0
+    }
 
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {

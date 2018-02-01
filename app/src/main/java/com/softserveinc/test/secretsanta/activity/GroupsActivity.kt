@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -26,6 +27,7 @@ import com.softserveinc.test.secretsanta.viewmodel.GroupViewModel
 import kotlinx.android.synthetic.main.activity_groups.*
 import kotlinx.android.synthetic.main.app_bar_groups.*
 import kotlinx.android.synthetic.main.content_groups.*
+import kotlinx.android.synthetic.main.nav_header_groups.view.*
 import javax.inject.Inject
 
 class GroupsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -63,7 +65,7 @@ class GroupsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
-
+        nav_view.getHeaderView(0).group_name.text = getString(R.string.ur_nickname_is, firebaseService.getUserNickname())
         initRecyclerView()
     }
 
@@ -145,6 +147,8 @@ class GroupsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         transaction.commit()
         return true
     }
+
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

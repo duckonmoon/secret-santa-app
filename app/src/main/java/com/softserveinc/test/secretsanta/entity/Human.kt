@@ -6,4 +6,5 @@ class Human {
     var activated = false
     var admin = false
     var preferences = ArrayList<String>()
+    var giftedBy = ""
 }

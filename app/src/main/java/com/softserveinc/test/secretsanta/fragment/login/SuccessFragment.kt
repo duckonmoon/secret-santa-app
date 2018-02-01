@@ -42,12 +42,12 @@ class SuccessFragment : Fragment() {
         if (message != null) {
             mView.verify_email_text.text = message
         }
-        return mView
-    }
 
-    override fun onStart() {
-        super.onStart()
-        crossfade()
+        if (savedInstanceState == null) {
+            crossfade()
+        }
+
+        return mView
     }
 
 

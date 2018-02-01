@@ -5,8 +5,7 @@
     <item android:id="@+id/action_add"
         android:title="add"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_add_black_24dp"
-        android:iconTint="@color/white" />
+        android:icon="@drawable/ic_add_black_24dp" />
 
     <item
         android:id="@+id/action_sign_out"

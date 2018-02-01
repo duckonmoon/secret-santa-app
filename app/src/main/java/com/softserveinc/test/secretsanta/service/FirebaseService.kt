@@ -64,6 +64,10 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
         return auth.currentUser!!.email
     }
 
+    fun getUserNickname() : String? {
+        return auth.currentUser!!.displayName
+    }
+
     fun signInWithEmailAndPassword(email: String, password: String, onCompleteListener: OnCompleteListener<AuthResult?>) {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(onCompleteListener)

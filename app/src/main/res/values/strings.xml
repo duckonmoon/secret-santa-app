@@ -52,4 +52,9 @@
     <string name="btn_reset_password">Reset Password</string>
     <string name="btn_back"><![CDATA[<< Back]]></string>
     <string name="sent_instructions">Restore instructions was sent to your email!</string>
+    <string name="ur_nickname_is">Nickname : %s</string>
+    <string name="admin">admin</string>
+    <string name="present">present</string>
+    <string name="accept_invitation">accept invitation</string>
+    <string name="cancel_invitation">cancel invitation</string>
 </resources>
