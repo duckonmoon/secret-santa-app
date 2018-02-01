@@ -5,4 +5,5 @@
     android:layout_height="wrap_content"
     android:background="@color/bootstrapRed"
     android:elevation="2dp"
+    android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
     app:title="@string/app_name" />
