@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/christmas_image">
+    android:background="@drawable/christmas_image"
+    tools:context=".activity.CreateGroupActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,6 +17,12 @@
             android:background="@drawable/rectangle_with_rounded_angles_white"
             android:gravity="center_horizontal"
             android:orientation="vertical">
+
+            <include
+                android:id="@+id/tool_bar"
+                layout="@layout/tool_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"

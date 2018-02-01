@@ -13,6 +13,11 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorPrimaryDark">@color/mainAppColorDarker</item>
+        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+    </style>
+
+    <style name="ActionBarStyle" parent="Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="android:titleTextStyle">@style/ToolbarTitleTextAppearance</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -34,5 +39,9 @@
         <item name="android:padding">3dp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/rectangle_with_rounded_angles_red</item>
+    </style>
+
+    <style name="ToolbarTitleTextAppearance" parent="android:TextAppearance">
+        <item name="fontPath">fonts/Sail-Regular.otf</item>
     </style>
 </resources>

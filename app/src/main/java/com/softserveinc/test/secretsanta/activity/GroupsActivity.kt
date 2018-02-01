@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.app_bar_groups.*
 import kotlinx.android.synthetic.main.content_groups.*
 import javax.inject.Inject
 
-class GroupsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class GroupsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private val viewModel: GroupViewModel by lazy {
         ViewModelProviders.of(this).get(GroupViewModel::class.java)

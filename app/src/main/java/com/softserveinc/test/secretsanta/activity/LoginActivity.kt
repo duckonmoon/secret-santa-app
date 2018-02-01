@@ -3,7 +3,6 @@ package com.softserveinc.test.secretsanta.activity
 import android.arch.lifecycle.ViewModelProviders
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
@@ -18,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
 
     @Inject
     lateinit var firebaseService: FirebaseService
@@ -44,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             controller = LoginControllerImp(activity = this)
             viewModel.loginController = controller
-        } else{
+        } else {
             controller = viewModel.loginController
             controller.activity = this
         }

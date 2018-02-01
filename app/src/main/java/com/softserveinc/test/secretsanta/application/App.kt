@@ -2,11 +2,15 @@ package com.softserveinc.test.secretsanta.application
 
 import android.app.Application
 import com.google.firebase.auth.FirebaseAuth
+import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.component.AuthComponent
 import com.softserveinc.test.secretsanta.component.DaggerAuthComponent
 import com.softserveinc.test.secretsanta.module.AppModule
 import com.softserveinc.test.secretsanta.module.FirebaseModule
 import javax.inject.Inject
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig
+
+
 
 
 class App : Application() {
@@ -30,6 +34,11 @@ class App : Application() {
         super.onCreate()
         component.inject(this)
         INSTANCE = this
+
+        CalligraphyConfig.initDefault(CalligraphyConfig.Builder()
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        )
     }
 
     fun signOut() {

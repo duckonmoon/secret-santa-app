@@ -182,7 +182,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
                 .addListenerForSingleValueEvent(listener)
     }
 
-    fun sendPasswordRestoreEmail(email: String,listener: OnCompleteListener<Void?>){
+    fun sendPasswordRestoreEmail(email: String, listener: OnCompleteListener<Void?>) {
         auth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(listener)
     }

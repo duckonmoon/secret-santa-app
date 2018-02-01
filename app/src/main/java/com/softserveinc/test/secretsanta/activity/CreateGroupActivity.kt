@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -20,7 +21,7 @@ import com.softserveinc.test.secretsanta.viewmodel.MembersViewModel
 import kotlinx.android.synthetic.main.create_group_activity.*
 import javax.inject.Inject
 
-class CreateGroupActivity : AppCompatActivity() {
+class CreateGroupActivity : BaseActivity() {
 
 
     private val viewModel: MembersViewModel by lazy {
@@ -38,6 +39,10 @@ class CreateGroupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.create_group_activity)
         App.INSTANCE.component.inject(this)
+
+        setSupportActionBar(tool_bar as Toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
 
         members.add(firebaseService.getCurrentUserAsMember())
 
