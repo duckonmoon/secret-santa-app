@@ -49,8 +49,7 @@ class GroupDetailActivity : BaseActivity() {
             viewModel.group = full
             try {
                 setAdapter()
-            } finally {
-
+            } catch (e: Exception) {
             }
         }
     }

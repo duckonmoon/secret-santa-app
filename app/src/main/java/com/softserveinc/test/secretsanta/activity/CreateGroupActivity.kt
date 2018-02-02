@@ -86,7 +86,7 @@ class CreateGroupActivity : BaseActivity() {
                                 .show()
                     }
                     wrapperViewHolder.setState(State.ADD_MEMBERS)
-                } finally {
+                } catch (e: Exception) {
                 }
             }
 

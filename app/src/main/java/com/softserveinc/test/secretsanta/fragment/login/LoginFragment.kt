@@ -20,6 +20,7 @@ class LoginFragment : Fragment() {
 
     private lateinit var mView: View
 
+
     private val controller: LoginController by lazy {
         ViewModelProviders.of(activity!!).get(LoginViewModel::class.java).loginController
     }

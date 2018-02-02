@@ -87,7 +87,7 @@ class GroupsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
                 try {
                     spinner.visibility = View.GONE
                     recycler_view.adapter = SimpleGroupAdapter(viewModel.groups, listener)
-                } finally {
+                } catch (e: Exception) {
                 }
             }
 

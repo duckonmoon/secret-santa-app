@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -86,7 +87,7 @@ class RegistrationFragment : Fragment() {
             override fun onCancelled(error: DatabaseError?) {
                 try {
                     hideSpinner()
-                } finally {
+                } catch (e: Exception) {
                 }
 
             }
@@ -96,7 +97,7 @@ class RegistrationFragment : Fragment() {
                     try {
                         makeSnackbar("Nickname already exists")
                         hideSpinner()
-                    } finally {
+                    } catch (e: Exception) {
                     }
                 } else {
                     createUserWithEmailAndPassword(currentEmail, currentPassword, currentNickname)
@@ -112,20 +113,21 @@ class RegistrationFragment : Fragment() {
 
                 try {
                     hideSpinner()
-                } finally {
+                } catch (e: Exception) {
                 }
                 if (task.isSuccessful) {
                     firebaseService.sendEmailVerification()
                     firebaseService.setUserNickname(nickname = currentNickname)
                     try {
                         controller.goToSuccess(getString(R.string.sent_to_email, currentEmail))
-                    } finally {
+                    } catch (e: Exception) {
+                        Log.e("ds","Illigal State Exeption")
                     }
 
                 } else {
                     try {
                         makeSnackbar(getString(R.string.error))
-                    } finally {
+                    } catch(e: Exception) {
 
                     }
 

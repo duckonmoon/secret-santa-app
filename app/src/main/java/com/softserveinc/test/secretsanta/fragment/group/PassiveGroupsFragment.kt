@@ -1,7 +1,6 @@
 package com.softserveinc.test.secretsanta.fragment.group
 
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -74,7 +73,7 @@ class PassiveGroupsFragment : Fragment() {
                     mView.spinner.visibility = View.GONE
 
                     mView.recycler_view.adapter = SimpleGroupAdapter(viewModel.groups, onItemIterationListener)
-                } finally {
+                } catch (e: Exception) {
                 }
 
             }

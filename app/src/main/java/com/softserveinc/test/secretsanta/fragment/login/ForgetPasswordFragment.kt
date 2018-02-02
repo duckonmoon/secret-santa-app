@@ -61,7 +61,7 @@ class ForgetPasswordFragment : Fragment() {
 
                     }
                     hideSpinner()
-                } finally {
+                } catch (e: Exception) {
                 }
             })
         }
