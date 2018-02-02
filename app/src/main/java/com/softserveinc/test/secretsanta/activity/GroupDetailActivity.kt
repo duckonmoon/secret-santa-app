@@ -66,12 +66,8 @@ class GroupDetailActivity : BaseActivity() {
 
         recyclerview.layoutManager = LinearLayoutManager(this)
 
-        if (!group.activated){
-            activate_button.visibility = View.VISIBLE
-            activate_button.setOnClickListener {
-                activate_button.text = getString(R.string.cancel_invitation)
-            }
-        }
+
+        setInvitationButton()
 
         if (viewModel.group == null) {
             firebaseService.getGroupInfo(group.id, listener)
@@ -80,8 +76,23 @@ class GroupDetailActivity : BaseActivity() {
         }
     }
 
+    private fun setInvitationButton() {
+        if (!group.activated) {
+            activate_button.visibility = View.VISIBLE
+            activate_button.setOnClickListener {
+                group.activated = !group.activated
+                firebaseService.updateGroupActivationStatus(group)
+                activate_button.text = if (group.activated) {
+                    getString(R.string.cancel_invitation)
+                } else {
+                    getString(R.string.accept_invitation)
+                }
+            }
+        }
+    }
+
     private fun setAdapter() {
-        recyclerview.adapter = HumanListAdapter(viewModel.group!!.humans.values.toList(),firebaseService.getUserNickname()!!)
+        recyclerview.adapter = HumanListAdapter(viewModel.group!!.humans.values.toList(), firebaseService.getUserNickname()!!)
     }
 
     private fun bindData() {

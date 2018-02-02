@@ -64,7 +64,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
         return auth.currentUser!!.email
     }
 
-    fun getUserNickname() : String? {
+    fun getUserNickname(): String? {
         return auth.currentUser!!.displayName
     }
 

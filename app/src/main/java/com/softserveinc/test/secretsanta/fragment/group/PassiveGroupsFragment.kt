@@ -1,6 +1,7 @@
 package com.softserveinc.test.secretsanta.fragment.group
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -56,7 +57,7 @@ class PassiveGroupsFragment : Fragment() {
         mView.recycler_view.layoutManager = LinearLayoutManager(context)
 
         if (viewModel.groups.isEmpty()) {
-            getUpdate()
+            mView.spinner.visibility = View.VISIBLE
         } else {
             mView.spinner.visibility = View.GONE
         }
@@ -66,8 +67,6 @@ class PassiveGroupsFragment : Fragment() {
 
 
     private fun getUpdate() {
-        mView.spinner.visibility = View.VISIBLE
-
         firebaseService.getAllNotActivatedGroups(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 viewModel.groups = Mapper.mapFromDataSnapshotGroupsToStringGroups(dataSnapshot)
@@ -84,5 +83,10 @@ class PassiveGroupsFragment : Fragment() {
 
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getUpdate()
     }
 }

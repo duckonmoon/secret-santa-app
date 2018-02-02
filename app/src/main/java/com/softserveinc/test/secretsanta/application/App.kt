@@ -7,10 +7,8 @@ import com.softserveinc.test.secretsanta.component.AuthComponent
 import com.softserveinc.test.secretsanta.component.DaggerAuthComponent
 import com.softserveinc.test.secretsanta.module.AppModule
 import com.softserveinc.test.secretsanta.module.FirebaseModule
-import javax.inject.Inject
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig
-
-
+import javax.inject.Inject
 
 
 class App : Application() {

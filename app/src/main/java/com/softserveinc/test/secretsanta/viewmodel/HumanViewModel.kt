@@ -5,5 +5,5 @@ import com.softserveinc.test.secretsanta.entity.GroupFull
 
 
 class HumanViewModel : ViewModel() {
-    var group : GroupFull? = null
+    var group: GroupFull? = null
 }
