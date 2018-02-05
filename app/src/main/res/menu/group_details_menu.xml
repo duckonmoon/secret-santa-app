@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="@string/randomize"
+        android:id="@+id/randomize"/>
+
+    <item android:title="@string/my_wishlist"
+        android:id="@+id/wish_list"/>
+</menu>

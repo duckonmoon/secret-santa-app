@@ -39,6 +39,7 @@
     <string name="friend_s_nickname">Friend\'s nickname</string>
     <string name="add">Add</string>
     <string name="members_count_and_date_created">Members : %d\nCreated :\n %s</string>
+    <string name="members_count">Members : %d</string>
     <string name="my_groups">My Groups</string>
     <string name="group_requests">Group Requests</string>
 
@@ -57,4 +58,6 @@
     <string name="present">present</string>
     <string name="accept_invitation">accept invitation</string>
     <string name="cancel_invitation">cancel invitation</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="my_wishlist">My WishList</string>
 </resources>

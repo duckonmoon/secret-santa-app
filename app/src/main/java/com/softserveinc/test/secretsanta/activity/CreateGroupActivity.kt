@@ -93,6 +93,8 @@ class CreateGroupActivity : BaseActivity() {
         })
     }
 
+
+
     private fun checkIfNickIsInMembers(nickname: String): Boolean {
         return members.any { it.name == nickname }
     }

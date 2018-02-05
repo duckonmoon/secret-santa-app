@@ -6,8 +6,6 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'kotlin-android-extensions'
 
-
-
 android {
     externalNativeBuild {
         cmake {
@@ -66,13 +64,5 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$daggerVer"
     kapt 'com.android.databinding:compiler:3.0.1'
 }
-
-
-
-
-
-
-
-
 
 apply plugin: 'com.google.gms.google-services'
