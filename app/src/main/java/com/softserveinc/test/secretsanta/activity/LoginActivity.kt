@@ -63,7 +63,8 @@ class LoginActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.house -> {
-                NewYearDialog(this).show()
+                val message = getString(R.string.merry_christmas_and_happy_new_year)
+                NewYearDialog(this, message).show()
             }
             else -> return super.onOptionsItemSelected(item)
         }

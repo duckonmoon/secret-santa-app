@@ -60,4 +60,7 @@
     <string name="cancel_invitation">cancel invitation</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="my_wishlist">My WishList</string>
+    <string name="rerandom">Do You want to rerun randomize?</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
 </resources>

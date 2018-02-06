@@ -23,6 +23,8 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
         const val TITLE = "title"
         const val MEMBERS = "members"
         const val DATE_CREATED = "date_created"
+        const val GIFTED_BY = "giftedBy"
+        const val RANDOMIZE = "randomize"
     }
 
 
@@ -189,5 +191,19 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
     fun sendPasswordRestoreEmail(email: String, listener: OnCompleteListener<Void?>) {
         auth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(listener)
+    }
+
+    fun randomizeGroup(group: GroupFull) {
+        group.randomize = true
+        val dbReference = database.getReference(Constants.GROUPS)
+                .child(group.id)
+        for (human in group.humans.values) {
+            dbReference.child(Constants.HUMANS)
+                    .child(human.nickname)
+                    .child(GIFTED_BY)
+                    .setValue(human.giftedBy)
+        }
+        dbReference.child(RANDOMIZE)
+                .setValue(group.randomize)
     }
 }

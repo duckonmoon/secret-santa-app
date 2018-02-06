@@ -43,7 +43,9 @@ class CreateGroupActivity : BaseActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
 
-        members.add(firebaseService.getCurrentUserAsMember())
+        if (savedInstanceState==null) {
+            members.add(firebaseService.getCurrentUserAsMember())
+        }
 
         val adapter = MemberListWrapper(MemberListAdapter(members, listener = object : OnItemClickListener {
             override fun onRemoveButtonClick(position: Int) {

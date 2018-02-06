@@ -1,11 +1,11 @@
 package com.softserveinc.test.secretsanta.activity
 
 import android.arch.lifecycle.ViewModelProviders
-import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -13,16 +13,17 @@ import com.google.firebase.database.ValueEventListener
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.adapter.HumanListAdapter
 import com.softserveinc.test.secretsanta.application.App
+import com.softserveinc.test.secretsanta.dialog.NewYearConfirmationDialog
 import com.softserveinc.test.secretsanta.entity.Group
 import com.softserveinc.test.secretsanta.entity.GroupFull
 import com.softserveinc.test.secretsanta.entity.Human
-import com.softserveinc.test.secretsanta.entity.Member
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.viewmodel.HumanViewModel
 import kotlinx.android.synthetic.main.activity_group_detail.*
 import kotlinx.android.synthetic.main.group_details_tool_bar.*
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class GroupDetailActivity : BaseActivity() {
 
@@ -33,7 +34,7 @@ class GroupDetailActivity : BaseActivity() {
     @Inject
     lateinit var firebaseService: FirebaseService
 
-    private lateinit var full: GroupFull
+    private lateinit var menu: Menu
 
     private val group: Group by lazy {
         intent.extras[GROUP] as Group
@@ -48,17 +49,18 @@ class GroupDetailActivity : BaseActivity() {
         }
 
         override fun onDataChange(dataSnapshot: DataSnapshot) {
-            full = dataSnapshot.getValue(GroupFull::class.java)!!
+            val full = dataSnapshot.getValue(GroupFull::class.java)!!
             viewModel.group = full
-
-            /*val u = ArrayList<Human>()
-            u.addAll(viewModel.group!!.humans.values)
-            Collections.shuffle(u)*/
             try {
                 setAdapter()
+                setMenuItemVisibility()
             } catch (e: Exception) {
             }
         }
+    }
+
+    private fun setMenuItemVisibility() {
+        menu.findItem(R.id.randomize).isVisible = checkRights()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,10 +74,9 @@ class GroupDetailActivity : BaseActivity() {
         supportActionBar!!.title = ""
 
         group_title_text_view.text = group.title
-        member_count.text = getString(R.string.members_count,group.members)
+        member_count.text = getString(R.string.members_count, group.members)
 
         recyclerview.layoutManager = LinearLayoutManager(this)
-
 
         setInvitationButton()
 
@@ -101,9 +102,67 @@ class GroupDetailActivity : BaseActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    private fun checkRights(): Boolean {
+        if (viewModel.group != null) {
+            val nickname: String = firebaseService.getUserNickname()!!
+            return viewModel.group!!.humans[nickname]!!.admin
+        }
+        return false
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.group_details_menu, menu)
+        this.menu = menu
+        setMenuItemVisibility()
         return true
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.randomize -> randomize()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun randomize() {
+        if (!viewModel.group!!.randomize) {
+            doRandomChanges()
+        } else {
+            buildConfirmationDialog()
+        }
+    }
+
+    private fun doRandomChanges() {
+        orderHumansInRandomWay()
+        notifyFirebase()
+        recyclerview.adapter.notifyDataSetChanged()
+    }
+
+    private fun notifyFirebase() {
+        firebaseService.randomizeGroup(viewModel.group!!)
+    }
+
+    private fun buildConfirmationDialog() {
+        NewYearConfirmationDialog.Builder(this)
+                .setMessage(getString(R.string.rerandom))
+                .setYesButtonClickListener(View.OnClickListener {
+                    doRandomChanges()
+                })
+                .setNoButtonClickListener(View.OnClickListener {
+
+                }).build().show()
+    }
+
+    private fun orderHumansInRandomWay(): ArrayList<Human> {
+        val humans = ArrayList<Human>()
+        humans.addAll(viewModel.group!!.humans.values)
+        Collections.shuffle(humans)
+        for (i in 0 until humans.size - 1) {
+            humans[i].giftedBy = humans[i + 1].nickname
+        }
+        humans[humans.size - 1].giftedBy = humans[0].nickname
+        return humans
     }
 
 

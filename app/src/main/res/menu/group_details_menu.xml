@@ -2,6 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:title="@string/randomize"
+        android:visible="false"
         android:id="@+id/randomize"/>
 
     <item android:title="@string/my_wishlist"
