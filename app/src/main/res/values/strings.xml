@@ -63,4 +63,7 @@
     <string name="rerandom">Do You want to rerun randomize?</string>
     <string name="yes">yes</string>
     <string name="no">no</string>
+    <string name="wish_string">• %s</string>
+    <string name="input_what_you_want_for_christmas">Input what you want for Christmas</string>
+    <string name="accept_leave">Do you want to leave this page with unsaved changes?</string>
 </resources>

@@ -2,12 +2,11 @@ package com.softserveinc.test.secretsanta.util
 
 import android.app.Activity
 import android.content.Intent
-import com.softserveinc.test.secretsanta.activity.CreateGroupActivity
-import com.softserveinc.test.secretsanta.activity.GroupDetailActivity
-import com.softserveinc.test.secretsanta.activity.GroupsActivity
-import com.softserveinc.test.secretsanta.activity.LoginActivity
+import com.softserveinc.test.secretsanta.activity.*
 import com.softserveinc.test.secretsanta.application.App
+import com.softserveinc.test.secretsanta.constans.Constants
 import com.softserveinc.test.secretsanta.entity.Group
+import com.softserveinc.test.secretsanta.entity.GroupFull
 
 class StartActivityClass {
     companion object {
@@ -44,6 +43,19 @@ class StartActivityClass {
             val intent = Intent(activity, GroupDetailActivity::class.java)
             intent.putExtra(GroupDetailActivity.GROUP, group)
             activity.startActivity(intent)
+        }
+
+        fun startMyWishListActivity(activity: Activity, group: GroupFull) {
+            val intent = Intent(activity,MyWishListActivity::class.java)
+            intent.putExtra(MyWishListActivity.FULL_GROUP, group)
+            activity.startActivityForResult(intent,Constants.REQUEST_CODE)
+        }
+
+        fun finishActivityWithReturnFullGroup(activity: Activity,group: GroupFull){
+            val intent = Intent()
+            intent.putExtra(MyWishListActivity.FULL_GROUP,group)
+            activity.setResult(Activity.RESULT_OK,intent)
+            activity.finish()
         }
     }
 }

@@ -1,6 +1,8 @@
 package com.softserveinc.test.secretsanta.entity
 
-class Human {
+import java.io.Serializable
+
+class Human : Serializable{
     var nickname = ""
     var image = ""
     var activated = false

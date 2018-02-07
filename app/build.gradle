@@ -65,4 +65,5 @@ dependencies {
     kapt 'com.android.databinding:compiler:3.0.1'
 }
 
+
 apply plugin: 'com.google.gms.google-services'

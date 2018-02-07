@@ -8,5 +8,6 @@ interface Constants {
         const val USERS = "users"
         const val GROUPS = "groups"
         const val HUMANS = "humans"
+        const val REQUEST_CODE = 1
     }
 }

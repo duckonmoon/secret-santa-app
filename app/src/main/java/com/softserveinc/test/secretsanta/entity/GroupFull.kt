@@ -1,6 +1,8 @@
 package com.softserveinc.test.secretsanta.entity
 
-class GroupFull {
+import java.io.Serializable
+
+class GroupFull : Serializable {
     var id = ""
     var title = ""
     var randomize = false

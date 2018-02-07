@@ -1,6 +1,8 @@
 package com.softserveinc.test.secretsanta.activity
 
+import android.app.Activity
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
@@ -13,11 +15,13 @@ import com.google.firebase.database.ValueEventListener
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.adapter.HumanListAdapter
 import com.softserveinc.test.secretsanta.application.App
+import com.softserveinc.test.secretsanta.constans.Constants
 import com.softserveinc.test.secretsanta.dialog.NewYearConfirmationDialog
 import com.softserveinc.test.secretsanta.entity.Group
 import com.softserveinc.test.secretsanta.entity.GroupFull
 import com.softserveinc.test.secretsanta.entity.Human
 import com.softserveinc.test.secretsanta.service.FirebaseService
+import com.softserveinc.test.secretsanta.util.StartActivityClass
 import com.softserveinc.test.secretsanta.viewmodel.HumanViewModel
 import kotlinx.android.synthetic.main.activity_group_detail.*
 import kotlinx.android.synthetic.main.group_details_tool_bar.*
@@ -60,7 +64,10 @@ class GroupDetailActivity : BaseActivity() {
     }
 
     private fun setMenuItemVisibility() {
-        menu.findItem(R.id.randomize).isVisible = checkRights()
+        if (viewModel.group != null) {
+            menu.findItem(R.id.randomize).isVisible = checkRights()
+            menu.findItem(R.id.wish_list).isVisible = true
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -121,6 +128,7 @@ class GroupDetailActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.randomize -> randomize()
+            R.id.wish_list -> StartActivityClass.startMyWishListActivity(this, viewModel.group!!)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -173,5 +181,12 @@ class GroupDetailActivity : BaseActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Constants.REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
+            viewModel.group = data.extras[MyWishListActivity.FULL_GROUP] as GroupFull
+        }
     }
 }
