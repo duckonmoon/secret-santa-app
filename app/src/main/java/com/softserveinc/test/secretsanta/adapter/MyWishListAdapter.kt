@@ -9,7 +9,7 @@ import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.application.App
 
 
-class MyWishListAdapter(private val wishes : MutableList<String>) : RecyclerView.Adapter<MyWishListViewHolder>() {
+class MyWishListAdapter(private val wishes: MutableList<String>) : RecyclerView.Adapter<MyWishListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): MyWishListViewHolder {
         return MyWishListViewHolder(view = LayoutInflater.from(parent!!.context)
@@ -21,11 +21,11 @@ class MyWishListAdapter(private val wishes : MutableList<String>) : RecyclerView
     }
 
     override fun onBindViewHolder(holder: MyWishListViewHolder, position: Int) {
-        holder.textField.text = App.INSTANCE.getString(R.string.wish_string,wishes[position])
+        holder.textField.text = App.INSTANCE.getString(R.string.wish_string, wishes[position])
     }
 }
 
 
-class MyWishListViewHolder(view: View) : RecyclerView.ViewHolder(view){
-    val textField : TextView = view.findViewById(R.id.text_field)
+class MyWishListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    val textField: TextView = view.findViewById(R.id.text_field)
 }

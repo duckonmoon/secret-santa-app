@@ -13,7 +13,6 @@ import com.softserveinc.test.secretsanta.entity.Human
 import com.softserveinc.test.secretsanta.entity.Member
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class FirebaseService(private val database: FirebaseDatabase, private val auth: FirebaseAuth) {
@@ -209,7 +208,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
                 .setValue(group.randomize)
     }
 
-    fun setMyPreferences(groupFull: GroupFull,me : Human, wishes: ArrayList<String>) {
+    fun setMyPreferences(groupFull: GroupFull, me: Human, wishes: ArrayList<String>) {
         me.preferences = wishes
         database.getReference(Constants.GROUPS)
                 .child(groupFull.id)

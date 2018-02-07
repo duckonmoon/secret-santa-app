@@ -34,7 +34,7 @@ class WishesViewModel : ViewModel() {
         })
     }
 
-    fun reset(){
+    fun reset() {
         isChanged = false
     }
 }

@@ -10,7 +10,7 @@ import android.view.Window
 import com.softserveinc.test.secretsanta.R
 import kotlinx.android.synthetic.main.new_year_confirmation_dialog.*
 
-class NewYearConfirmationDialog(context: Context) : Dialog(context){
+class NewYearConfirmationDialog(context: Context) : Dialog(context) {
     private var yesClickListener = View.OnClickListener {
     }
 
@@ -29,44 +29,44 @@ class NewYearConfirmationDialog(context: Context) : Dialog(context){
             yesClickListener.onClick(it)
             dismiss()
         }
-        no.setOnClickListener{
+        no.setOnClickListener {
             noClickListener.onClick(it)
             dismiss()
         }
         message_holder.text = message
     }
 
-    fun setOnYesButtonClickListener(listener : View.OnClickListener){
+    fun setOnYesButtonClickListener(listener: View.OnClickListener) {
         yesClickListener = listener
     }
 
-    fun setOnNoButtonClickListener(listener: View.OnClickListener){
+    fun setOnNoButtonClickListener(listener: View.OnClickListener) {
         noClickListener = listener
     }
 
-    fun setMessage(message: String){
+    fun setMessage(message: String) {
         this.message = message
     }
 
-    class Builder(context: Context){
-        private val dialog : NewYearConfirmationDialog = NewYearConfirmationDialog(context)
+    class Builder(context: Context) {
+        private val dialog: NewYearConfirmationDialog = NewYearConfirmationDialog(context)
 
-        fun setYesButtonClickListener(listener : View.OnClickListener) : Builder{
+        fun setYesButtonClickListener(listener: View.OnClickListener): Builder {
             dialog.setOnYesButtonClickListener(listener)
             return this
         }
 
-        fun setNoButtonClickListener(listener: View.OnClickListener) : Builder{
+        fun setNoButtonClickListener(listener: View.OnClickListener): Builder {
             dialog.setOnNoButtonClickListener(listener)
             return this
         }
 
-        fun setMessage(message: String) : Builder{
+        fun setMessage(message: String): Builder {
             dialog.setMessage(message)
             return this
         }
 
-        fun build() : NewYearConfirmationDialog{
+        fun build(): NewYearConfirmationDialog {
             return dialog
         }
     }

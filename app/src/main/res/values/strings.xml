@@ -66,4 +66,5 @@
     <string name="wish_string">• %s</string>
     <string name="input_what_you_want_for_christmas">Input what you want for Christmas</string>
     <string name="accept_leave">Do you want to leave this page with unsaved changes?</string>
+    <string name="his_wishlist">%s\'s WishList</string>
 </resources>

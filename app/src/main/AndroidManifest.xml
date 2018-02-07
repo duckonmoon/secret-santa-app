@@ -28,7 +28,7 @@
             android:name=".activity.CreateGroupActivity"
             android:parentActivityName=".activity.GroupsActivity" />
         <activity android:name=".activity.GroupDetailActivity" />
-        <activity android:name=".activity.MyWishListActivity"/>
+        <activity android:name=".activity.MyWishListActivity" />
+        <activity android:name=".activity.WishListActivity"/>
     </application>
-
 </manifest>

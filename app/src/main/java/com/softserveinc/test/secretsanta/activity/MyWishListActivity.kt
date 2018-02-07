@@ -125,7 +125,7 @@ class MyWishListActivity : BaseActivity() {
             NewYearConfirmationDialog.Builder(this)
                     .setMessage(getString(R.string.accept_leave))
                     .setYesButtonClickListener(View.OnClickListener { super.onBackPressed() })
-                    .setNoButtonClickListener(View.OnClickListener {  })
+                    .setNoButtonClickListener(View.OnClickListener { })
                     .build().show()
         } else {
             super.onBackPressed()
@@ -151,6 +151,8 @@ class MyWishListActivity : BaseActivity() {
         if (viewModel.isChanged) {
             firebaseService.setMyPreferences(group, me, viewModel.wishes)
             StartActivityClass.finishActivityWithReturnFullGroup(this, group)
+        } else {
+            onBackPressed()
         }
     }
 }

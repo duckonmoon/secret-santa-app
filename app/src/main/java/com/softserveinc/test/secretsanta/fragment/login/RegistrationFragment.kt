@@ -121,13 +121,13 @@ class RegistrationFragment : Fragment() {
                     try {
                         controller.goToSuccess(getString(R.string.sent_to_email, currentEmail))
                     } catch (e: Exception) {
-                        Log.e("ds","Illigal State Exeption")
+                        Log.e("ds", "Illigal State Exeption")
                     }
 
                 } else {
                     try {
                         makeSnackbar(getString(R.string.error))
-                    } catch(e: Exception) {
+                    } catch (e: Exception) {
 
                     }
 

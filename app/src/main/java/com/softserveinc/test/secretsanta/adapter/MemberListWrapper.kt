@@ -135,7 +135,7 @@ class WrapperViewHolder(private val view: View?, private val listener: OnFooterA
             Handler(Looper.getMainLooper()).post({
                 setNewArrayList(arrayList)
             })
-        } catch(e: java.lang.Exception) {
+        } catch (e: java.lang.Exception) {
         }
     }
 

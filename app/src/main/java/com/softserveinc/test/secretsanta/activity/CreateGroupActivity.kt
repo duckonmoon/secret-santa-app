@@ -43,7 +43,7 @@ class CreateGroupActivity : BaseActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
 
-        if (savedInstanceState==null) {
+        if (savedInstanceState == null) {
             members.add(firebaseService.getCurrentUserAsMember())
         }
 
@@ -94,7 +94,6 @@ class CreateGroupActivity : BaseActivity() {
 
         })
     }
-
 
 
     private fun checkIfNickIsInMembers(nickname: String): Boolean {

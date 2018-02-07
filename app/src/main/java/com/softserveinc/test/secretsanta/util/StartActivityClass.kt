@@ -7,6 +7,7 @@ import com.softserveinc.test.secretsanta.application.App
 import com.softserveinc.test.secretsanta.constans.Constants
 import com.softserveinc.test.secretsanta.entity.Group
 import com.softserveinc.test.secretsanta.entity.GroupFull
+import com.softserveinc.test.secretsanta.entity.Human
 
 class StartActivityClass {
     companion object {
@@ -46,16 +47,24 @@ class StartActivityClass {
         }
 
         fun startMyWishListActivity(activity: Activity, group: GroupFull) {
-            val intent = Intent(activity,MyWishListActivity::class.java)
+            val intent = Intent(activity, MyWishListActivity::class.java)
             intent.putExtra(MyWishListActivity.FULL_GROUP, group)
-            activity.startActivityForResult(intent,Constants.REQUEST_CODE)
+            activity.startActivityForResult(intent, Constants.REQUEST_CODE)
         }
 
-        fun finishActivityWithReturnFullGroup(activity: Activity,group: GroupFull){
+        fun finishActivityWithReturnFullGroup(activity: Activity, group: GroupFull) {
             val intent = Intent()
-            intent.putExtra(MyWishListActivity.FULL_GROUP,group)
-            activity.setResult(Activity.RESULT_OK,intent)
+            intent.putExtra(MyWishListActivity.FULL_GROUP, group)
+            activity.setResult(Activity.RESULT_OK, intent)
             activity.finish()
         }
+
+        fun startWishListActivity(activity: Activity, human: Human, group: GroupFull) {
+            val intent = Intent(activity, WishListActivity::class.java)
+            intent.putExtra(WishListActivity.HUMAN, human)
+            intent.putExtra(WishListActivity.FULL_GROUP, group)
+            activity.startActivity(intent)
+        }
+
     }
 }

@@ -44,6 +44,19 @@ class GroupDetailActivity : BaseActivity() {
         intent.extras[GROUP] as Group
     }
 
+    private val humanListener = object : HumanListAdapter.OnHumanItemClickListener {
+        override fun onClick(human: Human) {
+            if (human.nickname == firebaseService.getUserNickname()) {
+                StartActivityClass.startMyWishListActivity(this@GroupDetailActivity, viewModel.group!!)
+                return
+            }
+            StartActivityClass.startWishListActivity(
+                    activity = this@GroupDetailActivity,
+                    human = human,
+                    group = viewModel.group!!)
+        }
+    }
+
     private val viewModel: HumanViewModel by lazy {
         ViewModelProviders.of(this).get(HumanViewModel::class.java)
     }
@@ -175,7 +188,9 @@ class GroupDetailActivity : BaseActivity() {
 
 
     private fun setAdapter() {
-        recyclerview.adapter = HumanListAdapter(viewModel.group!!.humans.values.toList(), firebaseService.getUserNickname()!!)
+        recyclerview.adapter = HumanListAdapter(viewModel.group!!.humans.values.toList(),
+                firebaseService.getUserNickname()!!,
+                humanListener)
     }
 
     override fun onSupportNavigateUp(): Boolean {
