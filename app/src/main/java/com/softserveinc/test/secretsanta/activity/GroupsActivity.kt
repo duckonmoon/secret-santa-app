@@ -17,6 +17,7 @@ import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.adapter.SimpleGroupAdapter
 import com.softserveinc.test.secretsanta.application.App
 import com.softserveinc.test.secretsanta.entity.Group
+import com.softserveinc.test.secretsanta.fragment.group.DeletedGroupsFragment
 import com.softserveinc.test.secretsanta.fragment.group.PassiveGroupsFragment
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.util.Mapper
@@ -134,6 +135,7 @@ class GroupsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
 
         when (item.itemId) {
             R.id.unchecked_groups -> transaction.replace(R.id.container, PassiveGroupsFragment())
+            R.id.deleted_groups -> transaction.replace(R.id.container, DeletedGroupsFragment())
             R.id.my_groups -> {
                 getUpdate()
                 for (fragment in supportFragmentManager.fragments) {

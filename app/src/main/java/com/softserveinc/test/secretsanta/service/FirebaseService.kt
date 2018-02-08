@@ -115,12 +115,12 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
         val dbReference = database.getReference(Constants.NICKNAME)
 
         for (member in members) {
-            val group = HashMap<String, Any>()
-            group[ID] = groupId
-            group[ACTIVATED] = Group.PASSIVE
-            group[TITLE] = groupTitle
-            group[DATE_CREATED] = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
-            group[MEMBERS] = membersCount
+            val group = Group()
+            group.id = groupId
+            group.activated = Group.PASSIVE
+            group.title = groupTitle
+            group.date_created = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
+            group.members = membersCount
 
             dbReference
                     .child(member.name)
@@ -128,12 +128,12 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
                     .child(groupId)
                     .setValue(group)
         }
-        val group = HashMap<String, Any>()
-        group[ID] = groupId
-        group[ACTIVATED] = Group.ACTIVATED
-        group[TITLE] = groupTitle
-        group[DATE_CREATED] = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
-        group[MEMBERS] = membersCount
+        val group = Group()
+        group.id = groupId
+        group.activated = Group.ACTIVATED
+        group.title = groupTitle
+        group.date_created = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
+        group.members = membersCount
 
         dbReference
                 .child(auth.currentUser!!.displayName)
@@ -167,13 +167,6 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
     }
 
     fun updateGroupActivationStatus(group: Group) {
-        database.getReference(Constants.GROUPS)
-                .child(group.id)
-                .child(Constants.HUMANS)
-                .child(auth.currentUser!!.displayName)
-                .child(ACTIVATED)
-                .setValue(group.activated)
-
         database.getReference(Constants.NICKNAME)
                 .child(auth.currentUser!!.displayName)
                 .child(Constants.GROUPS)
