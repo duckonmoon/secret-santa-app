@@ -104,7 +104,6 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
         }
         val human = group.humans[auth.currentUser!!.displayName]!!
         human.admin = true
-        human.activated = true
 
         dbReference.child(group.id).setValue(group)
 
@@ -118,7 +117,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
         for (member in members) {
             val group = HashMap<String, Any>()
             group[ID] = groupId
-            group[ACTIVATED] = false
+            group[ACTIVATED] = Group.PASSIVE
             group[TITLE] = groupTitle
             group[DATE_CREATED] = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
             group[MEMBERS] = membersCount
@@ -131,7 +130,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
         }
         val group = HashMap<String, Any>()
         group[ID] = groupId
-        group[ACTIVATED] = true
+        group[ACTIVATED] = Group.ACTIVATED
         group[TITLE] = groupTitle
         group[DATE_CREATED] = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
         group[MEMBERS] = membersCount
@@ -154,7 +153,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
                 .child(auth.currentUser!!.displayName)
                 .child(Constants.GROUPS)
                 .orderByChild(ACTIVATED)
-                .equalTo(true)
+                .equalTo(Group.ACTIVATED.toDouble())
                 .addListenerForSingleValueEvent(listener)
     }
 
@@ -163,7 +162,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
                 .child(auth.currentUser!!.displayName)
                 .child(Constants.GROUPS)
                 .orderByChild(ACTIVATED)
-                .equalTo(false)
+                .equalTo(Group.PASSIVE.toDouble())
                 .addListenerForSingleValueEvent(listener)
     }
 

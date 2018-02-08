@@ -108,12 +108,16 @@ class GroupDetailActivity : BaseActivity() {
     }
 
     private fun setInvitationButton() {
-        if (!group.activated) {
+        if (group.activated == 0) {
             activate_button.visibility = View.VISIBLE
             activate_button.setOnClickListener {
-                group.activated = !group.activated
+                group.activated = if (group.activated == 1) {
+                    0
+                } else {
+                    1
+                }
                 firebaseService.updateGroupActivationStatus(group)
-                activate_button.text = if (group.activated) {
+                activate_button.text = if (group.activated == 1) {
                     getString(R.string.cancel_invitation)
                 } else {
                     getString(R.string.accept_invitation)

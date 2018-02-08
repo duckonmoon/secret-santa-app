@@ -23,9 +23,13 @@ class SimpleGroupAdapter(private var groups: ArrayList<Group>, private val onIte
 
                     override fun onClick(position: Int): Boolean {
                         val group = groups[position]
-                        group.activated = !group.activated
+                        group.activated = if (group.activated == 1) {
+                            0
+                        } else {
+                            1
+                        }
                         onItemIterationListener.onConfirmButtonClick(group)
-                        return group.activated
+                        return group.activated == 1
                     }
                 })
     }
@@ -40,7 +44,7 @@ class SimpleGroupAdapter(private var groups: ArrayList<Group>, private val onIte
         holder.groupDescriptionView.text = App
                 .INSTANCE
                 .getString(R.string.members_count_and_date_created, group.members, group.date_created)
-        if (!group.activated) {
+        if (group.activated == 0) {
             holder.groupConfirmationButton.visibility = View.VISIBLE
         }
     }
