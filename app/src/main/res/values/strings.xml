@@ -68,4 +68,5 @@
     <string name="accept_leave">Do you want to leave this page with unsaved changes?</string>
     <string name="his_wishlist">%s\'s WishList</string>
     <string name="trash">Trash</string>
+    <string name="confirm_move_group_to_trash">Move %s to trash?</string>
 </resources>

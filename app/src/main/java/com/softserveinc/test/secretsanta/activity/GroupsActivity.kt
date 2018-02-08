@@ -7,6 +7,8 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -16,6 +18,7 @@ import com.google.firebase.database.ValueEventListener
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.adapter.SimpleGroupAdapter
 import com.softserveinc.test.secretsanta.application.App
+import com.softserveinc.test.secretsanta.dialog.NewYearConfirmationDialog
 import com.softserveinc.test.secretsanta.entity.Group
 import com.softserveinc.test.secretsanta.fragment.group.DeletedGroupsFragment
 import com.softserveinc.test.secretsanta.fragment.group.PassiveGroupsFragment
@@ -34,6 +37,18 @@ class GroupsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
     private val viewModel: GroupViewModel by lazy {
         ViewModelProviders.of(this).get(GroupViewModel::class.java)
     }
+
+    private var mItemTouchHelper = ItemTouchHelper(
+            object : ItemTouchHelper.SimpleCallback(0,
+                    ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+                override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    buildNewYearDialog(viewHolder)
+                }
+            })
 
     private val listener = object : SimpleGroupAdapter.OnItemIterationListener {
         override fun onConfirmButtonClick(group: Group) {
@@ -71,6 +86,7 @@ class GroupsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
     private fun initRecyclerView() {
         recycler_view.adapter = SimpleGroupAdapter(viewModel.groups, listener)
         recycler_view.layoutManager = LinearLayoutManager(this)
+        mItemTouchHelper.attachToRecyclerView(recycler_view)
 
         if (viewModel.groups.isEmpty()) {
             getUpdate()
@@ -146,6 +162,21 @@ class GroupsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         drawer_layout.closeDrawer(GravityCompat.START)
         transaction.commit()
         return true
+    }
+
+    private fun buildNewYearDialog(viewHolder: RecyclerView.ViewHolder) {
+        NewYearConfirmationDialog.Builder(this)
+                .setMessage(getString(R.string.confirm_move_group_to_trash,
+                        viewModel.groups[viewHolder.adapterPosition].title))
+                .setYesButtonClickListener(View.OnClickListener {
+                    firebaseService.moveGroupToTrash(viewModel.groups[viewHolder.adapterPosition])
+                    viewModel.groups.removeAt(viewHolder.adapterPosition)
+                    recycler_view.adapter.notifyDataSetChanged()
+                })
+                .setNoButtonClickListener(View.OnClickListener {
+                    recycler_view.adapter.notifyDataSetChanged()
+                })
+                .build().show()
     }
 
 

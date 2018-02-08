@@ -166,6 +166,15 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
                 .addListenerForSingleValueEvent(listener)
     }
 
+    fun getTrash(listener: ValueEventListener) {
+        database.getReference(Constants.NICKNAME)
+                .child(auth.currentUser!!.displayName)
+                .child(Constants.GROUPS)
+                .orderByChild(ACTIVATED)
+                .equalTo(Group.DELETED.toDouble())
+                .addListenerForSingleValueEvent(listener)
+    }
+
     fun updateGroupActivationStatus(group: Group) {
         database.getReference(Constants.NICKNAME)
                 .child(auth.currentUser!!.displayName)
@@ -209,4 +218,15 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
                 .child(PREFERENCES)
                 .setValue(wishes)
     }
+
+    fun moveGroupToTrash(group: Group) {
+        database.getReference(Constants.NICKNAME)
+                .child(auth.currentUser!!.displayName)
+                .child(Constants.GROUPS)
+                .child(group.id)
+                .child(ACTIVATED)
+                .setValue(Group.DELETED)
+    }
+
+
 }
