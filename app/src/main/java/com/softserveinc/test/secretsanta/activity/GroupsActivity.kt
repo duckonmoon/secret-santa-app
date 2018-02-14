@@ -103,6 +103,7 @@ class GroupsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
                 viewModel.groups = Mapper.mapFromDataSnapshotGroupsToStringGroups(dataSnapshot)
                 try {
                     spinner.visibility = View.GONE
+                    checkIfGroupsExists()
                     recycler_view.adapter = SimpleGroupAdapter(viewModel.groups, listener)
                 } catch (e: Exception) {
                 }
@@ -172,11 +173,20 @@ class GroupsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
                     firebaseService.moveGroupToTrash(viewModel.groups[viewHolder.adapterPosition])
                     viewModel.groups.removeAt(viewHolder.adapterPosition)
                     recycler_view.adapter.notifyDataSetChanged()
+                    checkIfGroupsExists()
                 })
                 .setNoButtonClickListener(View.OnClickListener {
                     recycler_view.adapter.notifyDataSetChanged()
                 })
                 .build().show()
+    }
+
+    private fun checkIfGroupsExists() {
+        alone_view.visibility = if (viewModel.groups.isEmpty()) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
     }
 
 

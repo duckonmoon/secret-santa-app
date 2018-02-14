@@ -69,7 +69,7 @@ class DeletedGroupsFragment : Fragment() {
                 viewModel.groups = Mapper.mapFromDataSnapshotGroupsToStringGroups(dataSnapshot)
                 try {
                     mView.spinner.visibility = View.GONE
-
+                    checkIfGroupsExists()
                     mView.recycler_view.adapter = SimpleGroupAdapter(viewModel.groups, onItemIterationListener)
                 } catch (e: Exception) {
                 }
@@ -85,5 +85,13 @@ class DeletedGroupsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         getUpdate()
+    }
+
+    private fun checkIfGroupsExists() {
+        mView.alone_view.visibility = if (viewModel.groups.isEmpty()) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
     }
 }
