@@ -192,6 +192,8 @@ class GroupDetailActivity : BaseActivity() {
 
 
     private fun setAdapter() {
+        progress_bar.visibility = View.GONE
+
         recyclerview.adapter = HumanListAdapter(viewModel.group!!.humans.values.toList(),
                 firebaseService.getUserNickname()!!,
                 humanListener)

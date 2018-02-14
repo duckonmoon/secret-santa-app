@@ -24,6 +24,12 @@
         android:text="@string/accept_invitation"
         android:visibility="gone" />
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center" />
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -47,11 +53,11 @@
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/top_margin"
             android:background="@drawable/rectangle_with_rounded_angles_almost_white"
-            tools:listitem="@layout/meber_list_item_detail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_margin="@dimen/top_margin"/>
+            tools:listitem="@layout/meber_list_item_detail" />
     </android.support.constraint.ConstraintLayout>
 </LinearLayout>

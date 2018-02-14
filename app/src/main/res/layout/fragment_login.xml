@@ -5,23 +5,22 @@
     tools:context="com.softserveinc.test.secretsanta.fragment.login.LoginFragment">
 
     <LinearLayout
+        android:id="@+id/linear_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/top_margin"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
-        android:id="@+id/linear_layout"
+        android:layout_marginTop="@dimen/top_margin"
         android:gravity="center"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
 
         <ImageView
             android:layout_width="@dimen/logo_w_h"
             android:layout_height="@dimen/logo_w_h"
-            android:src="@drawable/santaa"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginBottom="30dp"
+            android:src="@drawable/santaa" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,15 +65,14 @@
 
         <Button
             android:id="@+id/btn_login"
-            android:background="@drawable/rectangle_with_rounded_angles_red"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
+            android:background="@drawable/rectangle_with_rounded_angles_red"
             android:text="@string/btn_login"
-            />
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <ProgressBar
             android:id="@+id/spinner"
@@ -97,8 +95,6 @@
             android:textAllCaps="false"
             android:textColor="@color/mainAppColorDarker"
             android:textStyle="bold" />
-
-
 
 
         <Button

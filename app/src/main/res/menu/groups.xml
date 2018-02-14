@@ -2,10 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_add"
+    <item
+        android:id="@+id/action_add"
+        android:icon="@drawable/ic_add_black_24dp"
         android:title="add"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_add_black_24dp" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_sign_out"

@@ -21,11 +21,11 @@
         android:textStyle="bold" />
 
     <LinearLayout
+        android:id="@+id/additional_items"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:id="@+id/additional_items"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -61,6 +61,5 @@
         android:id="@+id/loading_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 </LinearLayout>

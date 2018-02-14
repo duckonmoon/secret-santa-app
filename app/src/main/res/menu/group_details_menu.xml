@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/randomize"
         android:title="@string/randomize"
-        android:visible="false"
-        android:id="@+id/randomize"/>
+        android:visible="false" />
 
-    <item android:title="@string/my_wishlist"
-        android:visible="false"
-        android:id="@+id/wish_list"/>
+    <item
+        android:id="@+id/wish_list"
+        android:title="@string/my_wishlist"
+        android:visible="false" />
 </menu>
