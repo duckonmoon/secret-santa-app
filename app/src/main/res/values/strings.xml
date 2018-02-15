@@ -70,4 +70,10 @@
     <string name="trash">Trash</string>
     <string name="confirm_move_group_to_trash">Move %s to trash?</string>
     <string name="quite_alone_here">quite alone here</string>
+    <string name="profile">Profile</string>
+
+    <string name="picture_christmas_house">picture_christmas_house</string>
+    <string name="santaa">santaa</string>
+    <string name="candy_round">candy_round</string>
+    <string name="face">face</string>
 </resources>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="300dp"
+    android:layout_height="200dp"
+    android:layout_gravity="center"
+    android:background="@drawable/rectangle_white">
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="-20dp"
+        android:src="@drawable/omela"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/first_row"
+        android:layout_margin="@dimen/nav_header_vertical_spacing"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/picture_christmas_house"
+            android:contentDescription="@string/picture_christmas_house"
+            android:layout_width="@dimen/picture_size_dialog"
+            android:layout_height="@dimen/picture_size_dialog"
+            app:civ_border_color="#FF000000"
+            android:src="@drawable/christmas_house"
+
+            />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/picture_santaa"
+            android:contentDescription="@string/santaa"
+            android:layout_width="@dimen/picture_size_dialog"
+            android:layout_height="@dimen/picture_size_dialog"
+            android:src="@drawable/santaa"
+            app:civ_border_color="#FF000000"
+            android:layout_marginStart="@dimen/text_margin"
+            />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/picture_candy_round"
+            android:contentDescription="@string/candy_round"
+            android:layout_width="@dimen/picture_size_dialog"
+            android:layout_height="@dimen/picture_size_dialog"
+            app:civ_border_color="#FF000000"
+            android:src="@drawable/ic_candy_round"
+            android:layout_marginStart="@dimen/text_margin"
+            />
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/nav_header_vertical_spacing"
+        app:layout_constraintTop_toBottomOf="@id/first_row"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/picture_face"
+            app:civ_border_color="#FF000000"
+            android:contentDescription="@string/face"
+            android:layout_width="@dimen/picture_size_dialog"
+            android:layout_height="@dimen/picture_size_dialog"
+            android:src="@drawable/face"
+            />
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ic_done_red_24dp"/>
+
+
+
+</android.support.constraint.ConstraintLayout>

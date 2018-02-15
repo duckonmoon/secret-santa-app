@@ -1,0 +1,30 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@drawable/christmas_image"
+    android:layout_height="match_parent"
+    tools:context="com.softserveinc.test.secretsanta.ProfileFragment">
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rectangle_with_rounded_angles_almost_white">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/christmas_house"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="100dp"/>
+
+
+    </android.support.constraint.ConstraintLayout>
+</FrameLayout>

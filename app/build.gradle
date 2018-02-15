@@ -60,10 +60,16 @@ dependencies {
 
     implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
 
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+
     kapt "com.google.dagger:dagger-android-processor:$daggerVer"
     kapt "com.google.dagger:dagger-compiler:$daggerVer"
     kapt 'com.android.databinding:compiler:3.0.1'
 }
+
+
 
 
 

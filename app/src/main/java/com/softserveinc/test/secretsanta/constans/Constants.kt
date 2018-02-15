@@ -1,5 +1,7 @@
 package com.softserveinc.test.secretsanta.constans
 
+import com.softserveinc.test.secretsanta.R
+
 
 interface Constants {
     companion object {
@@ -9,5 +11,13 @@ interface Constants {
         const val GROUPS = "groups"
         const val HUMANS = "humans"
         const val REQUEST_CODE = 1
+
+
+        val images = mapOf(
+                Pair(0, R.drawable.face),
+                Pair(1, R.drawable.christmas_house),
+                Pair(2, R.drawable.ic_candy_round),
+                Pair(3, R.drawable.santaa)
+        )
     }
 }
