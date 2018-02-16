@@ -23,7 +23,7 @@
         <item
             android:id="@+id/profile"
             android:icon="@drawable/ic_person_black_24dp"
-            android:title="@string/profile"/>
+            android:title="@string/profile" />
     </group>
 
 </menu>

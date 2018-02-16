@@ -11,6 +11,7 @@ import com.softserveinc.test.secretsanta.fragment.login.ForgetPasswordFragment
 import com.softserveinc.test.secretsanta.fragment.login.LoginFragment
 import com.softserveinc.test.secretsanta.fragment.login.RegistrationFragment
 import com.softserveinc.test.secretsanta.fragment.login.SuccessFragment
+import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.util.StartActivityClass
 
 class LoginControllerImp(override var activity: AppCompatActivity) : LoginController {

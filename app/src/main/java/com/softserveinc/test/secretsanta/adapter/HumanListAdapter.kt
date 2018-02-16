@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.softserveinc.test.secretsanta.R
+import com.softserveinc.test.secretsanta.constans.Constants
 import com.softserveinc.test.secretsanta.entity.Human
+import com.squareup.picasso.Picasso
 
 class HumanListAdapter(private val humans: List<Human>,
                        private val nickname: String,
@@ -40,6 +42,10 @@ class HumanListAdapter(private val humans: List<Human>,
         } else {
             View.GONE
         }
+
+        Picasso.with(holder.view.context)
+                .load(Constants.images[human.image.toInt()]!!)
+                .into(holder.memberImage)
     }
 
     interface OnHumanItemClickListener {
@@ -47,7 +53,7 @@ class HumanListAdapter(private val humans: List<Human>,
     }
 }
 
-class HumanViewHolder(private val view: View, private val listener: OnHumanItemClickListener) : RecyclerView.ViewHolder(view) {
+class HumanViewHolder(val view: View, private val listener: OnHumanItemClickListener) : RecyclerView.ViewHolder(view) {
     val memberImage: ImageView = view.findViewById(R.id.member_image)
     val memberNicknameView: TextView = view.findViewById(R.id.nickname)
     val isYourSecretView: ImageView = view.findViewById(R.id.present)

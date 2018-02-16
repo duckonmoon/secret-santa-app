@@ -79,7 +79,7 @@ class CreateGroupActivity : BaseActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 try {
                     if (dataSnapshot.value != null) {
-                        members.add(Member(nickname, "1"))
+                        members.add(Member(nickname, dataSnapshot.value!!.toString()))
                         recyclerview.adapter.notifyDataSetChanged()
                         Toast.makeText(applicationContext, "Added", Toast.LENGTH_SHORT)
                                 .show()

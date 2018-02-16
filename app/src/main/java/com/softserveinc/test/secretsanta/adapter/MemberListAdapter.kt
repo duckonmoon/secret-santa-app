@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.softserveinc.test.secretsanta.R
+import com.softserveinc.test.secretsanta.constans.Constants
 import com.softserveinc.test.secretsanta.entity.Member
+import com.squareup.picasso.Picasso
 
 
 class MemberListAdapter(private var members: List<Member>, private val listener: OnItemClickListener) : RecyclerView.Adapter<ViewHolder>() {
@@ -16,6 +18,8 @@ class MemberListAdapter(private var members: List<Member>, private val listener:
         return ViewHolder(view = LayoutInflater.from(parent!!.context)
                 .inflate(R.layout.member_item, parent, false), listener = listener)
     }
+
+
 
     override fun getItemCount(): Int {
         return members.size
@@ -27,10 +31,14 @@ class MemberListAdapter(private var members: List<Member>, private val listener:
         if (position == 0) {
             holder.memberCloseView.visibility = View.GONE
         }
+        Picasso.with(holder.view.context)
+                .load(Constants.images[member.imagePath.toInt()]!!)
+                .into(holder.memberImageView)
+
     }
 }
 
-class ViewHolder(view: View, listener: OnItemClickListener) : RecyclerView.ViewHolder(view) {
+class ViewHolder(val view: View, listener: OnItemClickListener) : RecyclerView.ViewHolder(view) {
     val memberNameView: TextView = view.findViewById(R.id.member_text_view)
     val memberImageView: ImageView = view.findViewById(R.id.member_image_view)
     val memberCloseView: ImageView = view.findViewById(R.id.member_close)

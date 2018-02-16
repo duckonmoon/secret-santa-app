@@ -1,9 +1,14 @@
 package com.softserveinc.test.secretsanta.service
 
+import android.net.Uri
+import android.provider.ContactsContract
+import android.util.Log
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.softserveinc.test.secretsanta.constans.Constants
@@ -26,6 +31,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
         const val GIFTED_BY = "giftedBy"
         const val RANDOMIZE = "randomize"
         const val PREFERENCES = "preferences"
+        const val IMAGE = "image"
     }
 
 
@@ -48,11 +54,12 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
         auth.currentUser!!.updateProfile(
                 UserProfileChangeRequest.Builder()
                         .setDisplayName(nickname)
+                        .setPhotoUri(Uri.parse(0.toString()))
                         .build())
 
         database.getReference(Constants.NICKNAMES)
                 .child(nickname)
-                .setValue(auth.currentUser!!.uid)
+                .setValue(0)
     }
 
     fun checkIfCurrentUserExists(): Boolean {
@@ -100,6 +107,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
         for (member in members) {
             val human = Human()
             human.nickname = member.name
+            human.image = member.imagePath
             group.humans[human.nickname] = human
         }
         val human = group.humans[auth.currentUser!!.displayName]!!
@@ -145,6 +153,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
     fun getCurrentUserAsMember(): Member {
         val member = Member()
         member.name = auth.currentUser!!.displayName!!
+        member.imagePath = auth.currentUser!!.photoUrl.toString()
         return member
     }
 
@@ -228,5 +237,56 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
                 .setValue(Group.DELETED)
     }
 
+    fun updateCurrentPhoto(photoInt: Int) {
+        updateProfile(photoInt)
 
+        updateNicknames(photoInt)
+
+        getAllGroupsAndUpdate(photoInt)
+    }
+
+    private fun getAllGroupsAndUpdate(photoInt: Int) {
+        database.getReference(Constants.NICKNAME)
+                .child(auth.currentUser!!.displayName)
+                .child(Constants.GROUPS)
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(error: DatabaseError?) {
+                        Log.e("FirebaseService", "Error update")
+                    }
+
+                    override fun onDataChange(dataSnapshot: DataSnapshot?) {
+                        if (dataSnapshot != null) {
+                            updateEachGroup(dataSnapshot, photoInt)
+                        }
+                    }
+                })
+    }
+
+    private fun updateEachGroup(dataSnapshot: DataSnapshot, photoInt: Int) {
+        dataSnapshot.children
+                .map { it.getValue(Group::class.java) }
+                .forEach { updateGroupValue(it!!,photoInt) }
+    }
+
+    private fun updateGroupValue(group: Group, photoInt: Int) {
+        database.getReference(Constants.GROUPS)
+                .child(group.id)
+                .child(Constants.HUMANS)
+                .child(auth.currentUser!!.displayName)
+                .child(IMAGE)
+                .setValue(photoInt.toString())
+    }
+
+    private fun updateNicknames(photoInt: Int) {
+        database.getReference(Constants.NICKNAMES)
+                .child(auth.currentUser!!.displayName)
+                .setValue(photoInt)
+    }
+
+    private fun updateProfile(photoInt: Int) {
+        auth.currentUser!!.updateProfile(
+                UserProfileChangeRequest.Builder()
+                        .setPhotoUri(Uri.parse(photoInt.toString()))
+                        .build())
+    }
 }

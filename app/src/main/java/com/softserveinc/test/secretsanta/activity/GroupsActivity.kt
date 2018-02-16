@@ -15,7 +15,7 @@ import android.view.View
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.softserveinc.test.secretsanta.ProfileFragment
+import com.softserveinc.test.secretsanta.fragment.group.ProfileFragment
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.adapter.SimpleGroupAdapter
 import com.softserveinc.test.secretsanta.application.App
@@ -154,7 +154,7 @@ class GroupsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         when (item.itemId) {
             R.id.unchecked_groups -> transaction.replace(R.id.container, PassiveGroupsFragment())
             R.id.deleted_groups -> transaction.replace(R.id.container, DeletedGroupsFragment())
-            R.id.profile -> transaction.replace(R.id.container,ProfileFragment())
+            R.id.profile -> transaction.replace(R.id.container, ProfileFragment())
             R.id.my_groups -> {
                 getUpdate()
                 for (fragment in supportFragmentManager.fragments) {

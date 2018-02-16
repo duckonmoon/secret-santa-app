@@ -33,6 +33,12 @@ class App : Application() {
         component.inject(this)
         INSTANCE = this
 
+        try{
+            auth.currentUser!!.reload()
+        } catch (e : NullPointerException){
+
+        }
+
         CalligraphyConfig.initDefault(CalligraphyConfig.Builder()
                 .setFontAttrId(R.attr.fontPath)
                 .build()

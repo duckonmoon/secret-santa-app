@@ -40,18 +40,18 @@
 
         <TextView
             android:id="@+id/alone_view"
+            fontPath="fonts/Sail-Regular.otf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:background="@drawable/rectangle_with_rounded_angles_almost_white"
             android:padding="10dp"
             android:text="@string/quite_alone_here"
-            android:background="@drawable/rectangle_with_rounded_angles_almost_white"
             android:textSize="20sp"
-            fontPath="fonts/Sail-Regular.otf"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </android.support.constraint.ConstraintLayout>
