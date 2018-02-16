@@ -12,12 +12,14 @@ import android.view.View
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.adapter.MyWishListAdapter
 import com.softserveinc.test.secretsanta.application.App
+import com.softserveinc.test.secretsanta.constans.Constants
 import com.softserveinc.test.secretsanta.dialog.NewYearConfirmationDialog
 import com.softserveinc.test.secretsanta.entity.GroupFull
 import com.softserveinc.test.secretsanta.entity.Human
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.util.StartActivityClass
 import com.softserveinc.test.secretsanta.viewmodel.WishesViewModel
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_my_wish_list.*
 import kotlinx.android.synthetic.main.group_details_tool_bar.*
 import java.util.*
@@ -80,6 +82,18 @@ class MyWishListActivity : BaseActivity() {
         setTextAndListenersOnPage()
 
         setRecyclerViewConfiguration()
+
+        setGroupImage()
+    }
+
+    private fun setGroupImage(){
+        try {
+            Picasso.with(this)
+                    .load(Constants.images[me.image.toInt()]!!)
+                    .noFade()
+                    .into(group_image)
+        } catch (e : Exception){
+        }
     }
 
     private fun setViewModelItems(savedInstanceState: Bundle?) {

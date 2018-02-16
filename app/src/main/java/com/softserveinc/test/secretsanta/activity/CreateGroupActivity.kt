@@ -13,15 +13,17 @@ import com.google.firebase.database.ValueEventListener
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.adapter.*
 import com.softserveinc.test.secretsanta.application.App
+import com.softserveinc.test.secretsanta.constans.Constants
+import com.softserveinc.test.secretsanta.dialog.ChangeImageDialog
 import com.softserveinc.test.secretsanta.entity.Member
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.util.StartActivityClass
 import com.softserveinc.test.secretsanta.viewmodel.MembersViewModel
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.create_group_activity.*
 import javax.inject.Inject
 
 class CreateGroupActivity : BaseActivity() {
-
 
     private val viewModel: MembersViewModel by lazy {
         ViewModelProviders.of(this).get(MembersViewModel::class.java)
@@ -29,6 +31,21 @@ class CreateGroupActivity : BaseActivity() {
 
     private val members: ArrayList<Member> by lazy {
         viewModel.members
+    }
+
+    private val listener = object : ChangeImageDialog.DoneListener {
+        override fun onDone(currentImageContentDescription: Int) {
+            viewModel.currentImage = currentImageContentDescription
+
+            try {
+                Picasso.with(this@CreateGroupActivity)
+                        .load(Constants.images[viewModel.currentImage]!!)
+                        .noFade()
+                        .into(group_image)
+            } catch (e: Exception) {
+            }
+        }
+
     }
 
     @Inject
@@ -47,29 +64,25 @@ class CreateGroupActivity : BaseActivity() {
             members.add(firebaseService.getCurrentUserAsMember())
         }
 
-        val adapter = MemberListWrapper(MemberListAdapter(members, listener = object : OnItemClickListener {
-            override fun onRemoveButtonClick(position: Int) {
-                members.removeAt(position)
-                recyclerview.adapter.notifyItemRemoved(position)
-            }
-        }), object : OnFooterActionDone {
-            override fun onAddButtonClick(nickname: String, wrapperViewHolder: WrapperViewHolder) {
-                if (!checkIfNickIsInMembers(nickname)) {
-                    addIfExistsInCloud(nickname, wrapperViewHolder)
-                } else {
-                    wrapperViewHolder.setState(State.ADD_MEMBERS)
-                    Toast.makeText(applicationContext, "Member already added", Toast.LENGTH_SHORT)
-                            .show()
-                }
-            }
+        setRecyclerView()
 
-            override fun onDataRequested(nickname: String, wrapperViewHolder: WrapperViewHolder) {
-                firebaseService.getAllNicknames(wrapperViewHolder, nickname)
-            }
-        })
-        val layoutManager = LinearLayoutManager(this)
-        recyclerview.adapter = adapter
-        recyclerview.layoutManager = layoutManager
+        loadImageAndSetListener()
+
+
+    }
+
+    private fun loadImageAndSetListener() {
+        group_image.setOnClickListener {
+            ChangeImageDialog(this, viewModel.currentImage, listener).show()
+        }
+
+        try {
+            Picasso.with(this@CreateGroupActivity)
+                    .load(Constants.images[viewModel.currentImage]!!)
+                    .noFade()
+                    .into(group_image)
+        } catch (e: Exception) {
+        }
     }
 
     private fun addIfExistsInCloud(nickname: String, wrapperViewHolder: WrapperViewHolder) {
@@ -110,13 +123,39 @@ class CreateGroupActivity : BaseActivity() {
         when (item.itemId) {
             R.id.done -> {
                 val groupTitle = group_title.text.toString()
-                firebaseService.createNewGroup(members, groupTitle)
+                firebaseService.createNewGroup(members, groupTitle, viewModel.currentImage)
 
                 StartActivityClass.finishActivityWithResultOk(this)
             }
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+
+    private fun setRecyclerView() {
+        val adapter = MemberListWrapper(MemberListAdapter(members, listener = object : OnItemClickListener {
+            override fun onRemoveButtonClick(position: Int) {
+                members.removeAt(position)
+                recyclerview.adapter.notifyItemRemoved(position)
+            }
+        }), object : OnFooterActionDone {
+            override fun onAddButtonClick(nickname: String, wrapperViewHolder: WrapperViewHolder) {
+                if (!checkIfNickIsInMembers(nickname)) {
+                    addIfExistsInCloud(nickname, wrapperViewHolder)
+                } else {
+                    wrapperViewHolder.setState(State.ADD_MEMBERS)
+                    Toast.makeText(applicationContext, "Member already added", Toast.LENGTH_SHORT)
+                            .show()
+                }
+            }
+
+            override fun onDataRequested(nickname: String, wrapperViewHolder: WrapperViewHolder) {
+                firebaseService.getAllNicknames(wrapperViewHolder, nickname)
+            }
+        })
+        val layoutManager = LinearLayoutManager(this)
+        recyclerview.adapter = adapter
+        recyclerview.layoutManager = layoutManager
     }
 
     override fun onSupportNavigateUp(): Boolean {

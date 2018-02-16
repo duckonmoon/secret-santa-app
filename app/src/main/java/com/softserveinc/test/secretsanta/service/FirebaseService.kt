@@ -91,18 +91,18 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
                 .addListenerForSingleValueEvent(listener)
     }
 
-    fun createNewGroup(members: ArrayList<Member>, groupTitle: String) {
-        val groupId = createGroup(members, groupTitle)
+    fun createNewGroup(members: ArrayList<Member>, groupTitle: String, groupImageCode : Int) {
+        val groupId = createGroup(members, groupTitle, groupImageCode)
 
-        informNewMembersForGroupInvitation(members, groupId, groupTitle, members.size)
+        informNewMembersForGroupInvitation(members, groupId, groupTitle, groupImageCode, members.size)
     }
 
-    private fun createGroup(members: ArrayList<Member>, groupTitle: String): String {
+    private fun createGroup(members: ArrayList<Member>, groupTitle: String, groupImageCode : Int): String {
         val dbReference = database.getReference(Constants.GROUPS)
 
         val group = GroupFull()
         group.id = dbReference.push().key
-
+        group.imageCode = groupImageCode
         group.title = groupTitle
         for (member in members) {
             val human = Human()
@@ -119,12 +119,13 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
     }
 
     private fun informNewMembersForGroupInvitation(members: ArrayList<Member>, groupId: String,
-                                                   groupTitle: String, membersCount: Int) {
+                                                   groupTitle: String, groupImageCode: Int, membersCount: Int) {
         val dbReference = database.getReference(Constants.NICKNAME)
 
         for (member in members) {
             val group = Group()
             group.id = groupId
+            group.imageCode = groupImageCode
             group.activated = Group.PASSIVE
             group.title = groupTitle
             group.date_created = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
@@ -138,6 +139,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
         }
         val group = Group()
         group.id = groupId
+        group.imageCode = groupImageCode
         group.activated = Group.ACTIVATED
         group.title = groupTitle
         group.date_created = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())

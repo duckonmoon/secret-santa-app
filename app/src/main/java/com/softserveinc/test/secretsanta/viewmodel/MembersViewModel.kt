@@ -5,4 +5,5 @@ import com.softserveinc.test.secretsanta.entity.Member
 
 class MembersViewModel : ViewModel() {
     val members = ArrayList<Member>()
+    var currentImage = 3
 }

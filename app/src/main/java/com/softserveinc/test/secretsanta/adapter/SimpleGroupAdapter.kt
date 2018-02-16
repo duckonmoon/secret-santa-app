@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.application.App
+import com.softserveinc.test.secretsanta.constans.Constants
 import com.softserveinc.test.secretsanta.entity.Group
+import com.squareup.picasso.Picasso
 
 class SimpleGroupAdapter(private var groups: ArrayList<Group>, private val onItemIterationListener: OnItemIterationListener)
     : RecyclerView.Adapter<SimpleViewHolder>() {
@@ -47,6 +50,13 @@ class SimpleGroupAdapter(private var groups: ArrayList<Group>, private val onIte
         if (group.activated == 0) {
             holder.groupConfirmationButton.visibility = View.VISIBLE
         }
+
+        try {
+            Picasso.with(holder.view.context)
+                    .load(Constants.images[group.imageCode]!!)
+                    .into(holder.groupImage)
+        } catch (e: Exception) {
+        }
     }
 
     interface OnItemIterationListener {
@@ -55,7 +65,8 @@ class SimpleGroupAdapter(private var groups: ArrayList<Group>, private val onIte
     }
 }
 
-class SimpleViewHolder(view: View, onButtonClickListener: OnButtonClickListener) : RecyclerView.ViewHolder(view) {
+class SimpleViewHolder(val view: View, onButtonClickListener: OnButtonClickListener) : RecyclerView.ViewHolder(view) {
+    val groupImage: ImageView = view.findViewById(R.id.group_image)
     val groupNameView: TextView = view.findViewById(R.id.group_name)
     val groupDescriptionView: TextView = view.findViewById(R.id.group_description)
     val groupConfirmationButton: Button = view.findViewById(R.id.confirm_button)

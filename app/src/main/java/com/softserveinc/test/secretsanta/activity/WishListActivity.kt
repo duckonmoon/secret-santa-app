@@ -5,8 +5,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.adapter.MyWishListAdapter
+import com.softserveinc.test.secretsanta.constans.Constants
 import com.softserveinc.test.secretsanta.entity.GroupFull
 import com.softserveinc.test.secretsanta.entity.Human
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_wish_list.*
 import kotlinx.android.synthetic.main.group_details_tool_bar.*
 
@@ -31,6 +33,17 @@ class WishListActivity : BaseActivity() {
         setActionBar()
         setText()
         setRecyclerViewConfiguration()
+        setGroupImage()
+    }
+
+    private fun setGroupImage(){
+        try {
+            Picasso.with(this)
+                    .load(Constants.images[human.image.toInt()]!!)
+                    .noFade()
+                    .into(group_image)
+        } catch (e : Exception){
+        }
     }
 
     private fun setActionBar() {

@@ -23,6 +23,7 @@ import com.softserveinc.test.secretsanta.entity.Human
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.util.StartActivityClass
 import com.softserveinc.test.secretsanta.viewmodel.HumanViewModel
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_group_detail.*
 import kotlinx.android.synthetic.main.group_details_tool_bar.*
 import java.util.*
@@ -93,6 +94,8 @@ class GroupDetailActivity : BaseActivity() {
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         supportActionBar!!.title = ""
 
+        setGroupImage()
+
         group_title_text_view.text = group.title
         member_count.text = getString(R.string.members_count, group.members)
 
@@ -104,6 +107,16 @@ class GroupDetailActivity : BaseActivity() {
             firebaseService.getGroupInfo(group.id, listener)
         } else {
             setAdapter()
+        }
+    }
+
+    private fun setGroupImage(){
+        try {
+            Picasso.with(this)
+                    .load(Constants.images[group.imageCode]!!)
+                    .noFade()
+                    .into(group_image)
+        } catch (e : Exception){
         }
     }
 

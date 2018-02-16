@@ -7,4 +7,5 @@ class GroupFull : Serializable {
     var title = ""
     var randomize = false
     var humans = HashMap<String, Human>()
+    var imageCode = 3
 }

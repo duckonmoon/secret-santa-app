@@ -15,4 +15,5 @@ class Group : Serializable {
     var title = ""
     var members = 0
     var date_created = ""
+    var imageCode = 3
 }
