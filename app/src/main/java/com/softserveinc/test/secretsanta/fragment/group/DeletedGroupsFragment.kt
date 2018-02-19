@@ -4,6 +4,8 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +15,7 @@ import com.google.firebase.database.ValueEventListener
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.adapter.SimpleGroupAdapter
 import com.softserveinc.test.secretsanta.application.App
+import com.softserveinc.test.secretsanta.dialog.NewYearConfirmationDialog
 import com.softserveinc.test.secretsanta.entity.Group
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.util.Mapper
@@ -41,6 +44,39 @@ class DeletedGroupsFragment : Fragment() {
         }
     }
 
+    private var mItemTouchHelper = ItemTouchHelper(
+            object : ItemTouchHelper.SimpleCallback(0,
+                    ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+                override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    try {
+                        buildNewYearDialog(viewHolder)
+                    } catch (e: Exception) {
+                    }
+                }
+            })
+
+    private fun buildNewYearDialog(viewHolder: RecyclerView.ViewHolder) {
+        NewYearConfirmationDialog.Builder(activity!!)
+                .setMessage(getString(R.string.delete_group,
+                        viewModel.groups[viewHolder.adapterPosition].title))
+                .setYesButtonClickListener(View.OnClickListener {
+                    firebaseService.deleteGroup(viewModel.groups[viewHolder.adapterPosition])
+                    viewModel.groups.removeAt(viewHolder.adapterPosition)
+                    mView.recycler_view.adapter.notifyDataSetChanged()
+                    checkIfGroupsExists()
+                })
+                .setNoButtonClickListener(View.OnClickListener {
+                    mView.recycler_view.adapter.notifyDataSetChanged()
+                })
+                .build().show()
+
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         App.INSTANCE.component.inject(this)
@@ -53,6 +89,7 @@ class DeletedGroupsFragment : Fragment() {
 
         mView.recycler_view.adapter = SimpleGroupAdapter(viewModel.groups, onItemIterationListener)
         mView.recycler_view.layoutManager = LinearLayoutManager(context)
+        mItemTouchHelper.attachToRecyclerView(mView.recycler_view)
 
         if (viewModel.groups.isEmpty()) {
             mView.spinner.visibility = View.VISIBLE

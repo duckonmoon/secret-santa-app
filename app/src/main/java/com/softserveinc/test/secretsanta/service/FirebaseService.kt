@@ -291,4 +291,12 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
                         .setPhotoUri(Uri.parse(photoInt.toString()))
                         .build())
     }
+
+    fun deleteGroup(group: Group) {
+        database.getReference(Constants.NICKNAME)
+                .child(auth.currentUser!!.displayName)
+                .child(Constants.GROUPS)
+                .child(group.id)
+                .setValue(null)
+    }
 }
