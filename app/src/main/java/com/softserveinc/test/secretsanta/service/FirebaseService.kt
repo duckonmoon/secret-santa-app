@@ -2,6 +2,7 @@ package com.softserveinc.test.secretsanta.service
 
 import android.net.Uri
 import android.provider.ContactsContract
+import android.util.DisplayMetrics
 import android.util.Log
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
@@ -92,9 +93,10 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
     }
 
     fun createNewGroup(members: ArrayList<Member>, groupTitle: String, groupImageCode : Int) {
+        val displayName = auth.currentUser!!.displayName!!
         val groupId = createGroup(members, groupTitle, groupImageCode)
 
-        informNewMembersForGroupInvitation(members, groupId, groupTitle, groupImageCode, members.size)
+        informNewMembersForGroupInvitation(members, groupId, groupTitle, groupImageCode, members.size,displayName)
     }
 
     private fun createGroup(members: ArrayList<Member>, groupTitle: String, groupImageCode : Int): String {
@@ -119,23 +121,26 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
     }
 
     private fun informNewMembersForGroupInvitation(members: ArrayList<Member>, groupId: String,
-                                                   groupTitle: String, groupImageCode: Int, membersCount: Int) {
+                                                   groupTitle: String, groupImageCode: Int,
+                                                   membersCount: Int,displayName : String) {
         val dbReference = database.getReference(Constants.NICKNAME)
 
         for (member in members) {
-            val group = Group()
-            group.id = groupId
-            group.imageCode = groupImageCode
-            group.activated = Group.PASSIVE
-            group.title = groupTitle
-            group.date_created = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
-            group.members = membersCount
+            if (member.name != displayName) {
+                val group = Group()
+                group.id = groupId
+                group.imageCode = groupImageCode
+                group.activated = Group.PASSIVE
+                group.title = groupTitle
+                group.date_created = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
+                group.members = membersCount
 
-            dbReference
-                    .child(member.name)
-                    .child(Constants.GROUPS)
-                    .child(groupId)
-                    .setValue(group)
+                dbReference
+                        .child(member.name)
+                        .child(Constants.GROUPS)
+                        .child(groupId)
+                        .setValue(group)
+            }
         }
         val group = Group()
         group.id = groupId
@@ -299,4 +304,20 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
                 .child(group.id)
                 .setValue(null)
     }
+
+    /**
+     * Be careful every update in db
+     * will cause use of listener
+     */
+
+    fun subscribeToGroupUpdates(listener: ValueEventListener) {
+        database.getReference(Constants.NICKNAME)
+                .child(auth.currentUser!!.displayName)
+                .child(Constants.GROUPS)
+                .orderByChild(ACTIVATED)
+                .equalTo(Group.PASSIVE.toDouble())
+                .addValueEventListener(listener)
+    }
+
+
 }

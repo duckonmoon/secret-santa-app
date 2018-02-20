@@ -1,12 +1,17 @@
 package com.softserveinc.test.secretsanta.application
 
+import android.app.ActivityManager
 import android.app.Application
+import android.content.Context
+import android.content.Intent
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.component.AuthComponent
 import com.softserveinc.test.secretsanta.component.DaggerAuthComponent
 import com.softserveinc.test.secretsanta.module.AppModule
 import com.softserveinc.test.secretsanta.module.FirebaseModule
+import com.softserveinc.test.secretsanta.service.FirebaseNotificationService
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 import javax.inject.Inject
 
@@ -47,5 +52,9 @@ class App : Application() {
 
     fun signOut() {
         auth.signOut()
+    }
+
+    fun startFirebaseNotificationService() {
+        startService(Intent(this, FirebaseNotificationService::class.java))
     }
 }

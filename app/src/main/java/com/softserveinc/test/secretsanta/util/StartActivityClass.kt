@@ -17,6 +17,7 @@ class StartActivityClass {
         fun startGroupsActivity(activity: Activity) {
             val intent = Intent(activity, GroupsActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            App.INSTANCE.startFirebaseNotificationService()
             activity.startActivity(intent)
             activity.finish()
         }

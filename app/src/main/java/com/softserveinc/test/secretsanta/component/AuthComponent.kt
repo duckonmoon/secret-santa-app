@@ -10,6 +10,7 @@ import com.softserveinc.test.secretsanta.fragment.login.LoginFragment
 import com.softserveinc.test.secretsanta.fragment.login.RegistrationFragment
 import com.softserveinc.test.secretsanta.module.AppModule
 import com.softserveinc.test.secretsanta.module.FirebaseModule
+import com.softserveinc.test.secretsanta.service.FirebaseNotificationService
 import dagger.Component
 import javax.inject.Singleton
 
@@ -28,4 +29,5 @@ interface AuthComponent {
     fun inject(activity: MyWishListActivity)
     fun inject(fragment: DeletedGroupsFragment)
     fun inject(fragment: ProfileFragment)
+    fun inject(service : FirebaseNotificationService)
 }

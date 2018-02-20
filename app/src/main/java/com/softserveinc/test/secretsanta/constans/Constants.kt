@@ -12,6 +12,8 @@ interface Constants {
         const val HUMANS = "humans"
         const val REQUEST_CODE = 1
 
+        const val MAIN_SHARED_PREFERENCES_NAME = "SHARED_PREFERENCES"
+
 
         val images = mapOf(
                 Pair(0, R.drawable.face),
