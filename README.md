@@ -15,5 +15,5 @@ Secret Santa app allows to make process of exchanging presents at work or univer
 
 
 # Development version
-<a href="https://firebasestorage.googleapis.com/v0/b/apkstes.appspot.com/o/Secret%20Santa.apk?alt=media&token=1c8aa0b0-78fb-419d-acf0-5a593a365af3" target="_blank">Download</a>
+<a href="https://firebasestorage.googleapis.com/v0/b/apkstes.appspot.com/o/Secret%20Santa.apk?alt=media&token=7caf1c44-cb03-4f3c-a0de-3a21957a59fa" target="_blank">Download</a>
 

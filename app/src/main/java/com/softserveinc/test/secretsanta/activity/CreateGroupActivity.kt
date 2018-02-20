@@ -96,11 +96,13 @@ class CreateGroupActivity : BaseActivity() {
                         recyclerview.adapter.notifyDataSetChanged()
                         Toast.makeText(applicationContext, "Added", Toast.LENGTH_SHORT)
                                 .show()
+                        wrapperViewHolder.setState(State.ADD_MEMBERS_ADDED)
                     } else {
                         Toast.makeText(applicationContext, "Pls check if nick is correct", Toast.LENGTH_SHORT)
                                 .show()
+                        wrapperViewHolder.setState(State.ADD_MEMBERS_NOT_ADDED)
                     }
-                    wrapperViewHolder.setState(State.ADD_MEMBERS)
+
                 } catch (e: Exception) {
                 }
             }
@@ -143,7 +145,7 @@ class CreateGroupActivity : BaseActivity() {
                 if (!checkIfNickIsInMembers(nickname)) {
                     addIfExistsInCloud(nickname, wrapperViewHolder)
                 } else {
-                    wrapperViewHolder.setState(State.ADD_MEMBERS)
+                    wrapperViewHolder.setState(State.ADD_MEMBERS_NOT_ADDED)
                     Toast.makeText(applicationContext, "Member already added", Toast.LENGTH_SHORT)
                             .show()
                 }

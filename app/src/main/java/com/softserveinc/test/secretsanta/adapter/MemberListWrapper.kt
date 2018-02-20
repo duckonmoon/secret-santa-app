@@ -68,7 +68,7 @@ class WrapperViewHolder(private val view: View?, private val listener: OnFooterA
         setNewAdapter()
 
         label.setOnClickListener {
-            setState(State.ADD_MEMBERS)
+            setState(State.ADD_MEMBERS_NOT_ADDED)
         }
 
 
@@ -114,11 +114,19 @@ class WrapperViewHolder(private val view: View?, private val listener: OnFooterA
                     layout.visibility = View.GONE
                     label.visibility = View.VISIBLE
                 }
-                State.ADD_MEMBERS -> {
+                State.ADD_MEMBERS_NOT_ADDED -> {
                     loadingProgressBar.visibility = View.GONE
                     layout.visibility = View.VISIBLE
                     label.visibility = View.GONE
                 }
+                State.ADD_MEMBERS_ADDED -> {
+                    autoCompleteNicks.setText("")
+                    loadingProgressBar.visibility = View.GONE
+                    layout.visibility = View.VISIBLE
+                    label.visibility = View.GONE
+                }
+
+
                 State.LOADING -> {
                     loadingProgressBar.visibility = View.VISIBLE
                     layout.visibility = View.GONE
@@ -145,7 +153,8 @@ class WrapperViewHolder(private val view: View?, private val listener: OnFooterA
 
 enum class State {
     ONLY_ADD_NEW_MEMBERS,
-    ADD_MEMBERS,
+    ADD_MEMBERS_ADDED,
+    ADD_MEMBERS_NOT_ADDED,
     LOADING
 }
 
