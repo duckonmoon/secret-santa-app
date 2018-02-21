@@ -12,6 +12,7 @@ import android.view.View
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.shashank.sony.fancytoastlib.FancyToast
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.adapter.HumanListAdapter
 import com.softserveinc.test.secretsanta.application.App
@@ -22,6 +23,7 @@ import com.softserveinc.test.secretsanta.entity.GroupFull
 import com.softserveinc.test.secretsanta.entity.Human
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.util.StartActivityClass
+import com.softserveinc.test.secretsanta.view.SantaToast
 import com.softserveinc.test.secretsanta.viewmodel.HumanViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_group_detail.*
@@ -42,19 +44,25 @@ class GroupDetailActivity : BaseActivity() {
     private lateinit var menu: Menu
 
     private val group: Group by lazy {
-        intent.extras[GROUP] as Group
+        if (viewModel.group == null) {
+            viewModel.group = intent.extras[GROUP] as Group
+            viewModel.group!!
+        } else {
+           viewModel.group!!
+        }
+
     }
 
     private val humanListener = object : HumanListAdapter.OnHumanItemClickListener {
         override fun onClick(human: Human) {
             if (human.nickname == firebaseService.getUserNickname()) {
-                StartActivityClass.startMyWishListActivity(this@GroupDetailActivity, viewModel.group!!)
+                StartActivityClass.startMyWishListActivity(this@GroupDetailActivity, viewModel.groupFull!!)
                 return
             }
             StartActivityClass.startWishListActivity(
                     activity = this@GroupDetailActivity,
                     human = human,
-                    group = viewModel.group!!)
+                    group = viewModel.groupFull!!)
         }
     }
 
@@ -68,7 +76,7 @@ class GroupDetailActivity : BaseActivity() {
 
         override fun onDataChange(dataSnapshot: DataSnapshot) {
             val full = dataSnapshot.getValue(GroupFull::class.java)!!
-            viewModel.group = full
+            viewModel.groupFull = full
             try {
                 setAdapter()
                 setMenuItemVisibility()
@@ -78,7 +86,7 @@ class GroupDetailActivity : BaseActivity() {
     }
 
     private fun setMenuItemVisibility() {
-        if (viewModel.group != null) {
+        if (viewModel.groupFull != null) {
             menu.findItem(R.id.randomize).isVisible = checkRights()
             menu.findItem(R.id.wish_list).isVisible = true
         }
@@ -103,46 +111,40 @@ class GroupDetailActivity : BaseActivity() {
 
         setInvitationButton()
 
-        if (viewModel.group == null) {
+        if (viewModel.groupFull == null) {
             firebaseService.getGroupInfo(group.id, listener)
         } else {
             setAdapter()
         }
     }
 
-    private fun setGroupImage(){
+    private fun setGroupImage() {
         try {
             Picasso.with(this)
                     .load(Constants.images[group.imageCode]!!)
                     .noFade()
                     .into(group_image)
-        } catch (e : Exception){
+        } catch (e: Exception) {
         }
     }
 
     private fun setInvitationButton() {
-        if (group.activated == 0) {
+        if (group.activated == Group.PASSIVE) {
             activate_button.visibility = View.VISIBLE
             activate_button.setOnClickListener {
-                group.activated = if (group.activated == 1) {
-                    0
-                } else {
-                    1
-                }
+                group.activated = Group.ACTIVATED
                 firebaseService.updateGroupActivationStatus(group)
-                activate_button.text = if (group.activated == 1) {
-                    getString(R.string.cancel_invitation)
-                } else {
-                    getString(R.string.accept_invitation)
-                }
+                activate_button.visibility = View.GONE
+                SantaToast.makeText(this,getString(R.string.invitation_accepted,group.title),
+                        SantaToast.LENGTH_LONG,SantaToast.SUCCESS,R.drawable.christmas_house,R.drawable.santaa).show()
             }
         }
     }
 
     private fun checkRights(): Boolean {
-        if (viewModel.group != null) {
+        if (viewModel.groupFull != null) {
             val nickname: String = firebaseService.getUserNickname()!!
-            return viewModel.group!!.humans[nickname]!!.admin
+            return viewModel.groupFull!!.humans[nickname]!!.admin
         }
         return false
     }
@@ -158,13 +160,13 @@ class GroupDetailActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.randomize -> randomize()
-            R.id.wish_list -> StartActivityClass.startMyWishListActivity(this, viewModel.group!!)
+            R.id.wish_list -> StartActivityClass.startMyWishListActivity(this, viewModel.groupFull!!)
         }
         return super.onOptionsItemSelected(item)
     }
 
     private fun randomize() {
-        if (!viewModel.group!!.randomize) {
+        if (!viewModel.groupFull!!.randomize) {
             doRandomChanges()
         } else {
             buildConfirmationDialog()
@@ -178,7 +180,7 @@ class GroupDetailActivity : BaseActivity() {
     }
 
     private fun notifyFirebase() {
-        firebaseService.randomizeGroup(viewModel.group!!)
+        firebaseService.randomizeGroup(viewModel.groupFull!!)
     }
 
     private fun buildConfirmationDialog() {
@@ -194,7 +196,7 @@ class GroupDetailActivity : BaseActivity() {
 
     private fun orderHumansInRandomWay(): ArrayList<Human> {
         val humans = ArrayList<Human>()
-        humans.addAll(viewModel.group!!.humans.values)
+        humans.addAll(viewModel.groupFull!!.humans.values)
         Collections.shuffle(humans)
         for (i in 0 until humans.size - 1) {
             humans[i].giftedBy = humans[i + 1].nickname
@@ -207,7 +209,7 @@ class GroupDetailActivity : BaseActivity() {
     private fun setAdapter() {
         progress_bar.visibility = View.GONE
 
-        recyclerview.adapter = HumanListAdapter(viewModel.group!!.humans.values.toList(),
+        recyclerview.adapter = HumanListAdapter(viewModel.groupFull!!.humans.values.toList(),
                 firebaseService.getUserNickname()!!,
                 humanListener)
     }
@@ -220,7 +222,7 @@ class GroupDetailActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Constants.REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
-            viewModel.group = data.extras[MyWishListActivity.FULL_GROUP] as GroupFull
+            viewModel.groupFull = data.extras[MyWishListActivity.FULL_GROUP] as GroupFull
         }
     }
 }

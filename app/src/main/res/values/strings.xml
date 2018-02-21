@@ -78,4 +78,5 @@
     <string name="face">face</string>
     <string name="delete_group">Do you want to delete %s?</string>
     <string name="new_groups_available">new group invitation appeared!</string>
+    <string name="invitation_accepted">Invitation to %s accepted successfully</string>
 </resources>
