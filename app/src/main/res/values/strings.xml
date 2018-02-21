@@ -79,4 +79,8 @@
     <string name="delete_group">Do you want to delete %s?</string>
     <string name="new_groups_available">new group invitation appeared!</string>
     <string name="invitation_accepted">Invitation to %s accepted successfully</string>
+
+    <string name="group_created_successfully">Group was created successfully!</string>
+    <string name="group_moved_trash">%s was moved to Trash</string>
+    <string name="group_completely_deleted">%s was completely deleted!!!</string>
 </resources>

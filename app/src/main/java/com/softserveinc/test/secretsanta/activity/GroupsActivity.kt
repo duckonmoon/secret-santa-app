@@ -26,6 +26,7 @@ import com.softserveinc.test.secretsanta.fragment.group.PassiveGroupsFragment
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.util.Mapper
 import com.softserveinc.test.secretsanta.util.StartActivityClass
+import com.softserveinc.test.secretsanta.view.SantaToast
 import com.softserveinc.test.secretsanta.viewmodel.GroupViewModel
 import kotlinx.android.synthetic.main.activity_groups.*
 import kotlinx.android.synthetic.main.app_bar_groups.*
@@ -173,6 +174,8 @@ class GroupsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
                         viewModel.groups[viewHolder.adapterPosition].title))
                 .setYesButtonClickListener(View.OnClickListener {
                     firebaseService.moveGroupToTrash(viewModel.groups[viewHolder.adapterPosition])
+                    SantaToast.makeText(this,getString(R.string.group_moved_trash,viewModel.groups[viewHolder.adapterPosition].title),
+                            SantaToast.LENGTH_LONG,SantaToast.INFO,R.drawable.christmas_house,null).show()
                     viewModel.groups.removeAt(viewHolder.adapterPosition)
                     recycler_view.adapter.notifyDataSetChanged()
                     checkIfGroupsExists()
@@ -195,6 +198,8 @@ class GroupsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == StartActivityClass.REQUESTED_CODE_CREATE_GROUP_ACTIVITY && resultCode == RESULT_OK) {
+            SantaToast.makeText(this,getString(R.string.group_created_successfully),SantaToast.LENGTH_LONG,
+                    SantaToast.SUCCESS,R.drawable.christmas_house,R.drawable.face).show()
             getUpdate()
         }
     }

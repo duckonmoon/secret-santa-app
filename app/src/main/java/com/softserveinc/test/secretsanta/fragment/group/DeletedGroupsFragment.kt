@@ -20,6 +20,7 @@ import com.softserveinc.test.secretsanta.entity.Group
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.util.Mapper
 import com.softserveinc.test.secretsanta.util.StartActivityClass
+import com.softserveinc.test.secretsanta.view.SantaToast
 import com.softserveinc.test.secretsanta.viewmodel.GroupViewModel
 import kotlinx.android.synthetic.main.fragment_passive_groups.view.*
 import javax.inject.Inject
@@ -65,6 +66,8 @@ class DeletedGroupsFragment : Fragment() {
                         viewModel.groups[viewHolder.adapterPosition].title))
                 .setYesButtonClickListener(View.OnClickListener {
                     firebaseService.deleteGroup(viewModel.groups[viewHolder.adapterPosition])
+                    SantaToast.makeText(context!!,getString(R.string.group_completely_deleted,viewModel.groups[viewHolder.adapterPosition].title),
+                            SantaToast.LENGTH_LONG, SantaToast.DEFAULT,R.drawable.christmas_house,null).show()
                     viewModel.groups.removeAt(viewHolder.adapterPosition)
                     mView.recycler_view.adapter.notifyDataSetChanged()
                     checkIfGroupsExists()
