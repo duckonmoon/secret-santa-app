@@ -86,13 +86,13 @@ class MyWishListActivity : BaseActivity() {
         setGroupImage()
     }
 
-    private fun setGroupImage(){
+    private fun setGroupImage() {
         try {
             Picasso.with(this)
                     .load(Constants.images[me.image.toInt()]!!)
                     .noFade()
                     .into(group_image)
-        } catch (e : Exception){
+        } catch (e: Exception) {
         }
     }
 

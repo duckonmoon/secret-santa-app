@@ -66,8 +66,8 @@ class DeletedGroupsFragment : Fragment() {
                         viewModel.groups[viewHolder.adapterPosition].title))
                 .setYesButtonClickListener(View.OnClickListener {
                     firebaseService.deleteGroup(viewModel.groups[viewHolder.adapterPosition])
-                    SantaToast.makeText(context!!,getString(R.string.group_completely_deleted,viewModel.groups[viewHolder.adapterPosition].title),
-                            SantaToast.LENGTH_LONG, SantaToast.DEFAULT,R.drawable.christmas_house,null).show()
+                    SantaToast.makeText(context!!, getString(R.string.group_completely_deleted, viewModel.groups[viewHolder.adapterPosition].title),
+                            SantaToast.LENGTH_LONG, SantaToast.DEFAULT, R.drawable.christmas_house, null).show()
                     viewModel.groups.removeAt(viewHolder.adapterPosition)
                     mView.recycler_view.adapter.notifyDataSetChanged()
                     checkIfGroupsExists()

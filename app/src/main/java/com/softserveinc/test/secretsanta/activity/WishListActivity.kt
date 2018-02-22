@@ -3,6 +3,7 @@ package com.softserveinc.test.secretsanta.activity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
+import android.view.View
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.adapter.MyWishListAdapter
 import com.softserveinc.test.secretsanta.constans.Constants
@@ -33,16 +34,25 @@ class WishListActivity : BaseActivity() {
         setActionBar()
         setText()
         setRecyclerViewConfiguration()
+        setAloneView()
         setGroupImage()
     }
 
-    private fun setGroupImage(){
+    private fun setAloneView() {
+        alone_view.visibility = if (human.preferences.size > 0) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+    }
+
+    private fun setGroupImage() {
         try {
             Picasso.with(this)
                     .load(Constants.images[human.image.toInt()]!!)
                     .noFade()
                     .into(group_image)
-        } catch (e : Exception){
+        } catch (e: Exception) {
         }
     }
 

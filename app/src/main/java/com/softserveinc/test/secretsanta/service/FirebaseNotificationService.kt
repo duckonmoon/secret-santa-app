@@ -32,16 +32,16 @@ class FirebaseNotificationService : Service() {
     override fun onCreate() {
         super.onCreate()
         App.INSTANCE.component.inject(this)
-        firebaseService.subscribeToGroupUpdates(object : ValueEventListener{
+        firebaseService.subscribeToGroupUpdates(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError?) {
-                Log.e(firebaseNotificationServiceName,"Smth went wrong")
+                Log.e(firebaseNotificationServiceName, "Smth went wrong")
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 Log.e(firebaseNotificationServiceName, dataSnapshot.toString())
-                val groupsSize  = Mapper.mapFromDataSnapshotGroupsToStringGroups(dataSnapshot).size
+                val groupsSize = Mapper.mapFromDataSnapshotGroupsToStringGroups(dataSnapshot).size
                 val groupsSizeDevice = getGroupsSize()
-                if (groupsSize > groupsSizeDevice){
+                if (groupsSize > groupsSizeDevice) {
                     buildNotification()
                 }
                 saveNewNumberToPreferences(groupsSize)
@@ -57,8 +57,8 @@ class FirebaseNotificationService : Service() {
         return START_STICKY
     }
 
-    private fun saveNewNumberToPreferences(groupSize : Int) {
-        sharedPreferences.edit().putInt(firebaseNotificationServiceName,groupSize).apply()
+    private fun saveNewNumberToPreferences(groupSize: Int) {
+        sharedPreferences.edit().putInt(firebaseNotificationServiceName, groupSize).apply()
     }
 
     private fun getGroupsSize(): Int {

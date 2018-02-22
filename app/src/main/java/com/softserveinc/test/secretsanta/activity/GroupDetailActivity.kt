@@ -12,7 +12,6 @@ import android.view.View
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.shashank.sony.fancytoastlib.FancyToast
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.adapter.HumanListAdapter
 import com.softserveinc.test.secretsanta.application.App
@@ -48,7 +47,7 @@ class GroupDetailActivity : BaseActivity() {
             viewModel.group = intent.extras[GROUP] as Group
             viewModel.group!!
         } else {
-           viewModel.group!!
+            viewModel.group!!
         }
 
     }
@@ -135,8 +134,8 @@ class GroupDetailActivity : BaseActivity() {
                 group.activated = Group.ACTIVATED
                 firebaseService.updateGroupActivationStatus(group)
                 activate_button.visibility = View.GONE
-                SantaToast.makeText(this,getString(R.string.invitation_accepted,group.title),
-                        SantaToast.LENGTH_LONG,SantaToast.SUCCESS,R.drawable.christmas_house,R.drawable.santaa).show()
+                SantaToast.makeText(this, getString(R.string.invitation_accepted, group.title),
+                        SantaToast.LENGTH_LONG, SantaToast.SUCCESS, R.drawable.christmas_house, R.drawable.santaa).show()
             }
         }
     }

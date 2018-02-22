@@ -1,8 +1,6 @@
 package com.softserveinc.test.secretsanta.service
 
 import android.net.Uri
-import android.provider.ContactsContract
-import android.util.DisplayMetrics
 import android.util.Log
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
@@ -92,14 +90,14 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
                 .addListenerForSingleValueEvent(listener)
     }
 
-    fun createNewGroup(members: ArrayList<Member>, groupTitle: String, groupImageCode : Int) {
+    fun createNewGroup(members: ArrayList<Member>, groupTitle: String, groupImageCode: Int) {
         val displayName = auth.currentUser!!.displayName!!
         val groupId = createGroup(members, groupTitle, groupImageCode)
 
-        informNewMembersForGroupInvitation(members, groupId, groupTitle, groupImageCode, members.size,displayName)
+        informNewMembersForGroupInvitation(members, groupId, groupTitle, groupImageCode, members.size, displayName)
     }
 
-    private fun createGroup(members: ArrayList<Member>, groupTitle: String, groupImageCode : Int): String {
+    private fun createGroup(members: ArrayList<Member>, groupTitle: String, groupImageCode: Int): String {
         val dbReference = database.getReference(Constants.GROUPS)
 
         val group = GroupFull()
@@ -122,7 +120,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
 
     private fun informNewMembersForGroupInvitation(members: ArrayList<Member>, groupId: String,
                                                    groupTitle: String, groupImageCode: Int,
-                                                   membersCount: Int,displayName : String) {
+                                                   membersCount: Int, displayName: String) {
         val dbReference = database.getReference(Constants.NICKNAME)
 
         for (member in members) {
@@ -272,7 +270,7 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
     private fun updateEachGroup(dataSnapshot: DataSnapshot, photoInt: Int) {
         dataSnapshot.children
                 .map { it.getValue(Group::class.java) }
-                .forEach { updateGroupValue(it!!,photoInt) }
+                .forEach { updateGroupValue(it!!, photoInt) }
     }
 
     private fun updateGroupValue(group: Group, photoInt: Int) {

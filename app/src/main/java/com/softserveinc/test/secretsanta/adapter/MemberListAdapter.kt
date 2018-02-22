@@ -20,7 +20,6 @@ class MemberListAdapter(private var members: List<Member>, private val listener:
     }
 
 
-
     override fun getItemCount(): Int {
         return members.size
     }

@@ -1,10 +1,7 @@
 package com.softserveinc.test.secretsanta.application
 
-import android.app.ActivityManager
 import android.app.Application
-import android.content.Context
 import android.content.Intent
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.component.AuthComponent
@@ -38,9 +35,9 @@ class App : Application() {
         component.inject(this)
         INSTANCE = this
 
-        try{
+        try {
             auth.currentUser!!.reload()
-        } catch (e : NullPointerException){
+        } catch (e: NullPointerException) {
 
         }
 

@@ -23,7 +23,7 @@ class ProfileFragment : Fragment() {
     @Inject
     lateinit var firebaseService: FirebaseService
 
-    private fun me() : Member = firebaseService.getCurrentUserAsMember()
+    private fun me(): Member = firebaseService.getCurrentUserAsMember()
 
 
     private val doneListener = object : ChangeImageDialog.DoneListener {
@@ -58,7 +58,7 @@ class ProfileFragment : Fragment() {
             ChangeImageDialog(context!!,
                     me().imagePath.toInt(),
                     doneListener
-                    ).show()
+            ).show()
         }
 
         return mView

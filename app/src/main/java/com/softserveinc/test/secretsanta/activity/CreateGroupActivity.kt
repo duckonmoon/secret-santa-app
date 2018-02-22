@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -95,7 +94,7 @@ class CreateGroupActivity : BaseActivity() {
                     if (dataSnapshot.value != null) {
                         members.add(Member(nickname, dataSnapshot.value!!.toString()))
                         recyclerview.adapter.notifyDataSetChanged()
-                        SantaToast.makeText(applicationContext, getString(R.string.member_added,nickname), SantaToast.SUCCESS)
+                        SantaToast.makeText(applicationContext, getString(R.string.member_added, nickname), SantaToast.SUCCESS)
                                 .show()
                         wrapperViewHolder.setState(State.ADD_MEMBERS_ADDED)
                     } else {

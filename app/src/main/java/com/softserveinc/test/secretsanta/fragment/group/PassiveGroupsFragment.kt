@@ -125,8 +125,8 @@ class PassiveGroupsFragment : Fragment() {
                         viewModel.groups[viewHolder.adapterPosition].title))
                 .setYesButtonClickListener(View.OnClickListener {
                     firebaseService.moveGroupToTrash(viewModel.groups[viewHolder.adapterPosition])
-                    SantaToast.makeText(context!!,getString(R.string.group_moved_trash,viewModel.groups[viewHolder.adapterPosition].title),
-                            SantaToast.LENGTH_LONG, SantaToast.INFO,R.drawable.christmas_house,null).show()
+                    SantaToast.makeText(context!!, getString(R.string.group_moved_trash, viewModel.groups[viewHolder.adapterPosition].title),
+                            SantaToast.LENGTH_LONG, SantaToast.INFO, R.drawable.christmas_house, null).show()
                     viewModel.groups.removeAt(viewHolder.adapterPosition)
                     mView.recycler_view.adapter.notifyDataSetChanged()
                     checkIfGroupsExists()
