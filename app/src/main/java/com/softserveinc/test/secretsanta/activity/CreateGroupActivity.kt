@@ -18,6 +18,7 @@ import com.softserveinc.test.secretsanta.dialog.ChangeImageDialog
 import com.softserveinc.test.secretsanta.entity.Member
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import com.softserveinc.test.secretsanta.util.StartActivityClass
+import com.softserveinc.test.secretsanta.view.SantaToast
 import com.softserveinc.test.secretsanta.viewmodel.MembersViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.create_group_activity.*
@@ -94,11 +95,11 @@ class CreateGroupActivity : BaseActivity() {
                     if (dataSnapshot.value != null) {
                         members.add(Member(nickname, dataSnapshot.value!!.toString()))
                         recyclerview.adapter.notifyDataSetChanged()
-                        Toast.makeText(applicationContext, "Added", Toast.LENGTH_SHORT)
+                        SantaToast.makeText(applicationContext, getString(R.string.member_added,nickname), SantaToast.SUCCESS)
                                 .show()
                         wrapperViewHolder.setState(State.ADD_MEMBERS_ADDED)
                     } else {
-                        Toast.makeText(applicationContext, "Pls check if nick is correct", Toast.LENGTH_SHORT)
+                        SantaToast.makeText(applicationContext, getString(R.string.check_nick_correct), SantaToast.WARNING)
                                 .show()
                         wrapperViewHolder.setState(State.ADD_MEMBERS_NOT_ADDED)
                     }
@@ -146,7 +147,7 @@ class CreateGroupActivity : BaseActivity() {
                     addIfExistsInCloud(nickname, wrapperViewHolder)
                 } else {
                     wrapperViewHolder.setState(State.ADD_MEMBERS_NOT_ADDED)
-                    Toast.makeText(applicationContext, "Member already added", Toast.LENGTH_SHORT)
+                    SantaToast.makeText(applicationContext, getString(R.string.member_already_added), SantaToast.WARNING)
                             .show()
                 }
             }

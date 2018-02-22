@@ -23,10 +23,10 @@ class SantaToast private constructor() {
         val CONFUSING = FancyToast.DEFAULT
 
 
-        fun makeText(context: Context,message : String,
-                            duration : Int,type : Int,
-                            topIcon : Int?, leftIcon : Int?) : Toast {
-            val fancyToast = FancyToast.makeText(context,message,duration,type,true)
+        fun makeText(context: Context, message: String,
+                     duration: Int, type: Int,
+                     topIcon: Int?, leftIcon: Int?): Toast {
+            val fancyToast = FancyToast.makeText(context, message, duration, type, true)
             val fancyToastView = fancyToast.view
 
             val leftImageView = fancyToastView.findViewById<ImageView>(R.id.toast_icon)
@@ -35,15 +35,56 @@ class SantaToast private constructor() {
             val textView = fancyToastView.findViewById<TextView>(R.id.toast_text)
             textView.gravity = Gravity.CENTER
 
-            if (topIcon != null){
+            if (topIcon != null) {
                 androidImageView.setImageResource(topIcon)
-            } else{
+            } else {
                 androidImageView.visibility = View.GONE
             }
 
-            if (leftIcon != null){
+            if (leftIcon != null) {
                 leftImageView.setImageResource(leftIcon)
             }
+
+            return fancyToast!!
+        }
+
+        fun makeText(context: Context, message: String, type: Int,
+                     topIcon: Int?, leftIcon: Int?): Toast {
+            val fancyToast = FancyToast.makeText(context, message, LENGTH_LONG, type, true)
+            val fancyToastView = fancyToast.view
+
+            val leftImageView = fancyToastView.findViewById<ImageView>(R.id.toast_icon)
+            val androidImageView = fancyToastView.findViewById<ImageView>(R.id.imageView4)
+
+            val textView = fancyToastView.findViewById<TextView>(R.id.toast_text)
+            textView.gravity = Gravity.CENTER
+
+            if (topIcon != null) {
+                androidImageView.setImageResource(topIcon)
+            } else {
+                androidImageView.visibility = View.GONE
+            }
+
+            if (leftIcon != null) {
+                leftImageView.setImageResource(leftIcon)
+            }
+
+            return fancyToast!!
+        }
+
+
+        fun makeText(context: Context, message: String, type: Int): Toast {
+            val fancyToast = FancyToast.makeText(context, message, LENGTH_LONG, type, true)
+            val fancyToastView = fancyToast.view
+
+            val leftImageView = fancyToastView.findViewById<ImageView>(R.id.toast_icon)
+            val androidImageView = fancyToastView.findViewById<ImageView>(R.id.imageView4)
+
+            val textView = fancyToastView.findViewById<TextView>(R.id.toast_text)
+            textView.gravity = Gravity.CENTER
+
+
+            androidImageView.setImageResource(com.softserveinc.test.secretsanta.R.drawable.christmas_house)
 
             return fancyToast!!
         }

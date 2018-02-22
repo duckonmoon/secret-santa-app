@@ -83,4 +83,7 @@
     <string name="group_created_successfully">Group was created successfully!</string>
     <string name="group_moved_trash">%s was moved to Trash</string>
     <string name="group_completely_deleted">%s was completely deleted!!!</string>
+    <string name="member_already_added">Member already added</string>
+    <string name="member_added">%s added</string>
+    <string name="check_nick_correct">Pls check if nick is correct</string>
 </resources>
