@@ -57,6 +57,7 @@
     <string name="admin">admin</string>
     <string name="present">present</string>
     <string name="accept_invitation">accept invitation</string>
+    <string name="restore_group">restore group</string>
     <string name="cancel_invitation">cancel invitation</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="my_wishlist">My WishList</string>
@@ -79,6 +80,7 @@
     <string name="delete_group">Do you want to delete %s?</string>
     <string name="new_groups_available">new group invitation appeared!</string>
     <string name="invitation_accepted">Invitation to %s accepted successfully</string>
+    <string name="group_restored">Group %s restored successfully</string>
 
     <string name="group_created_successfully">Group was created successfully!</string>
     <string name="group_moved_trash">%s was moved to Trash</string>

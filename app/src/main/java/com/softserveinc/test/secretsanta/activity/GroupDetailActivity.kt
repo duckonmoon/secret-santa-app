@@ -128,13 +128,24 @@ class GroupDetailActivity : BaseActivity() {
     }
 
     private fun setInvitationButton() {
-        if (group.activated == Group.PASSIVE) {
+        if (group.activated == Group.PASSIVE || group.activated == Group.DELETED) {
             activate_button.visibility = View.VISIBLE
+            activate_button.setText(if (group.activated == Group.PASSIVE) {
+                R.string.accept_invitation
+            } else {
+                R.string.restore_group
+            })
             activate_button.setOnClickListener {
                 group.activated = Group.ACTIVATED
                 firebaseService.updateGroupActivationStatus(group)
                 activate_button.visibility = View.GONE
-                SantaToast.makeText(this, getString(R.string.invitation_accepted, group.title),
+
+
+                SantaToast.makeText(this, if (group.activated == Group.PASSIVE) {
+                    getString(R.string.invitation_accepted, group.title)
+                } else {
+                    getString(R.string.group_restored, group.title)
+                },
                         SantaToast.LENGTH_LONG, SantaToast.SUCCESS, R.drawable.christmas_house, R.drawable.santaa).show()
             }
         }
