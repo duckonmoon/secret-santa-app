@@ -15,7 +15,30 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:fullBackupContent="@xml/backup_descriptor">
 
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_main_icon_round" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+
         <service android:name=".service.FirebaseNotificationService" />
+
+        <service
+            android:name=".service.FirebaseInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".service.FirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
 
         <receiver android:name=".receiver.BootCompleteReceiver">
             <intent-filter>

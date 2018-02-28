@@ -3,6 +3,8 @@
 buildscript {
     ext.kotlin_version = '1.2.21'
     ext.daggerVer = '2.14.1'
+    ext.support_version = '27.1.0'
+    ext.firebase_version = '11.8.0'
     repositories {
         google()
         jcenter()

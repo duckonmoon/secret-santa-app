@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Secret Santa.iml" filepath="$PROJECT_DIR$/Secret Santa.iml" />
+      <module fileurl="file://D:\FuckthisShit\SecretSanta\Secret Santa.iml" filepath="D:\FuckthisShit\SecretSanta\Secret Santa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SecretSanta.iml" filepath="$PROJECT_DIR$/SecretSanta.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
