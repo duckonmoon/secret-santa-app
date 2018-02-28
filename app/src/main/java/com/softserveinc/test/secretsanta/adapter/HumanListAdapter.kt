@@ -15,8 +15,8 @@ class HumanListAdapter(private val humans: List<Human>,
                        private val nickname: String,
                        private val humanListener: OnHumanItemClickListener)
     : RecyclerView.Adapter<HumanViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): HumanViewHolder? {
-        return HumanViewHolder(view = LayoutInflater.from(parent!!.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HumanViewHolder {
+        return HumanViewHolder(view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.meber_list_item_detail, parent, false),
                 listener = object : HumanViewHolder.OnHumanItemClickListener {
                     override fun onClick(position: Int) {

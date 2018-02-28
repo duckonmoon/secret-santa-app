@@ -16,8 +16,8 @@ import com.squareup.picasso.Picasso
 class SimpleGroupAdapter(private var groups: ArrayList<Group>, private val onItemIterationListener: OnItemIterationListener)
     : RecyclerView.Adapter<SimpleViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SimpleViewHolder {
-        return SimpleViewHolder(view = LayoutInflater.from(parent!!.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleViewHolder {
+        return SimpleViewHolder(view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.group_item, parent, false),
                 onButtonClickListener = object : SimpleViewHolder.OnButtonClickListener {
                     override fun onViewClick(position: Int) {

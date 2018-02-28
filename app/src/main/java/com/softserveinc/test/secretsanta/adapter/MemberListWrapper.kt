@@ -24,11 +24,11 @@ class MemberListWrapper(private val adapter: MemberListAdapter, private val list
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == VIEW_TYPE_CELL) {
             return adapter.onCreateViewHolder(parent, viewType)
         }
-        return WrapperViewHolder(view = LayoutInflater.from(parent!!.context)
+        return WrapperViewHolder(view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.member_footer, parent, false), listener = listener)
     }
 
@@ -44,7 +44,7 @@ class MemberListWrapper(private val adapter: MemberListAdapter, private val list
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (position < adapter.itemCount) {
             adapter.onBindViewHolder(holder as ViewHolder, position)
         } else {
