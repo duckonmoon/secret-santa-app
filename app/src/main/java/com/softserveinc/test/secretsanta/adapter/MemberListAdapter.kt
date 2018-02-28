@@ -14,8 +14,8 @@ import com.squareup.picasso.Picasso
 
 class MemberListAdapter(private var members: List<Member>, private val listener: OnItemClickListener) : RecyclerView.Adapter<ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        return ViewHolder(view = LayoutInflater.from(parent!!.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.member_item, parent, false), listener = listener)
     }
 
@@ -24,9 +24,9 @@ class MemberListAdapter(private var members: List<Member>, private val listener:
         return members.size
     }
 
-    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val member = members[position]
-        holder!!.memberNameView.text = member.name
+        holder.memberNameView.text = member.name
         if (position == 0) {
             holder.memberCloseView.visibility = View.GONE
         }

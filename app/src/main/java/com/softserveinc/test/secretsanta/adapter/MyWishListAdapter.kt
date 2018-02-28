@@ -11,8 +11,8 @@ import com.softserveinc.test.secretsanta.application.App
 
 class MyWishListAdapter(private val wishes: MutableList<String>) : RecyclerView.Adapter<MyWishListViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): MyWishListViewHolder {
-        return MyWishListViewHolder(view = LayoutInflater.from(parent!!.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyWishListViewHolder {
+        return MyWishListViewHolder(view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.wish_item, parent, false))
     }
 
