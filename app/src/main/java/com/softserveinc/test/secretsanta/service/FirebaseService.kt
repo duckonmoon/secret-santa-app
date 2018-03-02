@@ -10,6 +10,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.softserveinc.test.secretsanta.constans.Constants
 import com.softserveinc.test.secretsanta.entity.Group
 import com.softserveinc.test.secretsanta.entity.GroupFull
@@ -19,7 +20,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class FirebaseService(private val database: FirebaseDatabase, private val auth: FirebaseAuth) {
+class FirebaseService(private val database: FirebaseDatabase,
+                      private val auth: FirebaseAuth) {
 
     companion object {
         const val ID = "id"
@@ -196,6 +198,12 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
                 .child(group.id)
                 .child(ACTIVATED)
                 .setValue(group.activated)
+
+        if (group.activated == Group.ACTIVATED){
+            subscribe(group)
+        } else {
+            unsubscribe(group)
+        }
     }
 
     fun getGroupInfo(groupId: String, listener: ValueEventListener) {
@@ -240,6 +248,16 @@ class FirebaseService(private val database: FirebaseDatabase, private val auth: 
                 .child(group.id)
                 .child(ACTIVATED)
                 .setValue(Group.DELETED)
+
+        unsubscribe(group)
+    }
+
+    private fun unsubscribe(group: Group){
+        FirebaseMessaging.getInstance()!!.unsubscribeFromTopic(group.id)
+    }
+
+    private fun subscribe(group: Group){
+        FirebaseMessaging.getInstance()!!.subscribeToTopic(group.id)
     }
 
     fun updateCurrentPhoto(photoInt: Int) {

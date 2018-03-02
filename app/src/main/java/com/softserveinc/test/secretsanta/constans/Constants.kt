@@ -11,7 +11,7 @@ interface Constants {
         const val GROUPS = "groups"
         const val HUMANS = "humans"
         const val REQUEST_CODE = 1
-
+        const val ID_MESSAGE = "key=AAAAM41jq6I:APA91bF9FmQJ0UoFGLtw7LONFcHb_f0zRrABQ_-uSPs1KXG2iGkMROv_36tZebghR4M6t_hyhbaF0NjQLn9eqasMqIz_ANzGNRO7W1AOP4XKGXC8cJAmTLDb2OMf-5iPNWy8uVh3c8DY"
         const val MAIN_SHARED_PREFERENCES_NAME = "SHARED_PREFERENCES"
 
 

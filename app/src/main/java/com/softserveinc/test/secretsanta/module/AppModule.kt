@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.softserveinc.test.secretsanta.application.App
 import com.softserveinc.test.secretsanta.constans.Constants
 import dagger.Module

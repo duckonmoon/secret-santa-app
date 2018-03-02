@@ -136,17 +136,19 @@ class GroupDetailActivity : BaseActivity() {
                 R.string.restore_group
             })
             activate_button.setOnClickListener {
-                group.activated = Group.ACTIVATED
-                firebaseService.updateGroupActivationStatus(group)
-                activate_button.visibility = View.GONE
-
-
                 SantaToast.makeText(this, if (group.activated == Group.PASSIVE) {
                     getString(R.string.invitation_accepted, group.title)
                 } else {
                     getString(R.string.group_restored, group.title)
                 },
                         SantaToast.LENGTH_LONG, SantaToast.SUCCESS, R.drawable.christmas_house, R.drawable.santaa).show()
+
+                group.activated = Group.ACTIVATED
+                firebaseService.updateGroupActivationStatus(group)
+                activate_button.visibility = View.GONE
+
+
+
             }
         }
     }

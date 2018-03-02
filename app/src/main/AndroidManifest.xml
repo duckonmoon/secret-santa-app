@@ -24,16 +24,17 @@
             android:resource="@color/colorAccent" />
 
         <service android:name=".service.FirebaseNotificationService" />
+        <service android:name=".service.FirebaseGetUpdateIntentService" />
 
         <service
             android:name=".service.FirebaseInstanceIdService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
 
         <service
-            android:name=".service.FirebaseMessagingService">
+            android:name=".service.FirebaseMessaginService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>

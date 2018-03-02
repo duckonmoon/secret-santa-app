@@ -10,12 +10,14 @@ import com.softserveinc.test.secretsanta.fragment.login.LoginFragment
 import com.softserveinc.test.secretsanta.fragment.login.RegistrationFragment
 import com.softserveinc.test.secretsanta.module.AppModule
 import com.softserveinc.test.secretsanta.module.FirebaseModule
+import com.softserveinc.test.secretsanta.module.RetrofitModule
+import com.softserveinc.test.secretsanta.service.FirebaseGetUpdateIntentService
 import com.softserveinc.test.secretsanta.service.FirebaseNotificationService
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [(FirebaseModule::class), (AppModule::class)])
+@Component(modules = [(FirebaseModule::class), (AppModule::class), (RetrofitModule::class)])
 interface AuthComponent {
     fun inject(activity: LoginActivity)
     fun inject(fragment: RegistrationFragment)
@@ -30,4 +32,5 @@ interface AuthComponent {
     fun inject(fragment: DeletedGroupsFragment)
     fun inject(fragment: ProfileFragment)
     fun inject(service: FirebaseNotificationService)
+    fun inject(service: FirebaseGetUpdateIntentService)
 }

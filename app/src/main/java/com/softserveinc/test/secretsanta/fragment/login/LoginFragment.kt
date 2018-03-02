@@ -1,6 +1,7 @@
 package com.softserveinc.test.secretsanta.fragment.login
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -11,7 +12,9 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.application.App
 import com.softserveinc.test.secretsanta.controller.LoginController
+import com.softserveinc.test.secretsanta.service.FirebaseGetUpdateIntentService
 import com.softserveinc.test.secretsanta.service.FirebaseService
+import com.softserveinc.test.secretsanta.util.StartActivityClass
 import com.softserveinc.test.secretsanta.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_login.view.*
 import javax.inject.Inject
@@ -62,6 +65,7 @@ class LoginFragment : Fragment() {
             firebaseService.signInWithEmailAndPassword(emailString, passwordString, OnCompleteListener { task ->
                 if (task.isSuccessful) {
                     if (firebaseService.checkIfEmailIsVerified()) {
+                        StartActivityClass.startFirebaseGetUpdateService(FirebaseGetUpdateIntentService.SUB)
                         controller.goToPass()
                     } else {
                         makeSnackbar(getString(R.string.verification,

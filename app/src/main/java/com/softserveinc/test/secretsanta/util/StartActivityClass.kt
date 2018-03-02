@@ -8,6 +8,7 @@ import com.softserveinc.test.secretsanta.constans.Constants
 import com.softserveinc.test.secretsanta.entity.Group
 import com.softserveinc.test.secretsanta.entity.GroupFull
 import com.softserveinc.test.secretsanta.entity.Human
+import com.softserveinc.test.secretsanta.service.FirebaseGetUpdateIntentService
 
 class StartActivityClass {
     companion object {
@@ -65,6 +66,12 @@ class StartActivityClass {
             intent.putExtra(WishListActivity.HUMAN, human)
             intent.putExtra(WishListActivity.FULL_GROUP, group)
             activity.startActivity(intent)
+        }
+
+        fun startFirebaseGetUpdateService(sub: String) {
+            val intent = Intent(App.INSTANCE, FirebaseGetUpdateIntentService::class.java)
+            intent.putExtra(FirebaseGetUpdateIntentService.TAG,sub)
+            App.INSTANCE.startService(intent)
         }
 
     }
