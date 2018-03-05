@@ -88,4 +88,5 @@
     <string name="member_already_added">Member already added</string>
     <string name="member_added">%s added</string>
     <string name="check_nick_correct">Pls check if nick is correct</string>
+    <string name="push_people_with_empty_wishlists">Push people with empty wishlists</string>
 </resources>

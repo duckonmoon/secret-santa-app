@@ -1,14 +1,14 @@
 package com.softserveinc.test.secretsanta.service
 
-import com.softserveinc.test.secretsanta.entity.MessageHolder
+import com.softserveinc.test.secretsanta.entity.Message
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface MessagesService {
-    @POST("./messages:send")
-    fun sendNotification(@Header("Content-Type") contentType : String,
+    @POST("fcm/send")
+    fun sendNotification(@Header("Content-Type") contentType: String,
                          @Header("Authorization") uid: String,
-                         @Body message : MessageHolder) : Call<Any?>
+                         @Body message: Message): Call<Any?>
 }

@@ -1,7 +1,6 @@
 package com.softserveinc.test.secretsanta.fragment.login
 
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -66,6 +65,7 @@ class LoginFragment : Fragment() {
                 if (task.isSuccessful) {
                     if (firebaseService.checkIfEmailIsVerified()) {
                         StartActivityClass.startFirebaseGetUpdateService(FirebaseGetUpdateIntentService.SUB)
+                        subscribeToAllGroups()
                         controller.goToPass()
                     } else {
                         makeSnackbar(getString(R.string.verification,
@@ -88,6 +88,10 @@ class LoginFragment : Fragment() {
             mView.btn_reset_password.isEnabled = true
             mView.btn_signup.isEnabled = true
         }
+    }
+
+    private fun subscribeToAllGroups() {
+        firebaseService.subscribeToAllActivatedGroups()
     }
 
 

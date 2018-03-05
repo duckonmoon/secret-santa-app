@@ -2,7 +2,6 @@ package com.softserveinc.test.secretsanta.module
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.messaging.FirebaseMessaging
 import com.softserveinc.test.secretsanta.service.FirebaseService
 import dagger.Module
 import dagger.Provides

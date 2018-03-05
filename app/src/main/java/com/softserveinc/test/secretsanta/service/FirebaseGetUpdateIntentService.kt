@@ -16,7 +16,7 @@ class FirebaseGetUpdateIntentService : IntentService(TAG) {
     var messaging: FirebaseMessaging? = null
 
     @Inject
-    lateinit var auth : FirebaseAuth
+    lateinit var auth: FirebaseAuth
 
     @Inject
     lateinit var service: FirebaseService
@@ -35,9 +35,9 @@ class FirebaseGetUpdateIntentService : IntentService(TAG) {
     }
 
     override fun onHandleIntent(intent: Intent) {
-        if (intent.extras[TAG] == SUB){
+        if (intent.extras[TAG] == SUB) {
             subscribe()
-        } else if(intent.extras[TAG] == UNSUB) {
+        } else if (intent.extras[TAG] == UNSUB) {
             unsubscribe()
         }
     }
@@ -58,7 +58,7 @@ class FirebaseGetUpdateIntentService : IntentService(TAG) {
         })
     }
 
-    private fun subscribe(){
+    private fun subscribe() {
         service.getAllActivatedGroups(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError?) {
 
@@ -76,6 +76,6 @@ class FirebaseGetUpdateIntentService : IntentService(TAG) {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.e(TAG,"Destroyed")
+        Log.e(TAG, "Destroyed")
     }
 }

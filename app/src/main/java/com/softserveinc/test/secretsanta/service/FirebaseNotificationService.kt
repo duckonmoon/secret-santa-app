@@ -73,6 +73,7 @@ class FirebaseNotificationService : Service() {
                 .setContentText(getString(R.string.new_groups_available))
                 .setDefaults(Notification.DEFAULT_SOUND)
                 .setContentIntent(buildPendingIntent())
+                .setVibrate(longArrayOf(0, 250, 200, 250))
                 .setAutoCancel(true)
         (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(0, mBuilder.build())
     }

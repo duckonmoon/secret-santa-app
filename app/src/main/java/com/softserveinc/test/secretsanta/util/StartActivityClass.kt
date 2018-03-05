@@ -70,7 +70,7 @@ class StartActivityClass {
 
         fun startFirebaseGetUpdateService(sub: String) {
             val intent = Intent(App.INSTANCE, FirebaseGetUpdateIntentService::class.java)
-            intent.putExtra(FirebaseGetUpdateIntentService.TAG,sub)
+            intent.putExtra(FirebaseGetUpdateIntentService.TAG, sub)
             App.INSTANCE.startService(intent)
         }
 

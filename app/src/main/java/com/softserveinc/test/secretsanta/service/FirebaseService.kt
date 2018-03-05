@@ -173,6 +173,21 @@ class FirebaseService(private val database: FirebaseDatabase,
                 .addListenerForSingleValueEvent(listener)
     }
 
+    fun subscribeToAllActivatedGroups(){
+        getAllActivatedGroups(object : ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (data in dataSnapshot.children){
+                    subscribe(data.getValue(Group::class.java)!!)
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError?) {
+
+            }
+
+        })
+    }
+
     fun getAllNotActivatedGroups(listener: ValueEventListener) {
         database.getReference(Constants.NICKNAME)
                 .child(auth.currentUser!!.displayName)
@@ -199,7 +214,7 @@ class FirebaseService(private val database: FirebaseDatabase,
                 .child(ACTIVATED)
                 .setValue(group.activated)
 
-        if (group.activated == Group.ACTIVATED){
+        if (group.activated == Group.ACTIVATED) {
             subscribe(group)
         } else {
             unsubscribe(group)
@@ -252,11 +267,11 @@ class FirebaseService(private val database: FirebaseDatabase,
         unsubscribe(group)
     }
 
-    private fun unsubscribe(group: Group){
+    private fun unsubscribe(group: Group) {
         FirebaseMessaging.getInstance()!!.unsubscribeFromTopic(group.id)
     }
 
-    private fun subscribe(group: Group){
+    private fun subscribe(group: Group) {
         FirebaseMessaging.getInstance()!!.subscribeToTopic(group.id)
     }
 

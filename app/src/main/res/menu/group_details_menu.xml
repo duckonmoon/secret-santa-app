@@ -6,6 +6,11 @@
         android:visible="false" />
 
     <item
+        android:id="@+id/push"
+        android:title="@string/push_people_with_empty_wishlists"
+        android:visible="false"/>
+
+    <item
         android:id="@+id/wish_list"
         android:title="@string/my_wishlist"
         android:visible="false" />

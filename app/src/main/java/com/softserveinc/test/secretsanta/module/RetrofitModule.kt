@@ -10,7 +10,7 @@ import javax.inject.Singleton
 @Module
 class RetrofitModule {
     val retrofit = Retrofit.Builder()
-            .baseUrl("https://fcm.googleapis.com/v1/projects/secretsanta-9cf4d/")
+            .baseUrl("https://fcm.googleapis.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()!!
         @Provides @Singleton get

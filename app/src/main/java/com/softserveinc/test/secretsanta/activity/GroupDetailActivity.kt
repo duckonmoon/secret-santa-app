@@ -20,13 +20,17 @@ import com.softserveinc.test.secretsanta.dialog.NewYearConfirmationDialog
 import com.softserveinc.test.secretsanta.entity.Group
 import com.softserveinc.test.secretsanta.entity.GroupFull
 import com.softserveinc.test.secretsanta.entity.Human
+import com.softserveinc.test.secretsanta.entity.Message
 import com.softserveinc.test.secretsanta.service.FirebaseService
+import com.softserveinc.test.secretsanta.service.MessagesService
 import com.softserveinc.test.secretsanta.util.StartActivityClass
 import com.softserveinc.test.secretsanta.view.SantaToast
 import com.softserveinc.test.secretsanta.viewmodel.HumanViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_group_detail.*
 import kotlinx.android.synthetic.main.group_details_tool_bar.*
+import retrofit2.Call
+import retrofit2.Response
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -40,16 +44,16 @@ class GroupDetailActivity : BaseActivity() {
     @Inject
     lateinit var firebaseService: FirebaseService
 
+    @Inject
+    lateinit var messagesService: MessagesService
+
     private lateinit var menu: Menu
 
     private val group: Group by lazy {
         if (viewModel.group == null) {
             viewModel.group = intent.extras[GROUP] as Group
-            viewModel.group!!
-        } else {
-            viewModel.group!!
         }
-
+        viewModel.group!!
     }
 
     private val humanListener = object : HumanListAdapter.OnHumanItemClickListener {
@@ -87,6 +91,7 @@ class GroupDetailActivity : BaseActivity() {
     private fun setMenuItemVisibility() {
         if (viewModel.groupFull != null) {
             menu.findItem(R.id.randomize).isVisible = checkRights()
+            menu.findItem(R.id.push).isVisible = checkRights()
             menu.findItem(R.id.wish_list).isVisible = true
         }
     }
@@ -148,7 +153,6 @@ class GroupDetailActivity : BaseActivity() {
                 activate_button.visibility = View.GONE
 
 
-
             }
         }
     }
@@ -173,8 +177,39 @@ class GroupDetailActivity : BaseActivity() {
         when (item.itemId) {
             R.id.randomize -> randomize()
             R.id.wish_list -> StartActivityClass.startMyWishListActivity(this, viewModel.groupFull!!)
+            R.id.push -> {
+                val message: Message = buildMessage()
+                buildRequest(message)
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun buildRequest(message: Message) {
+        messagesService.sendNotification(contentType = Constants.CONTENT_TYPE,
+                uid = Constants.ID_MESSAGE,
+                message = message).enqueue(object : retrofit2.Callback<Any?> {
+            override fun onFailure(call: Call<Any?>, t: Throwable) {
+            }
+
+            override fun onResponse(call: Call<Any?>, response: Response<Any?>) {
+            }
+        })
+    }
+
+    private fun buildMessage(): Message {
+        val groupFull = viewModel.groupFull!!
+        val emptyMembers = ArrayList<String>()
+        for (i in groupFull.humans) {
+            if (i.value.preferences.isEmpty()) {
+                emptyMembers.add(i.value.nickname)
+            }
+        }
+        return Message(title = groupFull.title,
+                body = groupFull.title,
+                to = Constants.TOPICS + group.id,
+                admin = firebaseService.getUserNickname()!!,
+                emptyMembers = emptyMembers)
     }
 
     private fun randomize() {

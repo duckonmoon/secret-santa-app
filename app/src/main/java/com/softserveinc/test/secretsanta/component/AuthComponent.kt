@@ -12,6 +12,7 @@ import com.softserveinc.test.secretsanta.module.AppModule
 import com.softserveinc.test.secretsanta.module.FirebaseModule
 import com.softserveinc.test.secretsanta.module.RetrofitModule
 import com.softserveinc.test.secretsanta.service.FirebaseGetUpdateIntentService
+import com.softserveinc.test.secretsanta.service.FirebaseMessaginService
 import com.softserveinc.test.secretsanta.service.FirebaseNotificationService
 import dagger.Component
 import javax.inject.Singleton
@@ -33,4 +34,5 @@ interface AuthComponent {
     fun inject(fragment: ProfileFragment)
     fun inject(service: FirebaseNotificationService)
     fun inject(service: FirebaseGetUpdateIntentService)
+    fun inject(service: FirebaseMessaginService)
 }
