@@ -205,11 +205,10 @@ class GroupDetailActivity : BaseActivity() {
                 emptyMembers.add(i.value.nickname)
             }
         }
-        return Message(title = groupFull.title,
-                body = groupFull.title,
-                to = Constants.TOPICS + group.id,
+        return Message(
                 admin = firebaseService.getUserNickname()!!,
-                emptyMembers = emptyMembers)
+                emptyMembers = emptyMembers,
+                group = group)
     }
 
     private fun randomize() {

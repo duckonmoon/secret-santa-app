@@ -173,10 +173,10 @@ class FirebaseService(private val database: FirebaseDatabase,
                 .addListenerForSingleValueEvent(listener)
     }
 
-    fun subscribeToAllActivatedGroups(){
-        getAllActivatedGroups(object : ValueEventListener{
+    fun subscribeToAllActivatedGroups() {
+        getAllActivatedGroups(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (data in dataSnapshot.children){
+                for (data in dataSnapshot.children) {
                     subscribe(data.getValue(Group::class.java)!!)
                 }
             }

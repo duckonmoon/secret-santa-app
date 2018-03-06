@@ -71,7 +71,7 @@ class GroupsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_groups)
         setSupportActionBar(toolbar)
-        Log.e("I am here",FirebaseInstanceId.getInstance().id)
+        Log.e("I am here", FirebaseInstanceId.getInstance().id)
         App.INSTANCE.component.inject(this)
 
         fab.setOnClickListener {
