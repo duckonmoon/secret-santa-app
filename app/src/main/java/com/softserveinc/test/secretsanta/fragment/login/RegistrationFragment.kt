@@ -4,7 +4,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -121,7 +120,6 @@ class RegistrationFragment : Fragment() {
                     try {
                         controller.goToSuccess(getString(R.string.sent_to_email, currentEmail))
                     } catch (e: Exception) {
-                        Log.e("ds", "Illigal State Exeption")
                     }
 
                 } else {

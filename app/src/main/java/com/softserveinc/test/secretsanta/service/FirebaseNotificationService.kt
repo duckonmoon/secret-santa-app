@@ -9,7 +9,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.IBinder
 import android.support.v4.app.NotificationCompat
-import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -34,11 +33,9 @@ class FirebaseNotificationService : Service() {
         App.INSTANCE.component.inject(this)
         firebaseService.subscribeToGroupUpdates(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError?) {
-                Log.e(firebaseNotificationServiceName, "Smth went wrong")
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                Log.e(firebaseNotificationServiceName, dataSnapshot.toString())
                 val groupsSize = Mapper.mapFromDataSnapshotGroupsToStringGroups(dataSnapshot).size
                 val groupsSizeDevice = getGroupsSize()
                 if (groupsSize > groupsSizeDevice) {

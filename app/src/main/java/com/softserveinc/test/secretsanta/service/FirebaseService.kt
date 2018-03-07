@@ -1,7 +1,6 @@
 package com.softserveinc.test.secretsanta.service
 
 import android.net.Uri
-import android.util.Log
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -289,7 +288,6 @@ class FirebaseService(private val database: FirebaseDatabase,
                 .child(Constants.GROUPS)
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onCancelled(error: DatabaseError?) {
-                        Log.e("FirebaseService", "Error update")
                     }
 
                     override fun onDataChange(dataSnapshot: DataSnapshot?) {

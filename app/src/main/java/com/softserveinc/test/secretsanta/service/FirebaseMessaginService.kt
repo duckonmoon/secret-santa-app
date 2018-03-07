@@ -6,7 +6,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.support.v4.app.NotificationCompat
-import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.softserveinc.test.secretsanta.R
@@ -30,13 +29,12 @@ open class FirebaseMessaginService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        Log.e("sadf", "I am here")
         var amIAdmin = false
         var amIEmpty = false
 
         if (remoteMessage.data.isNotEmpty()) {
-            amIEmpty = remoteMessage.data["empty_members"].toString().contains('"' + getNickname() + '"')
-            amIAdmin = remoteMessage.data["admin"].toString() == getNickname()
+            amIEmpty = remoteMessage.data[Data.EMPTY_MEMBERS].toString().contains('"' + getNickname() + '"')
+            amIAdmin = remoteMessage.data[Data.ADMIN].toString() == getNickname()
         }
 
         if (!amIAdmin && amIEmpty) {

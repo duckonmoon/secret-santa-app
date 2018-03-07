@@ -20,7 +20,6 @@ class Message() {
         to = Constants.TOPICS + group.id
         data.admin = admin
 
-        data.body = group.title
         data.title = group.title
 
         data.emptyMembers.addAll(emptyMembers)
@@ -50,7 +49,7 @@ class Data {
 
     @SerializedName(BODY)
     @Expose
-    var body: String = ""
+    var body: String = "Admin asks you to fill wishlist"
     @SerializedName(TITLE)
     @Expose
     var title: String = ""

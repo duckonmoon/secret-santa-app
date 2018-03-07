@@ -10,7 +10,6 @@ import com.softserveinc.test.secretsanta.component.DaggerAuthComponent
 import com.softserveinc.test.secretsanta.module.AppModule
 import com.softserveinc.test.secretsanta.module.FirebaseModule
 import com.softserveinc.test.secretsanta.service.FirebaseNotificationService
-import com.softserveinc.test.secretsanta.service.MessagesService
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 import javax.inject.Inject
 
@@ -22,9 +21,6 @@ class App : Application() {
 
     @Inject
     lateinit var auth: FirebaseAuth
-
-    @Inject
-    lateinit var messagesService: MessagesService
 
     val component: AuthComponent by lazy {
         DaggerAuthComponent

@@ -9,14 +9,12 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.iid.FirebaseInstanceId
 import com.softserveinc.test.secretsanta.R
 import com.softserveinc.test.secretsanta.adapter.SimpleGroupAdapter
 import com.softserveinc.test.secretsanta.application.App
@@ -37,6 +35,13 @@ import kotlinx.android.synthetic.main.nav_header_groups.view.*
 import javax.inject.Inject
 
 class GroupsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    companion object {
+        const val ACTIVE_GROUPS = "My Groups"
+        const val PASSIVE_GROUPS = "Group Requests"
+        const val DELETED_GROUPS = "Trash"
+        const val PROFILE = "Profile"
+    }
 
     private val viewModel: GroupViewModel by lazy {
         ViewModelProviders.of(this).get(GroupViewModel::class.java)
@@ -71,9 +76,7 @@ class GroupsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_groups)
         setSupportActionBar(toolbar)
-        Log.e("I am here", FirebaseInstanceId.getInstance().id)
         App.INSTANCE.component.inject(this)
-
         fab.setOnClickListener {
             addClick()
         }
@@ -129,6 +132,7 @@ class GroupsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
                     transaction.remove(fragment)
                 }
                 transaction.commit()
+                toolbar.title = ACTIVE_GROUPS
             }
             else -> super.onBackPressed()
         }
@@ -156,10 +160,20 @@ class GroupsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
         val transaction = supportFragmentManager.beginTransaction()
 
         when (item.itemId) {
-            R.id.unchecked_groups -> transaction.replace(R.id.container, PassiveGroupsFragment())
-            R.id.deleted_groups -> transaction.replace(R.id.container, DeletedGroupsFragment())
-            R.id.profile -> transaction.replace(R.id.container, ProfileFragment())
+            R.id.unchecked_groups -> {
+                transaction.replace(R.id.container, PassiveGroupsFragment(), PASSIVE_GROUPS)
+                toolbar.title = PASSIVE_GROUPS
+            }
+            R.id.deleted_groups -> {
+                transaction.replace(R.id.container, DeletedGroupsFragment(), DELETED_GROUPS)
+                toolbar.title = DELETED_GROUPS
+            }
+            R.id.profile -> {
+                transaction.replace(R.id.container, ProfileFragment(), PROFILE)
+                toolbar.title = PROFILE
+            }
             R.id.my_groups -> {
+                toolbar.title = ACTIVE_GROUPS
                 getUpdate()
                 for (fragment in supportFragmentManager.fragments) {
                     transaction.remove(fragment)
@@ -204,6 +218,15 @@ class GroupsActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLi
             SantaToast.makeText(this, getString(R.string.group_created_successfully), SantaToast.LENGTH_LONG,
                     SantaToast.SUCCESS, R.drawable.christmas_house, R.drawable.face).show()
             getUpdate()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        try {
+            toolbar.title = supportFragmentManager.fragments[0].tag
+        } catch (e: Exception) {
+            toolbar.title = ACTIVE_GROUPS
         }
     }
 }
